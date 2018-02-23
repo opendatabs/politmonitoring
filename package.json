@@ -1,0 +1,16 @@
+{
+  "name": "politmonitoring",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alex Kräuchi, Janik Endtner",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^4.0.0",
+    "cors": "^2.8.4",
+    "express": "^4.16.2"
+  }
+}

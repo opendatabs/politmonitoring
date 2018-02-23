@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col s12">
+    <div class="card">
+      <div class="card-content">
+        <div class="row">
+          <div class="col s8">
+            <h2>{{title}} ({{data.length}})</h2>
+          </div>
+          <div class="col s4">
+            <div class="row">
+              <div class="input-field col s12">
+                <i class="material-icons prefix">search</i>
+                <input id="search_already_assigned" type="text" class="" [(ngModel)]="searchString" (ngModelChange)="filterData(searchString)">
+                <label for="search_already_assigned">Suchen</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="paginationWrapper">
+            <ul class="pagination">
+              <li [class.disabled]="pagination.start === 0" [class.waves-effect]="pagination.start !== 0"><a (click)="pageBack()"><i class="material-icons">chevron_left</i></a></li>
+              <li id="pageView">{{pagination.start}} - {{pagination.end}} / {{dataAfterFilter.length}}</li>
+              <li [class.disabled]="pagination.end === dataAfterFilter.length" [class.waves-effect]="pagination.end !== dataAfterFilter.length"><a (click)="pageUp()"><i class="material-icons">chevron_right</i></a></li>
+            </ul>
+        </div>
+        <div class="row">
+          <div class="col s12" id="assignedContractorTable">
+            <table class="table highlight">
+              <tr>
+                <th class="titleCol" *ngFor="let col of data[0] | keys" (click)="changeSortBy(col)">
+                  <p>{{col}}
+                    <i *ngIf="col === sort.sortBy && sort.asc" class="material-icons">arrow_drop_up</i>
+                    <i *ngIf="col === sort.sortBy && !sort.asc" class="material-icons">arrow_drop_down</i></p>
+                </th>
+              </tr>
+              <tr #table *ngFor="let entry of dataAfterFilter | sortBy: sort.sortBy: sort.asc | slice:pagination.start:pagination.end"
+                  (click)="selectEntry(entry)">
+                <td *ngFor="let col of entry | keys">
+                  <span *ngIf="entry[col]" [innerHTML]="entry[col].toString() | highlight:searchString"></span>
+                  <span *ngIf="!entry[col]"></span>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

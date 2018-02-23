@@ -1,0 +1,35 @@
+#pageView {
+    padding-top: 5px;
+}
+
+th.titleCol {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+th.titleCol:hover {
+    background-color: #f5f5f5;
+}
+
+th.titleCol p {
+    position: relative;
+    padding-right: 30px;
+}
+
+th.titleCol i {
+    position: absolute;
+    top: -2px;
+    margin-left: 6px;
+}
+
+#paginationWrapper {
+    position: absolute;
+    left: 0;
+    top: 75px;
+}
+
+.highlight {
+  cursor: pointer;
+}
