@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MaterializeTableComponent } from './materialize-table.component';
+import { BubbleChartComponent } from './bubble-chart.component';
 
-describe('MaterializeTableComponent', () => {
-  let component: MaterializeTableComponent;
-  let fixture: ComponentFixture<MaterializeTableComponent>;
+describe('BubbleChartComponent', () => {
+  let component: BubbleChartComponent;
+  let fixture: ComponentFixture<BubbleChartComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MaterializeTableComponent ]
+      declarations: [ BubbleChartComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MaterializeTableComponent);
+    fixture = TestBed.createComponent(BubbleChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChildren} from '@angular/core';
 
 @Component({
-    selector: 'app-materialize-table',
-    templateUrl: './materialize-table.component.html',
-    styleUrls: ['./materialize-table.component.css']
+    selector: 'app-bootstrap-table',
+    templateUrl: './bootstrap-table.component.html',
+    styleUrls: ['./bootstrap-table.component.css']
 })
-export class MaterializeTableComponent implements OnInit {
+export class BootstrapTableComponent implements OnInit {
     @Input() data: Array<any>;
     @Input() title: string;
     @Input() initialSortBy: string;

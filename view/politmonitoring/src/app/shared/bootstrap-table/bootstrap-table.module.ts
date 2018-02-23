@@ -1,12 +1,11 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MaterializeTableComponent} from './materialize-table.component';
+import {BootstrapTableComponent} from './bootstrap-table.component';
 import {KeysPipe} from './pipes/keys.pipe';
 import {SortByPipe} from './pipes/sort-by.pipe';
 import {HighlightPipe} from './pipes/highlight.pipe';
 import {FormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
-import {AppRoutingModule} from '../../app-routing.module';
 
 @NgModule({
     imports: [
@@ -15,17 +14,17 @@ import {AppRoutingModule} from '../../app-routing.module';
         FormsModule,
     ],
     exports: [
-        MaterializeTableComponent,
+        BootstrapTableComponent,
         KeysPipe,
         SortByPipe,
         HighlightPipe
     ],
     declarations: [
-        MaterializeTableComponent,
+        BootstrapTableComponent,
         KeysPipe,
         SortByPipe,
         HighlightPipe
     ]
 })
-export class MaterializeTableModule {
+export class BootstrapTableModule {
 }

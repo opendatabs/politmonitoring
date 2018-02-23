@@ -13,7 +13,6 @@ export class AppComponent{
       private router: Router
   ) {
       router.events.subscribe((val) => {
-        console.log(this.router.url);
           this.admin = this.router.url.indexOf('admin') > -1;
       });
   }

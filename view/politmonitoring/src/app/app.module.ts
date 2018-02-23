@@ -7,9 +7,10 @@ import { NavbarComponent } from './navbar/navbar.component';
 import {AppRoutingModule} from "./app-routing.module";
 import { MainComponent } from './main/main.component';
 import { UploadComponent } from './upload/upload.component';
-import {MaterializeTableModule} from "./materialize-table/materialize-table.module";
+import {BootstrapTableModule} from "./shared/bootstrap-table/bootstrap-table.module";
 import {HttpClientModule} from "@angular/common/http";
 import {DataService} from "./shared/data.service";
+import { BubbleChartComponent } from './main/bubble-chart/bubble-chart.component';
 
 
 @NgModule({
@@ -17,12 +18,13 @@ import {DataService} from "./shared/data.service";
         AppComponent,
         NavbarComponent,
         MainComponent,
-        UploadComponent
+        UploadComponent,
+        BubbleChartComponent
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
-        MaterializeTableModule,
+        BootstrapTableModule,
         HttpClientModule
     ],
     providers: [DataService],
