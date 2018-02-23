@@ -3,6 +3,8 @@ const app = express();
 const fs = require('fs');
 const cors = require('cors');
 const config = require('./config/config');
+var path = require('path');
+
 
 
 // open cors in development mode
@@ -12,6 +14,7 @@ if (config.cors) {
 app.use('/node_modules', express.static(__dirname + '/node_modules/'));
 app.use('/view', express.static(__dirname + '/view/'));
 app.use('/data', express.static(__dirname + '/data/'));
+app.use('/dist', express.static(__dirname + '/dist/'));
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/dist/index.html');
