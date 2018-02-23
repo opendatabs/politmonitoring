@@ -5,16 +5,13 @@ const cors = require('cors');
 const config = require('./config/config');
 var path = require('path');
 
-
-
 // open cors in development mode
 if (config.cors) {
     app.use(cors());
 }
 app.use('/node_modules', express.static(__dirname + '/node_modules/'));
-app.use('/view', express.static(__dirname + '/view/'));
 app.use('/data', express.static(__dirname + '/data/'));
-app.use('/dist', express.static(__dirname + '/dist/'));
+app.use(express.static(path.join(__dirname, 'dist')));
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/dist/index.html');
@@ -29,6 +26,11 @@ app.get('/data', function (req, res) {
         // data is already json.stringified
             res.send(data);
     })
+});
+
+// send all requests back to index for client side routing
+app.get('/*', function (req, res) {
+    res.sendFile(__dirname + '/dist/index.html');
 });
 
 app.listen(5000, function () {
