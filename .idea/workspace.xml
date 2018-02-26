@@ -2,30 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7a8d6a3e-ac3f-4949-9f53-e866caeb5137" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/data/data.json" afterPath="$PROJECT_DIR$/data/data.json" />
-      <change beforePath="$PROJECT_DIR$/dist/3rdpartylicenses.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/assets/bubbleChart/css/bubble_chart.css" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/assets/bubbleChart/css/reset.css" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/assets/bubbleChart/data/gates_money.csv" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/assets/bubbleChart/lib/d3.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/assets/bubbleChart/lib/d3.min.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/assets/bubbleChart/src/bubble_chart.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/assets/bubbleChart/src/tooltip.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/favicon.ico" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/index.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/inline.318b50c57b4eba3d437b.bundle.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/main.0ac177e7a8675461a386.bundle.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/polyfills.bf95165a1d5098766b92.bundle.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/styles.67d02bad0b83bf61d56d.bundle.css" afterPath="" />
       <change beforePath="$PROJECT_DIR$/view/politmonitoring/src/app/main/bubble-chart/bubble-chart.component.html" afterPath="$PROJECT_DIR$/view/politmonitoring/src/app/main/bubble-chart/bubble-chart.component.html" />
-      <change beforePath="$PROJECT_DIR$/view/politmonitoring/src/app/main/bubble-chart/bubble-chart.component.ts" afterPath="$PROJECT_DIR$/view/politmonitoring/src/app/main/bubble-chart/bubble-chart.component.ts" />
-      <change beforePath="$PROJECT_DIR$/view/politmonitoring/src/app/shared/bootstrap-table/bootstrap-table.component.css" afterPath="$PROJECT_DIR$/view/politmonitoring/src/app/shared/bootstrap-table/bootstrap-table.component.css" />
-      <change beforePath="$PROJECT_DIR$/view/politmonitoring/src/app/shared/bootstrap-table/bootstrap-table.component.html" afterPath="$PROJECT_DIR$/view/politmonitoring/src/app/shared/bootstrap-table/bootstrap-table.component.html" />
-      <change beforePath="$PROJECT_DIR$/view/politmonitoring/src/assets/bubbleChart/css/bubble_chart.css" afterPath="$PROJECT_DIR$/view/politmonitoring/src/assets/bubbleChart/css/bubble_chart.css" />
       <change beforePath="$PROJECT_DIR$/view/politmonitoring/src/assets/bubbleChart/src/bubble_chart.js" afterPath="$PROJECT_DIR$/view/politmonitoring/src/assets/bubbleChart/src/bubble_chart.js" />
-      <change beforePath="$PROJECT_DIR$/view/politmonitoring/src/index.html" afterPath="$PROJECT_DIR$/view/politmonitoring/src/index.html" />
-      <change beforePath="$PROJECT_DIR$/view/politmonitoring/src/styles.css" afterPath="$PROJECT_DIR$/view/politmonitoring/src/styles.css" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -36,11 +14,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="bubble_chart.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="bubble_chart.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/view/politmonitoring/src/assets/bubbleChart/src/bubble_chart.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="28" column="12" lean-forward="false" selection-start-line="28" selection-start-column="12" selection-end-line="28" selection-end-column="12" />
+            <state relative-caret-position="112">
+              <caret line="324" column="49" lean-forward="true" selection-start-line="324" selection-start-column="49" selection-end-line="324" selection-end-column="49" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bubble-chart.component.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/view/politmonitoring/src/app/main/bubble-chart/bubble-chart.component.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="425">
+              <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -118,11 +106,18 @@
       <find>radiusScale</find>
       <find>chart(</find>
       <find>chart</find>
-      <find>svg</find>
       <find>title</find>
       <find>COLOR</find>
       <find>fillColor</find>
       <find>year</find>
+      <find>yearc</find>
+      <find>moveToYears</find>
+      <find>'tick'</find>
+      <find>yearsTitleX</find>
+      <find>yearCenters</find>
+      <find>svg</find>
+      <find>charge</find>
+      <find>remove thi</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -159,11 +154,11 @@
         <option value="$PROJECT_DIR$/view/politmonitoring/src/app/shared/bootstrap-table/bootstrap-table.component.html" />
         <option value="$PROJECT_DIR$/view/politmonitoring/src/app/main/bubble-chart/bubble-chart.component.ts" />
         <option value="$PROJECT_DIR$/data/data.json" />
-        <option value="$PROJECT_DIR$/view/politmonitoring/src/app/main/bubble-chart/bubble-chart.component.html" />
         <option value="$PROJECT_DIR$/view/politmonitoring/src/assets/bubbleChart/css/bubble_chart.css" />
         <option value="$PROJECT_DIR$/view/politmonitoring/src/index.html" />
-        <option value="$PROJECT_DIR$/view/politmonitoring/src/assets/bubbleChart/src/bubble_chart.js" />
         <option value="$PROJECT_DIR$/view/politmonitoring/src/assets/bubbleChart/config/colors.js" />
+        <option value="$PROJECT_DIR$/view/politmonitoring/src/assets/bubbleChart/src/bubble_chart.js" />
+        <option value="$PROJECT_DIR$/view/politmonitoring/src/app/main/bubble-chart/bubble-chart.component.html" />
       </list>
     </option>
   </component>
@@ -411,12 +406,12 @@
       <updated>1519377157171</updated>
       <workItem from="1519377158548" duration="17794000" />
       <workItem from="1519402335832" duration="1911000" />
-      <workItem from="1519646662155" duration="9033000" />
+      <workItem from="1519646662155" duration="16530000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28738000" />
+    <option name="totallyTimeSpent" value="36235000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -437,7 +432,7 @@
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3728261" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26119402" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26066098" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -774,14 +769,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/politmonitoring/src/app/main/bubble-chart/bubble-chart.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/view/politmonitoring/src/assets/bubbleChart/css/bubble_chart.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
@@ -806,14 +793,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view/politmonitoring/src/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="26" column="59" lean-forward="true" selection-start-line="26" selection-start-column="59" selection-end-line="26" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/view/politmonitoring/src/assets/bubbleChart/config/colors.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -824,8 +803,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/view/politmonitoring/src/assets/bubbleChart/src/bubble_chart.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="28" column="12" lean-forward="false" selection-start-line="28" selection-start-column="12" selection-end-line="28" selection-end-column="12" />
+        <state relative-caret-position="112">
+          <caret line="324" column="49" lean-forward="true" selection-start-line="324" selection-start-column="49" selection-end-line="324" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/politmonitoring/src/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" column="59" lean-forward="true" selection-start-line="26" selection-start-column="59" selection-end-line="26" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/politmonitoring/src/app/main/bubble-chart/bubble-chart.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
           <folding />
         </state>
       </provider>
