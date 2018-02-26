@@ -15,8 +15,9 @@ var BubbleChart = {
 
     bubbleChart: function() {
         // Constants for sizing
-        var width = 940;
-        var height = 600;
+        var wrapper = document.getElementById('vis');
+        var width = wrapper.clientWidth;
+        var height = wrapper.clientHeight;
 
         // tooltip for mouseover functionality
         var tooltip = floatingTooltip('gates_tooltip', 240);
@@ -71,16 +72,10 @@ var BubbleChart = {
             .gravity(-0.01)
             .friction(0.9);
 
-
-        // Nice looking colors - no reason to buck the trend
-        var fillColor = d3.scale.ordinal()
-            .domain(['low', 'medium', 'high'])
-            .range(['#d84b2a', '#beccae', '#7aa25c']);
-
         // Sizes bubbles based on their area instead of raw radius
         var radiusScale = d3.scale.pow()
             .exponent(0.5)
-            .range([2, 85]);
+            .range([2, 20]);
 
         /*
          * This data manipulation function takes the raw data from
@@ -95,25 +90,31 @@ var BubbleChart = {
          * array for each element in the rawData input.
          */
         function createNodes(rawData) {
-            // Use map() to convert raw data into node data.
-            // Checkout http://learnjsdata.com/ for more on
-            // working with data.
+            
             var myNodes = rawData.map(function (d) {
                 return {
-                    id: d.id,
-                    radius: radiusScale(+d.total_amount),
-                    value: d.total_amount,
-                    name: d.grant_title,
-                    org: d.organization,
-                    group: d.group,
-                    year: d.start_year,
+                    geschaefts_nr: d.geschaefts_nr,
+                    radius: radiusScale(convertSize(d.instrument)),
+                    instrument: d.instrument,
+                    size_instrument: convertSize(d.instrument),
+                    urheber: d.urheber,
+                    titel: d.titel,
+                    status: d.status,
+                    letzte_uebersweisung: d.letzte_uebersweisung,
+                    themenbereich: d.themenbereich,
+                    thema_1: d.thema_1,
+                    thema_2: d.thema_2,
+                    schwerpunktthema: d.schwerpunktthema,
+                    konsorten: d.konsorten,
+                    link: d.link,
+                    parteien: d.parteien,
                     x: Math.random() * 900,
                     y: Math.random() * 800
                 };
             });
 
             // sort them to prevent occlusion of smaller nodes.
-            myNodes.sort(function (a, b) { return b.value - a.value; });
+            myNodes.sort(function (a, b) { return b.radius - a.radius; });
 
             return myNodes;
         }
@@ -135,7 +136,7 @@ var BubbleChart = {
             // Use the max total_amount in the data as the max in the scale's domain
             // note we have to ensure the total_amount is a number by converting it
             // with `+`.
-            var maxAmount = d3.max(rawData, function (d) { return +d.total_amount; });
+            var maxAmount = d3.max(rawData, function (d) { return convertSize(d.instrument); });
             radiusScale.domain([0, maxAmount]);
 
             nodes = createNodes(rawData);
@@ -151,7 +152,7 @@ var BubbleChart = {
 
             // Bind nodes data to what will become DOM elements to represent them.
             bubbles = svg.selectAll('.bubble')
-                .data(nodes, function (d) { return d.id; });
+                .data(nodes, function (d) { return d.geschaefts_nr; });
 
             // Create new circle elements each with class `bubble`.
             // There will be one circle.bubble for each object in the nodes array.
@@ -159,8 +160,8 @@ var BubbleChart = {
             bubbles.enter().append('circle')
                 .classed('bubble', true)
                 .attr('r', 0)
-                .attr('fill', function (d) { return fillColor(d.group); })
-                .attr('stroke', function (d) { return d3.rgb(fillColor(d.group)).darker(); })
+                .attr('fill', function (d) { return fillColor(d.themenbereich); })
+                .attr('stroke', function (d) { return d3.rgb(fillColor(d.themenbereich)).darker(); })
                 .attr('stroke-width', 2)
                 .on('mouseover', showDetail)
                 .on('mouseout', hideDetail);
@@ -174,6 +175,34 @@ var BubbleChart = {
             // Set initial layout to single group.
             groupBubbles();
         };
+
+        // Use map() to convert raw data into node data.
+        // convert size based on importance of instrument
+        function convertSize(instrument) {
+            switch (instrument) {
+                case 'Initiative':
+                    return 8;
+                case 'Motion':
+                    return 4;
+                case 'Anzug':
+                    return 2;
+                case 'Petition':
+                    return 1;
+                default:
+                    console.error("Instrument not valid");
+                    return 0;
+            }
+        }
+
+        // user color variable defined in colors.js to set color for specific theme
+        function fillColor(themenbereich) {
+            var finalColor = "";
+            COLORS.forEach(function (color) {
+                if (color.themenbereich === themenbereich)
+                    finalColor = color.color;
+            });
+            return finalColor;
+        }
 
         /*
          * Sets visualization in "single group mode".
@@ -288,14 +317,29 @@ var BubbleChart = {
             // change outline to indicate hover state.
             d3.select(this).attr('stroke', 'black');
 
-            var content = '<span class="name">Title: </span><span class="value">' +
-                d.name +
+            var content = '<span class="name">Geschäftsnummer: </span><span class="value"><a href="'+d.link+'">' +
+                d.geschaefts_nr +
+                '</a></span><br/>' +
+                '<span class="name">Titel: </span><span class="value">' +
+                d.titel +
                 '</span><br/>' +
-                '<span class="name">Amount: </span><span class="value">$' +
-                BubbleChart.addCommas(d.value) +
+                '<span class="name">Instrument: </span><span class="value">' +
+                d.instrument +
                 '</span><br/>' +
-                '<span class="name">Year: </span><span class="value">' +
-                d.year +
+                '<span class="name">Partei: </span><span class="value">' +
+                d.parteien +
+                '</span><br/>' +
+                '<span class="name">Status: </span><span class="value">' +
+                d.status +
+                '</span><br/>' +
+                '<span class="name">Thema: </span><span class="value">' +
+                d.themenbereich +
+                '</span><br/>' +
+                '<span class="name">Unterthema 1: </span><span class="value">' +
+                d.thema_1 +
+                '</span><br/>' +
+                '<span class="name">Unterthema 2: </span><span class="value">' +
+                d.thema_2 +
                 '</span>';
             tooltip.showTooltip(content, d3.event);
         }
@@ -306,7 +350,7 @@ var BubbleChart = {
         function hideDetail(d) {
             // reset outline
             d3.select(this)
-                .attr('stroke', d3.rgb(fillColor(d.group)).darker());
+                .attr('stroke', d3.rgb(fillColor(d.themenbereich)).darker());
 
             tooltip.hideTooltip();
         }
@@ -340,11 +384,7 @@ var BubbleChart = {
      * Function called once data is loaded from CSV.
      * Calls bubble chart function to display inside #vis div.
      */
-    display: function(error, data) {
-        if (error) {
-            console.log(error);
-        }
-
+    display: function(data) {
         BubbleChart.myBubbleChart('#vis', data);
     },
 
@@ -389,10 +429,10 @@ var BubbleChart = {
         return x1 + x2;
     },
 
-    initialize: function() {
+    initialize: function(data) {
         BubbleChart.myBubbleChart = BubbleChart.bubbleChart();
-        // Load the data.
-        d3.csv('assets/bubbleChart/data/gates_money.csv', BubbleChart.display);
+        // Show the data
+        BubbleChart.display(data);
 
         // setup the buttons.
         BubbleChart.setupButtons();

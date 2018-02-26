@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, Input, OnInit} from '@angular/core';
+import {AfterViewChecked, Component, Input, OnChanges, OnInit} from '@angular/core';
 declare var BubbleChart;
 
 @Component({
@@ -6,7 +6,7 @@ declare var BubbleChart;
     templateUrl: './bubble-chart.component.html',
     styleUrls: ['./bubble-chart.component.css']
 })
-export class BubbleChartComponent implements OnInit, AfterViewChecked {
+export class BubbleChartComponent implements OnInit, OnChanges {
     @Input() data;
 
     bubblesInitialized: boolean = false;
@@ -14,13 +14,13 @@ export class BubbleChartComponent implements OnInit, AfterViewChecked {
     constructor() {
     }
 
+
     ngOnInit() {
     }
 
-    ngAfterViewChecked(): void {
-        if (!this.bubblesInitialized) {
-            this.bubblesInitialized = true;
-            BubbleChart.initialize();
+    ngOnChanges(changes: any): void {
+        if (changes.data && changes.data.currentValue) {
+            BubbleChart.initialize(changes.data.currentValue);
         }
     }
 

@@ -2,3 +2,7 @@
 .highlight_search_text {
     background-color: yellow;
 }
+
+#politmonitoring .container {
+    max-width: 1400px;
+}

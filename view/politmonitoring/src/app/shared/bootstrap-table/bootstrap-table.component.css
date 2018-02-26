@@ -37,3 +37,7 @@ th.titleCol i {
     margin-top: 50px;
 }
 
+#tableWrapper {
+    overflow-x: scroll;
+}
+
