@@ -262,11 +262,20 @@ var BubbleChart = {
             force.on('tick', function (e) {
                 bubbles.each(moveToCategories(e.alpha, allCategories, category))
                     .attr('cx', function (d) {
-                        showTitles(d, category);
+                        calculateTitlePosition(d, category);
                         return d.x;
                     })
                     .attr('cy', function (d) { return d.y; });
             });
+
+            hideCategories();
+            var interval = setInterval(function () {
+                if (force.alpha() === 0) {
+                    clearInterval(interval);
+                    showTitles();
+                }
+
+            }, 50);
 
             force.start();
         }
@@ -321,9 +330,7 @@ var BubbleChart = {
         /*
          * Shows Year title displays.
          */
-        var titleCounter = 0;
-        function showTitles(dataPoint, category) {
-            titleCounter++;
+        function calculateTitlePosition(dataPoint, category) {
 
             if (titles.category !== category) {
                 titles.category = category;
@@ -346,50 +353,50 @@ var BubbleChart = {
                     mean: dataPoint.x
                 })
             }
+        }
 
-            if (titleCounter % 100 === 0) {
-                var categoryLabels = svg.selectAll('.categoryLabels')
-                    .data(titles.data);
+        function showTitles() {
+            var categoryLabels = svg.selectAll('.categoryLabels')
+                .data(titles.data);
 
-                categoryLabels
-                    .attr('x', function (d) {
-                        return d.mean;
-                    })
-                    .attr('y', function (d,i) {
-                        // for less or equal than 6 categories
-                        if (titles.data.length <= 6) {
+            categoryLabels
+                .attr('x', function (d) {
+                    return d.mean;
+                })
+                .attr('y', function (d,i) {
+                    // for less or equal than 6 categories
+                    if (titles.data.length <= 6) {
+                        return 40;
+                    } else {
+                        if (i % 2 === 0)
                             return 40;
-                        } else {
-                            if (i % 2 === 0)
-                                return 40;
-                            else
-                                return height - 40;
-                        }
-                    })
-                    .text(function (d) { return d.label; });
+                        else
+                            return height - 40;
+                    }
+                })
+                .text(function (d) { return d.label; });
 
-                categoryLabels.enter()
-                    .append('text')
-                    .attr('class', 'categoryLabels')
-                    .attr('x', function (d) {
-                        return d.mean;
-                    })
-                    .attr('y', function (d,i) {
-                        // for less or equal than 6 categories
-                        if (titles.data.length <= 6) {
+            categoryLabels.enter()
+                .append('text')
+                .attr('class', 'categoryLabels')
+                .attr('x', function (d) {
+                    return d.mean;
+                })
+                .attr('y', function (d,i) {
+                    // for less or equal than 6 categories
+                    if (titles.data.length <= 6) {
+                        return 40;
+                    } else {
+                        if (i % 2 === 0)
                             return 40;
-                        } else {
-                            if (i % 2 === 0)
-                                return 40;
-                            else
-                                return height - 40;
-                        }
-                    })
-                    .attr('text-anchor', 'middle')
-                    .text(function (d) { return d.label; });
+                        else
+                            return height - 40;
+                    }
+                })
+                .attr('text-anchor', 'middle')
+                .text(function (d) { return d.label; });
 
-                categoryLabels.exit().remove();
-            }
+            categoryLabels.exit().remove();
         }
 
 

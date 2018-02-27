@@ -2,24 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7a8d6a3e-ac3f-4949-9f53-e866caeb5137" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/dist/3rdpartylicenses.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/assets/bubbleChart/config/colors.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/assets/bubbleChart/css/bubble_chart.css" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/assets/bubbleChart/css/reset.css" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/assets/bubbleChart/data/gates_money.csv" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/assets/bubbleChart/lib/d3.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/assets/bubbleChart/lib/d3.min.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/assets/bubbleChart/src/bubble_chart.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/assets/bubbleChart/src/tooltip.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/favicon.ico" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/index.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/inline.318b50c57b4eba3d437b.bundle.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/main.e58306d042780bbd0789.bundle.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/polyfills.bf95165a1d5098766b92.bundle.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dist/styles.f6e52b315ae26f34b8a3.bundle.css" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/view/politmonitoring/package-lock.json" afterPath="$PROJECT_DIR$/view/politmonitoring/package-lock.json" />
-      <change beforePath="$PROJECT_DIR$/view/politmonitoring/package.json" afterPath="$PROJECT_DIR$/view/politmonitoring/package.json" />
       <change beforePath="$PROJECT_DIR$/view/politmonitoring/src/assets/bubbleChart/src/bubble_chart.js" afterPath="$PROJECT_DIR$/view/politmonitoring/src/assets/bubbleChart/src/bubble_chart.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -34,8 +16,8 @@
       <file leaf-file-name="bubble_chart.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/view/politmonitoring/src/assets/bubbleChart/src/bubble_chart.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="181">
-              <caret line="325" column="27" lean-forward="false" selection-start-line="325" selection-start-column="27" selection-end-line="325" selection-end-column="27" />
+            <state relative-caret-position="352">
+              <caret line="274" column="22" lean-forward="false" selection-start-line="274" selection-start-column="22" selection-end-line="274" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -89,6 +71,7 @@
       <find>movetocate</find>
       <find>movetoca</find>
       <find>categories</find>
+      <find>hidetitle</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -296,12 +279,12 @@
       <workItem from="1519377158548" duration="17794000" />
       <workItem from="1519402335832" duration="1911000" />
       <workItem from="1519646662155" duration="17016000" />
-      <workItem from="1519673683954" duration="4336000" />
+      <workItem from="1519673683954" duration="6125000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="41057000" />
+    <option name="totallyTimeSpent" value="42846000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -707,8 +690,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/view/politmonitoring/src/assets/bubbleChart/src/bubble_chart.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="325" column="27" lean-forward="false" selection-start-line="325" selection-start-column="27" selection-end-line="325" selection-end-column="27" />
+        <state relative-caret-position="352">
+          <caret line="274" column="22" lean-forward="false" selection-start-line="274" selection-start-column="22" selection-end-line="274" selection-end-column="22" />
           <folding />
         </state>
       </provider>
