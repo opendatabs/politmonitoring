@@ -37,6 +37,11 @@ var BubbleChart = {
         var bubbles = null;
         var nodes = [];
 
+        var titles = {
+            category: "",
+            data: []
+        };
+
         // Charge function that is called for each node.
         // Charge is proportional to the diameter of the
         // circle (which is stored in the radius attribute
@@ -56,7 +61,7 @@ var BubbleChart = {
         // to specify how the force layout should behave.
         // More configuration is done below.
         var force = d3.layout.force()
-            .size([width, height])
+            .size([innerWidth, height])
             .charge(charge)
             .gravity(-0.01)
             .friction(0.9);
@@ -67,8 +72,8 @@ var BubbleChart = {
             .range([2, 15]);
 
         /*
-         * This data manipulation function takes the raw data from
-         * the CSV file and converts it into an array of node objects.
+         * This data manipulation function takes the raw data
+         * and converts it into an array of node objects.
          * Each node will store data and visualization values to visualize
          * a bubble.
          *
@@ -254,11 +259,12 @@ var BubbleChart = {
                 }
             });
 
-            showTitles(allCategories);
-
             force.on('tick', function (e) {
                 bubbles.each(moveToCategories(e.alpha, allCategories, category))
-                    .attr('cx', function (d) { return d.x; })
+                    .attr('cx', function (d) {
+                        showTitles(d, category);
+                        return d.x;
+                    })
                     .attr('cy', function (d) { return d.y; });
             });
 
@@ -299,7 +305,7 @@ var BubbleChart = {
                 d.x = d.x + (target.x - d.x) * damper * alpha * 1.1;
                 d.y = d.y + (target.y - d.y) * damper * alpha * 1.1;
                 // just to debug. we have to remove this
-                if (counter < 100)
+                if (counter < 200)
                     d3.select('#vis').select('svg').append('circle').attr('class', 'centerMarker').attr('r', 5).attr('cx', x).attr('cy', y);
                 counter++;
             };
@@ -315,35 +321,75 @@ var BubbleChart = {
         /*
          * Shows Year title displays.
          */
-        function showTitles(allCategories) {
-            // TODO: change this to transition
-            d3.selectAll('.categoryLabels').remove();
+        var titleCounter = 0;
+        function showTitles(dataPoint, category) {
+            titleCounter++;
 
-            var categoryLabels = svg.selectAll('.categoryLabels')
-                .data(allCategories);
-
-            categoryLabels.enter().append('text')
-                .attr('class', 'categoryLabels')
-                .attr('x', function (d, i) {
-                    if (allCategories.length <= 6) {
-                        return margin.left + i * innerWidth/allCategories.length
-                    } else {
-                        return margin.left + Math.floor(i / 2) / Math.ceil(allCategories.length / 2) * innerWidth;
-                    }
+            if (titles.category !== category) {
+                titles.category = category;
+                titles.data = [];
+            }
+            var found = false;
+            titles.data.forEach(function (d) {
+                if (d.label === dataPoint[category]) {
+                    found = true;
+                    d.sum += dataPoint.x;
+                    d.counter++;
+                    d.mean = d.sum / d.counter;
+                }
+            });
+            if (!found) {
+                titles.data.push({
+                    label: dataPoint[category],
+                    sum: dataPoint.x,
+                    counter: 1,
+                    mean: dataPoint.x
                 })
-                .attr('y', function (d,i) {
-                    // for less or equal than 6 categories
-                    if (allCategories.length <= 6) {
-                        return 40;
-                    } else {
-                        if (i % 2 === 0)
+            }
+
+            if (titleCounter % 100 === 0) {
+                var categoryLabels = svg.selectAll('.categoryLabels')
+                    .data(titles.data);
+
+                categoryLabels
+                    .attr('x', function (d) {
+                        return d.mean;
+                    })
+                    .attr('y', function (d,i) {
+                        // for less or equal than 6 categories
+                        if (titles.data.length <= 6) {
                             return 40;
-                        else
-                            return height - 40;
-                    }
-                })
-                .attr('text-anchor', 'middle')
-                .text(function (d) { return d; });
+                        } else {
+                            if (i % 2 === 0)
+                                return 40;
+                            else
+                                return height - 40;
+                        }
+                    })
+                    .text(function (d) { return d.label; });
+
+                categoryLabels.enter()
+                    .append('text')
+                    .attr('class', 'categoryLabels')
+                    .attr('x', function (d) {
+                        return d.mean;
+                    })
+                    .attr('y', function (d,i) {
+                        // for less or equal than 6 categories
+                        if (titles.data.length <= 6) {
+                            return 40;
+                        } else {
+                            if (i % 2 === 0)
+                                return 40;
+                            else
+                                return height - 40;
+                        }
+                    })
+                    .attr('text-anchor', 'middle')
+                    .text(function (d) { return d.label; });
+
+                categoryLabels.exit().remove();
+            }
         }
 
 
