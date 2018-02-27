@@ -52,7 +52,7 @@ var BubbleChart = {
         // Dividing by 8 scales down the charge to be
         // appropriate for the visualization dimensions.
         function charge(d) {
-            return -Math.pow(d.radius, 2.0) / 6;
+            return 0;
         }
 
         // Here we create a force layout and
@@ -63,8 +63,7 @@ var BubbleChart = {
         var force = d3.layout.force()
             .size([innerWidth, height])
             .charge(charge)
-            .gravity(-0.01)
-            .friction(0.9);
+            .gravity(0)
 
         // Sizes bubbles based on their area instead of raw radius
         var radiusScale = d3.scale.pow()
@@ -260,7 +259,9 @@ var BubbleChart = {
             });
 
             force.on('tick', function (e) {
-                bubbles.each(moveToCategories(e.alpha, allCategories, category))
+                bubbles
+                    .each(moveToCategories(e.alpha, allCategories, category))
+                    .each(collide(.11))
                     .attr('cx', function (d) {
                         calculateTitlePosition(d, category);
                         return d.x;
@@ -321,6 +322,34 @@ var BubbleChart = {
             };
         }
 
+        // Resolves collisions between d and all other circles.
+        function collide(alpha) {
+            var maxRadius = 15, padding = 4;
+            var quadtree = d3.geom.quadtree(nodes);
+            return function (d) {
+                var r = d.radius + maxRadius + padding,
+                    nx1 = d.x - r,
+                    nx2 = d.x + r,
+                    ny1 = d.y - r,
+                    ny2 = d.y + r;
+                quadtree.visit(function(quad, x1, y1, x2, y2) {
+                    if (quad.point && (quad.point !== d)) {
+                        var x = d.x - quad.point.x,
+                            y = d.y - quad.point.y,
+                            l = Math.sqrt(x * x + y * y),
+                            r = d.radius + quad.point.radius + padding;
+                        if (l < r) {
+                            l = (l - r) / l * alpha;
+                            d.x -= x *= l;
+                            d.y -= y *= l;
+                            quad.point.x += x;
+                            quad.point.y += y;
+                        }
+                    }
+                    return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+                });
+            };
+        }
         /*
          * Hides Year title displays.
          */
