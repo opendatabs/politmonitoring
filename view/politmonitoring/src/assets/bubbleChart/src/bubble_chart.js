@@ -37,11 +37,6 @@ var BubbleChart = {
         var bubbles = null;
         var nodes = [];
 
-        var titles = {
-            category: "",
-            data: []
-        };
-
         // Charge function that is called for each node.
         // Charge is proportional to the diameter of the
         // circle (which is stored in the radius attribute
@@ -68,7 +63,7 @@ var BubbleChart = {
         // Sizes bubbles based on their area instead of raw radius
         var radiusScale = d3.scale.pow()
             .exponent(0.5)
-            .range([2, 15]);
+            .range([2, 9]);
 
         /*
          * This data manipulation function takes the raw data
@@ -246,38 +241,35 @@ var BubbleChart = {
         // todo: remove counter
         var counter;
         function splitBubbles(category) {
-            // TODO: we have to REMOVE THIS
-            d3.selectAll('.centerMarker').remove();
-            counter = 0;
 
-            // get unique values of category
-            var allCategories = [];
-            nodes.forEach(function (d) {
-                if (allCategories.indexOf(d[category]) === -1) {
-                    allCategories.push(d[category]);
-                }
-            });
+            var centers = calculateCenters(nodes, category);
+
+            showTitles(centers);
+
+            var centerMarkers = svg.selectAll('.centerMarkers')
+                .data(centers)
+                .attr('cx', function (d) { return d.x; })
+                .attr('cy', function (d) { return d.y; });
+
+            centerMarkers
+                .enter()
+                .append('circle')
+                .attr('class', 'centerMarkers')
+                .attr('r', 5)
+                .attr('cx', function (d) { return d.x; })
+                .attr('cy', function (d) { return d.y; });
+
+            centerMarkers.exit().remove();
 
             force.on('tick', function (e) {
                 bubbles
-                    .each(moveToCategories(e.alpha, allCategories, category))
+                    .each(moveToCategories(e.alpha, centers, category))
                     .each(collide(.11))
                     .attr('cx', function (d) {
-                        calculateTitlePosition(d, category);
                         return d.x;
                     })
                     .attr('cy', function (d) { return d.y; });
             });
-
-            hideCategories();
-            var interval = setInterval(function () {
-                if (force.alpha() === 0) {
-                    clearInterval(interval);
-                } else if (force.alpha() < 0.05)  {
-                    showTitles();
-                }
-
-            }, 50);
 
             force.start();
         }
@@ -296,21 +288,16 @@ var BubbleChart = {
          * its destination, and so allows other forces like the
          * node's charge force to also impact final location.
          */
-        function moveToCategories(alpha, allCategories, category) {
+        function moveToCategories(alpha, centers, category) {
             return function (d) {
-                // define x and y for more than 6 categories
-                var x, y, i;
-                if (allCategories.length > 6) {
-                    i = allCategories.indexOf(d[category]);
-                    // fist position for element 0 and 1, second position for element 2 and 3 , ...
-                    x = margin.left + Math.floor(i / 2) / Math.ceil(allCategories.length / 2) * innerWidth;
-                    // position 1/3 height at elements 0, 2, 4, ... other elements have position 2/3
-                    y = height / 3 + (i % 2) * height / 3;
-                // define x and y for max 6 categories
-                } else {
-                    x = margin.left + allCategories.indexOf(d[category]) * innerWidth / allCategories.length ;
-                    y = height / 2;
-                }
+                var x = null;
+                var y = null;
+                centers.forEach(function (c) {
+                    if (c.title === d[category]) {
+                        x = c.x;
+                        y = c.y;
+                    }
+                });
 
                 var target = {x: x, y: y};
                 d.x = d.x + (target.x - d.x) * damper * alpha * 1.1;
@@ -350,6 +337,56 @@ var BubbleChart = {
                 });
             };
         }
+
+        function calculateCenters(nodes, category) {
+            // get unique values of category
+            var centers = [];
+            nodes.forEach(function (d, i) {
+                var found = false;
+                centers.forEach(function(c) {
+                    if (c.title === d[category]) {
+                        c.size += d.radius * d.radius;
+                        found = true;
+                    }
+                });
+                if (!found) {
+                    centers.push({title: d[category], size: d.radius * d.radius});
+                }
+            });
+
+            // TODO: alex => add empty centers until % 4 = 0
+
+            // TODO: alex => correct sort order
+            centers.sort(function (a, b) {
+                return b.size - a.size;
+            });
+
+
+            centers.forEach(function (d, i) {
+                var x, y;
+                var subtract = 0;
+                centers[i].secondRow = false;
+                if (centers.length > 6) {
+                    if (i < Math.ceil(centers.length/2))  {
+                        y = height / 3;
+                        x = margin.left + i / Math.ceil(centers.length/2) * innerWidth;
+                        centers[i].secondRow = true;
+                    } else {
+                        y = height * 2 / 3;
+                        x = margin.left + (i-Math.ceil(centers.length/2)) / Math.ceil(centers.length/2) * innerWidth;
+                    }
+                } else {
+                    x = margin.left + i * innerWidth / centers.length ;
+                    y = height / 2;
+                }
+                centers[i].x = x;
+                centers[i].y = y;
+                centers[i].index = i;
+            });
+
+            return centers;
+
+        }
         /*
          * Hides Year title displays.
          */
@@ -360,73 +397,46 @@ var BubbleChart = {
         /*
          * Shows Year title displays.
          */
-        function calculateTitlePosition(dataPoint, category) {
-
-            if (titles.category !== category) {
-                titles.category = category;
-                titles.data = [];
-            }
-            var found = false;
-            titles.data.forEach(function (d) {
-                if (d.label === dataPoint[category]) {
-                    found = true;
-                    d.sum += dataPoint.x;
-                    d.counter++;
-                    d.mean = d.sum / d.counter;
-                }
-            });
-            if (!found) {
-                titles.data.push({
-                    label: dataPoint[category],
-                    sum: dataPoint.x,
-                    counter: 1,
-                    mean: dataPoint.x
-                })
-            }
-        }
-
-        function showTitles() {
+        function showTitles(centers) {
             var categoryLabels = svg.selectAll('.categoryLabels')
-                .data(titles.data);
+                .data(centers);
 
             categoryLabels
                 .attr('x', function (d) {
-                    return d.mean;
+                    return d.x;
                 })
-                .attr('y', function (d,i) {
-                    // for less or equal than 6 categories
-                    if (titles.data.length <= 6) {
-                        return 40;
+                .attr('y', function (d) {
+                    if (d.secondRow) {
+                        return height - 40;
                     } else {
-                        if (i % 2 === 0)
-                            return 40;
-                        else
-                            return height - 40;
+                        return 40;
                     }
                 })
-                .text(function (d) { return d.label; });
+                .text(function (d) { return d.title; });
 
             categoryLabels.enter()
                 .append('text')
                 .attr('class', 'categoryLabels')
                 .attr('x', function (d) {
-                    return d.mean;
+                    return d.x;
                 })
-                .attr('y', function (d,i) {
-                    // for less or equal than 6 categories
-                    if (titles.data.length <= 6) {
-                        return 40;
+                .attr('y', function (d) {
+                    if (d.secondRow) {
+                        return height - 40;
                     } else {
-                        if (i % 2 === 0)
-                            return 40;
-                        else
-                            return height - 40;
+                        return 40;
                     }
                 })
                 .attr('text-anchor', 'middle')
-                .text(function (d) { return d.label; });
+                .text(function (d) { return d.title; });
 
             categoryLabels.exit().remove();
+
+            // fix category labels
+            // TODO: fix this
+/*            for (var i = 1; i < categoryLabels[0].length; i += 2) {
+                d3.select(categoryLabels[0][i]).attr("y", parseInt(categoryLabels[0][i].getAttribute("y")) + 20);
+            }*/
         }
 
 
