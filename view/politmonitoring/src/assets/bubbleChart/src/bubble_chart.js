@@ -255,7 +255,7 @@ var BubbleChart = {
                 .enter()
                 .append('circle')
                 .attr('class', 'centerMarkers')
-                .attr('r', 5)
+                .attr('r', 0)
                 .attr('cx', function (d) { return d.x; })
                 .attr('cy', function (d) { return d.y; });
 
@@ -339,7 +339,7 @@ var BubbleChart = {
         }
 
         function calculateCenters(nodes, category) {
-            // get unique values of category
+            // get unique values of category and calculate size of expected area
             var centers = [];
             nodes.forEach(function (d, i) {
                 var found = false;
@@ -354,24 +354,53 @@ var BubbleChart = {
                 }
             });
 
-            // TODO: alex => add empty centers until % 4 = 0
+            function sortBySize(arr) {
+                var ordered = [];
+                var head = arr.filter(function (current, i) {
+                    return i % 2 === 0;
+                });
+                var tail = arr.filter(function (current, i) {
+                    return i % 2 === 1;
+                });
 
-            // TODO: alex => correct sort order
+                head.map(function (current, i, array) {
+                    ordered.push(current);
+                    ordered.push(tail[array.length - 1 - i]);
+                });
+                return ordered;
+            }
+
+            function checkSize(arr) {
+                if (arr.length % 2 === 1) {
+                    var middle = arr[Math.floor(arr.length/2)];
+                    var temp = arr.filter(function (current, i) {
+                        return i !== Math.floor(arr.length/2);
+                    });
+                    arr = sortBySize(temp);
+                    arr.splice(Math.ceil(arr.length / 2), 0, middle);
+                    return arr;
+                } else {
+                    return sortBySize(arr);
+                }
+            }
+
             centers.sort(function (a, b) {
                 return b.size - a.size;
             });
-
+            centers = checkSize(centers);
 
             centers.forEach(function (d, i) {
                 var x, y;
-                var subtract = 0;
                 centers[i].secondRow = false;
+                // we want to add a second row if we have more than 6 groups
                 if (centers.length > 6) {
+                    // first row
                     if (i < Math.ceil(centers.length/2))  {
                         y = height / 3;
                         x = margin.left + i / Math.ceil(centers.length/2) * innerWidth;
-                        centers[i].secondRow = true;
+                    // second row
                     } else {
+                        centers[i].secondRow = true;
                         y = height * 2 / 3;
                         x = margin.left + (i-Math.ceil(centers.length/2)) / Math.ceil(centers.length/2) * innerWidth;
                     }
@@ -432,11 +461,29 @@ var BubbleChart = {
 
             categoryLabels.exit().remove();
 
+            function checkIfMoveNecessary(labels, i) {
+                var margin = 15;
+                var leftI = parseInt(categoryLabels[0][i].getAttribute("x")) - categoryLabels[0][i].getBBox().width / 2;
+                var rightIMinus1 = parseInt(categoryLabels[0][i-1].getAttribute("x")) + categoryLabels[0][i-1].getBBox().width / 2;
+                var rightI = parseInt(categoryLabels[0][i].getAttribute("x")) + categoryLabels[0][i].getBBox().width / 2;
+                var leftIplus1;
+                if (typeof categoryLabels[0][i+1] !== 'undefined')
+                    leftIplus1 = parseInt(categoryLabels[0][i+1].getAttribute("x")) - categoryLabels[0][i+1].getBBox().width / 2;
+                else {
+                    // number should be high enough
+                    leftIplus1 = 10000;
+                }
+                return leftI < rightIMinus1 + margin || rightI > leftIplus1 - margin;
+/*                parseInt(categoryLabels[0][i].getAttribute("x")) - categoryLabels[0][i].clientWidth / 2 < parseInt(categoryLabels[0][i-1].getAttribute("x")) ||
+                (categoryLabels[i+1] && parseInt(categoryLabels[0][i].getAttribute("x")) + categoryLabels[0][i].clientWidth / 2 > parseInt(categoryLabels[0][i+1].getAttribute("x")))*/
+            }
+
             // fix category labels
             // TODO: fix this
-/*            for (var i = 1; i < categoryLabels[0].length; i += 2) {
-                d3.select(categoryLabels[0][i]).attr("y", parseInt(categoryLabels[0][i].getAttribute("y")) + 20);
-            }*/
+            for (var i = 1; i < categoryLabels[0].length; i += 2) {
+                if (checkIfMoveNecessary(categoryLabels[0], i))
+                d3.select(categoryLabels[0][i]).attr("y", parseInt(categoryLabels[0][i].getAttribute("y")) + 30);
+            }
         }
 
 
