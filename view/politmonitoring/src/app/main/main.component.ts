@@ -9,6 +9,7 @@ import {Router} from "@angular/router";
 })
 export class MainComponent implements OnInit {
   data: any[];
+  originalData: any[];
 
   constructor(
       private dataService: DataService
@@ -18,6 +19,7 @@ export class MainComponent implements OnInit {
     this.dataService.getData().subscribe(
         (data) => {
           this.data = data;
+          this.originalData = data;
         },
         (err) => {
           alert('An error occurred. See console for details.');
@@ -26,4 +28,7 @@ export class MainComponent implements OnInit {
     )
   }
 
+  replaceFilteredData(filteredData: any[]) {
+    this.data = filteredData;
+  }
 }

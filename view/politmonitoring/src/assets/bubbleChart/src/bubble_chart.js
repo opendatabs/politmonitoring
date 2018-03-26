@@ -616,4 +616,4 @@ var BubbleChart = {
         BubbleChart.setupButtons();
     }
 
-}
+};
