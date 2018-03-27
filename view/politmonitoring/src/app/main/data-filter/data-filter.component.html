@@ -1,3 +1,11 @@
-<p>
-  data-filter works!
-</p>
+<!--because navbar is static, we add this invisible placeholder to provide space for the navbar -->
+<div class="invisible-navbar-placeholder"></div>
+<div class="custom-fixed-navbar container navbar">
+  <div class="content">
+  <form class="form-inline">
+    <input name='search' class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+           (keydown)="keyDownFunction($event)" [(ngModel)]="searchText">
+    <button class="btn" type="submit" (click)="search()">Search</button>
+  </form>
+  </div>
+</div>

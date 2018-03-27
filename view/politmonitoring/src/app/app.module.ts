@@ -12,6 +12,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {DataService} from "./shared/data.service";
 import { BubbleChartComponent } from './main/bubble-chart/bubble-chart.component';
 import { DataFilterComponent } from './main/data-filter/data-filter.component';
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { DataFilterComponent } from './main/data-filter/data-filter.component';
         BrowserModule,
         AppRoutingModule,
         BootstrapTableModule,
-        HttpClientModule
+        HttpClientModule,
+        FormsModule
     ],
     providers: [DataService],
     bootstrap: [AppComponent]
