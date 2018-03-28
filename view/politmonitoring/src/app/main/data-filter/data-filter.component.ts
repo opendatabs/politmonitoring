@@ -1,5 +1,5 @@
 import {AfterViewChecked, Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {DataService} from "../../shared/data.service";
+import {DataService} from '../../shared/data.service';
 declare const $: any;
 
 @Component({
@@ -14,6 +14,14 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
 
   searchText: String;
   originalData: any[] = [];
+  dropdown: String[];
+  categoryFilter: String = 'all';
+
+  static scroll() {
+    const navHeight = $('.navbar').outerHeight();
+    const scrollTop = navHeight - $(window).scrollTop();
+    $('.custom-fixed-navbar').css('top', (Math.max(scrollTop, 0)));
+  }
 
   constructor(
     private dataService: DataService
@@ -28,8 +36,10 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   }
 
   ngOnChanges(changes: any) {
+    // save originalData when data is loaded the first time
     if (changes.data.currentValue && this.originalData.length === 0) {
       this.originalData = changes.data.currentValue;
+      this.initDropdown();
     }
   }
 
@@ -39,15 +49,23 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   }
 
   keyDownFunction(event) {
-    if(event.keyCode == 13) {
+    if (event.keyCode === 13) {
       this.search();
     }
   }
 
-  static scroll() {
-    let navHeight = $('.navbar').outerHeight();
-    let scrollTop = navHeight - $(window).scrollTop();
-    $(".custom-fixed-navbar").css('top', (Math.max(scrollTop, 0)));
+  filterByCategory(category: String) {
+    this.categoryFilter = category;
+    if (category !== 'all') {
+      this.data = this.dataService.filterByCategory(this.originalData, category);
+    } else {
+      this.data = this.originalData;
+    }
+    this.onFiltered.emit(this.data);
+  }
+
+  initDropdown() {
+    this.dropdown = $.unique(this.originalData.map(d => d.themenbereich));
   }
 
 }

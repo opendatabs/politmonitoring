@@ -5,7 +5,27 @@
   <form class="form-inline">
     <input name='search' class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
            (keydown)="keyDownFunction($event)" [(ngModel)]="searchText">
-    <button class="btn" type="submit" (click)="search()">Search</button>
+    <button class="btn mr-sm-2" type="submit" (click)="search()">Suchen</button>
   </form>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span *ngIf="categoryFilter === 'all'">Kategorie auswählen</span>
+        <span *ngIf="categoryFilter !== 'all'">{{categoryFilter}}</span>
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <div class="dropdown-item">
+          <div (click)="filterByCategory('all')">
+            <input type="radio" id="radio_all" name="radio-group" checked>
+            <label for="radio_all">Alle</label>
+          </div>
+        </div>
+        <div class="dropdown-item" *ngFor="let entry of dropdown; let i = index">
+          <div (click)="filterByCategory(entry)">
+            <input type="radio" id="radio_{{i}}" name="radio-group">
+            <label for="radio_{{i}}">{{entry}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

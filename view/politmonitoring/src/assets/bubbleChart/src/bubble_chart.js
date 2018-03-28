@@ -12,6 +12,7 @@
 
 var BubbleChart = {
     myBubbleChart: null,
+    svg: null,
 
     bubbleChart: function() {
         // Constants for sizing
@@ -33,7 +34,9 @@ var BubbleChart = {
         var damper = 0.102;
 
         // These will be set in create_nodes and create_vis
-        var svg = null;
+        var svg = BubbleChart.svg
+          .attr('width', width)
+          .attr('height', height);
         var bubbles = null;
         var nodes = [];
 
@@ -78,7 +81,7 @@ var BubbleChart = {
          * array for each element in the rawData input.
          */
         function createNodes(rawData) {
-            
+
             var myNodes = rawData.map(function (d) {
                 return {
                     geschaefts_nr: d.geschaefts_nr,
@@ -131,13 +134,6 @@ var BubbleChart = {
             // Set the force's nodes to our newly created nodes array.
             force.nodes(nodes);
 
-            // Create a SVG element inside the provided selector
-            // with desired size.
-            svg = d3.select(selector)
-                .append('svg')
-                .attr('width', width)
-                .attr('height', height);
-
             // Bind nodes data to what will become DOM elements to represent them.
             bubbles = svg.selectAll('.bubble')
                 .data(nodes, function (d) { return d.geschaefts_nr; });
@@ -158,10 +154,14 @@ var BubbleChart = {
             // correct radius
             bubbles.transition()
                 .duration(2000)
-                .attr('r', function (d) { return d.radius; });
+                .attr('r', function (d) { return d.radius; })
+                .attr('fill', function (d) { return fillColor(d.themenbereich); })
+                .attr('stroke', function (d) { return d3.rgb(fillColor(d.themenbereich)).darker(); });
 
-            // Set initial layout to single group.
-            groupBubbles();
+            bubbles.exit().remove();
+
+            chart.toggleDisplay($('#toolbar').find('.active').attr('id'));
+
         };
 
         // Use map() to convert raw data into node data.
@@ -242,7 +242,16 @@ var BubbleChart = {
         var counter;
         function splitBubbles(category) {
 
-            var centers = calculateCenters(nodes, category);
+            if (category === 'all') {
+              centers = [{
+                title: "Alle",
+                size: 10000,
+                x: width / 2,
+                y: height / 2
+              }];
+            } else {
+              var centers = calculateCenters(nodes, category);
+            }
 
             showTitles(centers);
 
@@ -255,7 +264,7 @@ var BubbleChart = {
                 .enter()
                 .append('circle')
                 .attr('class', 'centerMarkers')
-                .attr('r', 0)
+                .attr('r', 5)
                 .attr('cx', function (d) { return d.x; })
                 .attr('cy', function (d) { return d.y; });
 
@@ -293,7 +302,7 @@ var BubbleChart = {
                 var x = null;
                 var y = null;
                 centers.forEach(function (c) {
-                    if (c.title === d[category]) {
+                    if (c.title === d[category] || category === 'all') {
                         x = c.x;
                         y = c.y;
                     }
@@ -461,6 +470,8 @@ var BubbleChart = {
 
             categoryLabels.exit().remove();
 
+
+
             function checkIfMoveNecessary(labels, i) {
                 var margin = 15;
                 var leftI = parseInt(categoryLabels[0][i].getAttribute("x")) - categoryLabels[0][i].getBBox().width / 2;
@@ -541,7 +552,7 @@ var BubbleChart = {
          * displayName is expected to be a string and either 'year' or 'all'.
          */
         chart.toggleDisplay = function (category) {
-            if (category === 'all') {
+            if (category === 'alleeee') {
                 groupBubbles();
             } else {
                 splitBubbles(category);
@@ -608,12 +619,20 @@ var BubbleChart = {
     },
 
     initialize: function(data) {
-        BubbleChart.myBubbleChart = BubbleChart.bubbleChart();
-        // Show the data
-        BubbleChart.display(data);
+      // Create a SVG element inside the provided selector
+      // with desired size.
+      BubbleChart.svg = d3.select('#vis')
+        .append('svg');
+      BubbleChart.update(data);
+    },
 
-        // setup the buttons.
-        BubbleChart.setupButtons();
+    update: function (data) {
+      BubbleChart.myBubbleChart = BubbleChart.bubbleChart();
+      // Show the data
+      BubbleChart.display(data);
+
+      // setup the buttons.
+      BubbleChart.setupButtons();
     }
 
 };

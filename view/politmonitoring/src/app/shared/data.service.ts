@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs/Observable";
-import {environment} from "../../environments/environment";
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class DataService {
@@ -16,17 +16,17 @@ export class DataService {
       return this.http.get<any[]>(url);
     }
 
-    searchInArrayOfObjects(data:any[], searchText:String): any[] {
-      debugger;
+    searchInArrayOfObjects(data: any[], searchText: String): any[] {
       const list = data;
-      let result = [];
-      if (typeof list === 'undefined' || typeof searchText === 'undefined' || searchText === '')
+      const result = [];
+      if (typeof list === 'undefined' || typeof searchText === 'undefined' || searchText === '') {
         return data;
+      }
 
       let found: boolean;
-      for (let entry of list) {
+      for (const entry of list) {
         found = false;
-        for(let key in entry) {
+        for (const key in entry) {
           if (entry.hasOwnProperty(key)) {
             if (entry[key] !== null && entry[key].toString().toLocaleLowerCase().indexOf(searchText.toLocaleLowerCase()) !== -1) {
               found = true;
@@ -34,10 +34,16 @@ export class DataService {
           }
         }
         if (found) {
-          result.push(entry)
+          result.push(entry);
         }
       }
       return result;
+    }
+
+    filterByCategory(data: any[], category: String): any[] {
+      return data.filter( (d) => {
+        return d.themenbereich === category;
+      });
     }
 
 }

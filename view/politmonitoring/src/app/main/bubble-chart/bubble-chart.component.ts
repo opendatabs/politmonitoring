@@ -19,8 +19,12 @@ export class BubbleChartComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: any): void {
-        if (changes.data && changes.data.currentValue) {
+      if (changes.data && changes.data.currentValue) {
+        if (!changes.data.previousValue) {
             BubbleChart.initialize(changes.data.currentValue);
+          } else {
+            BubbleChart.update(changes.data.currentValue);
+          }
         }
     }
 
