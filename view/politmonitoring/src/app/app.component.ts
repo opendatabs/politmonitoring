@@ -12,8 +12,8 @@ export class AppComponent{
   constructor(
       private router: Router
   ) {
-      router.events.subscribe((val) => {
-          this.admin = this.router.url.indexOf('admin') > -1;
-      });
+      // router.events.subscribe((val) => {
+      //     this.admin = this.router.url.indexOf('admin') > -1;
+      // });
   }
 }

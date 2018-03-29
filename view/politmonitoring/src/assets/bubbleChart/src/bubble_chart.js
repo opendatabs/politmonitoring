@@ -362,7 +362,7 @@ var BubbleChart = {
                     centers.push({title: d[category], size: d.radius * d.radius});
                 }
             });
-
+// TODO handle: arr has to be greater than 0. Test case if length === 1
             function sortBySize(arr) {
                 var ordered = [];
                 var head = arr.filter(function (current, i) {

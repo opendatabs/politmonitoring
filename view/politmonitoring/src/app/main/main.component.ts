@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {DataService} from "../shared/data.service";
-import {Router} from "@angular/router";
+import { DataService } from '../shared/data.service';
+import { Router } from '@angular/router';
+import { AuthService } from '../shared/auth.service';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -8,11 +10,14 @@ import {Router} from "@angular/router";
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
+  admin: boolean;
   data: any[];
   originalData: any[];
 
   constructor(
-      private dataService: DataService
+      private dataService: DataService,
+      private authService: AuthService,
+      private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -24,8 +29,17 @@ export class MainComponent implements OnInit {
         (err) => {
           alert('An error occurred. See console for details.');
           console.log(err);
-        }
-    )
+        });
+
+    this.route.url.subscribe(
+      (url) => {
+        if (url.length >= 1)
+          if (url[url.length-1].path === 'admin')
+            this.authService.requestLogin().subscribe(
+              event => this.admin = event,
+              error => console.log(error)
+            );
+      });
   }
 
   replaceFilteredData(filteredData: any[]) {

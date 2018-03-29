@@ -2,6 +2,7 @@
 
 #custom
 /config/devConfig.js
+/uploads
 
 # compiled output
 /dist
