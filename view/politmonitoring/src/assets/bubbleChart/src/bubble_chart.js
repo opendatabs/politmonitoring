@@ -9,7 +9,6 @@
  *
  */
 
-
 var BubbleChart = {
     myBubbleChart: null,
     svg: null,
@@ -99,6 +98,8 @@ var BubbleChart = {
                     konsorten: d.konsorten,
                     link: d.link,
                     parteien: d.parteien,
+                    jahr: parseInt(moment(new Date(d.letzte_uebersweisung)).format('YYYY')),
+                    date: moment(new Date(d.letzte_uebersweisung)),
                     x: Math.random() * 900,
                     y: Math.random() * 800
                 };

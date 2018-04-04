@@ -46,4 +46,10 @@ export class DataService {
       });
     }
 
+  filterByDate(data: any[], fromDate: string, toDate: string) {
+    return data.filter( (d) => {
+      return new Date(d.letzte_uebersweisung) >= new Date(fromDate) &&
+        new Date(d.letzte_uebersweisung) <= new Date(toDate);
+    });
+  }
 }

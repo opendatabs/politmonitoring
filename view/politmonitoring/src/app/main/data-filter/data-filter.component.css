@@ -1,5 +1,5 @@
 .custom-fixed-navbar {
-  height: 50px;
+  height: 56px;
   width: 100%;
   position: fixed;
   margin-left: -15px;
@@ -8,7 +8,7 @@
 }
 
 .invisible-navbar-placeholder {
-  height: 50px;
+  height: 56px;
   width: 100%;
   visibility: hidden;
 }
@@ -81,4 +81,17 @@
   opacity: 1;
   -webkit-transform: scale(1);
   transform: scale(1);
+}
+
+#dateFilter {
+  position: absolute;
+  right: 40px;
+}
+
+#dateFilter .col-6 {
+  padding: 0 0;
+}
+
+#seachInput .input-group-append {
+  cursor: pointer;
 }
