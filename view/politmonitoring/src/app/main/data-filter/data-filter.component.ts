@@ -1,6 +1,6 @@
 import {AfterViewChecked, Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {DataService} from '../../shared/data.service';
-import moment = require('moment');
+import * as moment from 'moment';
 declare const $: any;
 
 @Component({

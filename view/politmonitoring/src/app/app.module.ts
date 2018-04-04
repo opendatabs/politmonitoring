@@ -13,6 +13,8 @@ import {DataService} from "./shared/data.service";
 import { BubbleChartComponent } from './main/bubble-chart/bubble-chart.component';
 import { DataFilterComponent } from './main/data-filter/data-filter.component';
 import {FormsModule} from "@angular/forms";
+import {AuthService} from "./shared/auth.service";
+import {FileUploadModule} from "ng2-file-upload";
 
 
 @NgModule({
@@ -29,9 +31,13 @@ import {FormsModule} from "@angular/forms";
         AppRoutingModule,
         BootstrapTableModule,
         HttpClientModule,
-        FormsModule
+        FormsModule,
+        FileUploadModule
     ],
-    providers: [DataService],
+    providers: [
+      DataService,
+      AuthService
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {

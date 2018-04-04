@@ -2,9 +2,9 @@
 
 #custom
 /config/devConfig.js
+/uploads
 
 # compiled output
-/dist
 /dist-server
 /tmp
 /out-tsc

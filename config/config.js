@@ -1,5 +1,7 @@
 var prodConfig = {
-    cors: false
+    cors: false,
+    username: process.env.AUTH_USERNAME,
+    password: process.env.AUTH_PASSWORD
 };
 
 console.log(process.env);
