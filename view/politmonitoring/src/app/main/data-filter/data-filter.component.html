@@ -2,27 +2,54 @@
 <div class="invisible-navbar-placeholder"></div>
 <div class="custom-fixed-navbar container navbar">
   <div class="content">
-  <form class="form-inline">
-    <input name='search' class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
-           (keydown)="keyDownFunction($event)" [(ngModel)]="searchText">
-    <button class="btn mr-sm-2" type="submit" (click)="search()">Suchen</button>
-  </form>
-    <div class="dropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <form class="form-inline">
+      <div class="input-group mr-sm-2" id='seachInput'>
+        <input name='search' class="form-control" type="search" placeholder="Suchen" aria-label="Suchen"
+               (keydown)="keyDownFunction($event)" [(ngModel)]="searchText">
+        <div class="input-group-append">
+          <div class="input-group-text" (click)="filterData('')">Suchen</div>
+        </div>
+      </div>
+    </form>
+    <div class="dropdown mr-sm-5">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
         <span *ngIf="categoryFilter === 'all'">Kategorie auswählen</span>
         <span *ngIf="categoryFilter !== 'all'">{{categoryFilter}}</span>
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <div class="dropdown-item">
-          <div (click)="filterByCategory('all')">
+          <div (click)="filterData('all')">
             <input type="radio" id="radio_all" name="radio-group" checked>
             <label for="radio_all">Alle</label>
           </div>
         </div>
         <div class="dropdown-item" *ngFor="let entry of dropdown; let i = index">
-          <div (click)="filterByCategory(entry)">
+          <div (click)="filterData(entry)">
             <input type="radio" id="radio_{{i}}" name="radio-group">
             <label for="radio_{{i}}">{{entry}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="dateFilter">
+      <div class="row">
+        <div class="col-6 pr-sm-2">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Von:</div>
+            </div>
+            <input class="form-control" type="date" aria-label="Von"
+                   [(ngModel)]="fromDate" (change)="filterByDate()">
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Bis:</div>
+            </div>
+            <input class="form-control" type="date" aria-label="Von"
+                   [(ngModel)]="toDate" (change)="filterByDate()">
           </div>
         </div>
       </div>

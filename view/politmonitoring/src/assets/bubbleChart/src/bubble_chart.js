@@ -9,7 +9,6 @@
  *
  */
 
-
 var BubbleChart = {
     myBubbleChart: null,
     svg: null,
@@ -84,21 +83,23 @@ var BubbleChart = {
 
             var myNodes = rawData.map(function (d) {
                 return {
-                    geschaefts_nr: d.geschaefts_nr,
-                    radius: radiusScale(convertSize(d.instrument)),
-                    instrument: d.instrument,
-                    size_instrument: convertSize(d.instrument),
-                    urheber: d.urheber,
-                    titel: d.titel,
-                    status: d.status,
-                    letzte_uebersweisung: d.letzte_uebersweisung,
-                    themenbereich: d.themenbereich,
-                    thema_1: d.thema_1,
-                    thema_2: d.thema_2,
-                    schwerpunktthema: d.schwerpunktthema,
-                    konsorten: d.konsorten,
-                    link: d.link,
-                    parteien: d.parteien,
+                    geschaefts_nr: d["Geschäfts-nr."],
+                    radius: radiusScale(convertSize(d.Instrument)),
+                    instrument: d.Instrument,
+                    size_instrument: convertSize(d.Instrument),
+                    urheber: d["UrheberIn"],
+                    titel: d.Titel,
+                    status: d.Status,
+                    letzte_uebersweisung: d.Jahr,
+                    themenbereich: d.Themenbereich,
+                    thema_1: d["Thema 1 (gleiche Nr. wie Themenbereich)"],
+                    thema_2: d["Thema 2 (andere Nr.)"],
+                    schwerpunktthema: d["Schwerpunktthema (bei Bedarf)"],
+                    konsorten: d.Konsorten,
+                    link: d.Link,
+                    parteien: d.Parteien,
+                    jahr: d.Jahr,
+                    date: moment(new Date(d.Jahr)),
                     x: Math.random() * 900,
                     y: Math.random() * 800
                 };
@@ -127,7 +128,7 @@ var BubbleChart = {
             // Use the max total_amount in the data as the max in the scale's domain
             // note we have to ensure the total_amount is a number by converting it
             // with `+`.
-            var maxAmount = d3.max(rawData, function (d) { return convertSize(d.instrument); });
+            var maxAmount = d3.max(rawData, function (d) { return convertSize(d.Instrument); });
             radiusScale.domain([0, maxAmount]);
 
             nodes = createNodes(rawData);
@@ -582,10 +583,10 @@ var BubbleChart = {
      */
     setupButtons: function() {
         d3.select('#toolbar')
-            .selectAll('.button')
+            .selectAll('.btn')
             .on('click', function () {
                 // Remove active class from all buttons
-                d3.selectAll('.button').classed('active', false);
+                d3.selectAll('.btn').classed('active', false);
                 // Find the button just clicked
                 var button = d3.select(this);
 

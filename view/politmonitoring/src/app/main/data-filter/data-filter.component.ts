@@ -1,5 +1,6 @@
 import {AfterViewChecked, Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {DataService} from '../../shared/data.service';
+import * as moment from 'moment';
 declare const $: any;
 
 @Component({
@@ -16,6 +17,8 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   originalData: any[] = [];
   dropdown: String[];
   categoryFilter: String = 'all';
+  fromDate: string = '2015-01-01';
+  toDate: string = moment().format('YYYY-MM-DD');
 
   static scroll() {
     const navHeight = $('.navbar').outerHeight();
@@ -43,29 +46,34 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     }
   }
 
-  search() {
-    this.data = this.dataService.searchInArrayOfObjects(this.originalData, this.searchText);
+  filterData(category: String) {
+    this.data = this.originalData;
+    if (category.length !== 0) {
+      this.categoryFilter = category;
+    }
+    if (this.categoryFilter !== 'all') {
+      this.data = this.dataService.filterByCategory(this.data, this.categoryFilter);
+    }
+    this.data = this.dataService.searchInArrayOfObjects(this.data, this.searchText);
+    this.data = this.dataService.filterByDate(this.data, this.fromDate, this.toDate);
     this.onFiltered.emit(this.data);
+  }
+
+  filterByDate() {
+    if (moment(this.fromDate).isValid() && new Date(this.fromDate) > new Date('2000-01-01') &&
+      moment(this.toDate).isValid() && new Date(this.toDate) > new Date('2000-01-01')) {
+      this.filterData('');
+    }
+  }
+
+  initDropdown() {
+    this.dropdown = $.unique(this.originalData.map(d => d.Themenbereich));
   }
 
   keyDownFunction(event) {
     if (event.keyCode === 13) {
-      this.search();
+      this.filterData('');
     }
-  }
-
-  filterByCategory(category: String) {
-    this.categoryFilter = category;
-    if (category !== 'all') {
-      this.data = this.dataService.filterByCategory(this.originalData, category);
-    } else {
-      this.data = this.originalData;
-    }
-    this.onFiltered.emit(this.data);
-  }
-
-  initDropdown() {
-    this.dropdown = $.unique(this.originalData.map(d => d.themenbereich));
   }
 
 }

@@ -42,8 +42,14 @@ export class DataService {
 
     filterByCategory(data: any[], category: String): any[] {
       return data.filter( (d) => {
-        return d.themenbereich === category;
+        return d.Themenbereich === category;
       });
     }
 
+  filterByDate(data: any[], fromDate: string, toDate: string) {
+    return data.filter( (d) => {
+      return new Date(d.Jahr) >= new Date(fromDate) &&
+        new Date(d.Jahr) <= new Date(toDate);
+    });
+  }
 }

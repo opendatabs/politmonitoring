@@ -2,3 +2,12 @@
     margin-top: 20px;
     margin-bottom: 20px;
 }
+
+#toolbar button.btn {
+  width: calc(20% - 4px);
+}
+
+#toolbar button.btn.active {
+  background-color: #6c757d;
+  color: white;
+}
