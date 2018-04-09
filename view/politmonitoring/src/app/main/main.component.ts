@@ -34,9 +34,10 @@ export class MainComponent implements OnInit {
     this.route.url.subscribe(
       (url) => {
         if (url.length >= 1)
-          if (url[url.length-1].path === 'admin')
+          if (url[url.length - 1].path === 'admin')
             this.authService.requestLogin().subscribe(
-              event => this.admin = event,
+              event => {this.admin = event;
+              console.log(event)},
               error => console.log(error)
             );
       });

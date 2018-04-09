@@ -45,7 +45,7 @@ const auth = (req, res, next) => {
         res.sendStatus(401);
         return;
     }
-}
+};
 
 app.get('/auth', auth, (req, res) => {
     res.send(true);
