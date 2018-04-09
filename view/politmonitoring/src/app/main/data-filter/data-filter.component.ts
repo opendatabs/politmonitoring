@@ -67,7 +67,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   }
 
   initDropdown() {
-    this.dropdown = $.unique(this.originalData.map(d => d.themenbereich));
+    this.dropdown = $.unique(this.originalData.map(d => d.Themenbereich));
   }
 
   keyDownFunction(event) {
