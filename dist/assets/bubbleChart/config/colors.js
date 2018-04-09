@@ -1,0 +1,17 @@
+var COLORS = [
+    {color: '#e53935' , themenbereich : 'Bildung (1)'},
+    {color: '#d81b60' , themenbereich : 'Chancengerechtigkeit & Inklusion (2)'},
+    {color: '#8e24aa' , themenbereich : 'Demografie & Generationen (3)'},
+    {color: '#5e35b1' , themenbereich : 'Finanzen & Steuern(4)'},
+    {color: '#3949ab' , themenbereich : 'Gesundheit (5)'},
+    {color: '#1e88e5' , themenbereich : 'Kultur, Freizeit & Religion (6)'},
+    {color: '#039be5' , themenbereich : 'Öffentliche Ordnung & Sicherheit (7)'},
+    {color: '#00acc1' , themenbereich : 'Öffentlicher Raum (8)'},
+    {color: '#00897b' , themenbereich : 'Politik & Staat (9)'},
+    {color: '#43a047' , themenbereich : 'Raum- & Siedlungsentwicklung (10)'},
+    {color: '#7cb342' , themenbereich : 'Soziale Sicherheit (11)'},
+    {color: '#c0ca33' , themenbereich : 'Umwelt & Energie (12)'},
+    {color: '#fdd835' , themenbereich : 'Verkehr & Mobilität (13)'},
+    {color: '#ffb300' , themenbereich : 'Wirtschaft & Arbeit (14)'},
+    {color: '#fb8c00' , themenbereich : 'Wohnen (15)'},
+];
