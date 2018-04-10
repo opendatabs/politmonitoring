@@ -13,7 +13,9 @@
     "basic-auth": "^2.0.0",
     "bootstrap": "^4.0.0",
     "cors": "^2.8.4",
+    "excel-as-json": "^2.0.1",
     "express": "^4.16.2",
-    "multer": "^1.3.0"
+    "multer": "^1.3.0",
+    "node-excel-to-json": "0.0.3"
   }
 }

@@ -6,6 +6,8 @@ const config = require('./config/config');
 var path = require('path');
 const basicAuth = require('basic-auth');
 const multer = require('multer');
+// const excel2Json = require('node-excel-to-json');
+convertExcel = require('excel-as-json').processFile;
 
 
 // open cors in development mode
@@ -55,16 +57,16 @@ app.get('/auth', auth, (req, res) => {
 const storage = multer.diskStorage({
     destination: './uploads/',
     filename: (req, file, cb) => {
-        cb(null, 'politdaten' + path.extname(file.originalname))
+        cb(null, 'politdaten' + path.extname(file.originalname)) // TODO change to good name with timestamp
     }
 });
 
 const upload = multer({
     fileFilter: (req, file, cb) => {
-        let filetypes = /xls|xlsx/;
-        if (filetypes.test(path.extname(file.originalname).toLowerCase()))
+        let filetype = /xls|xlsx/; // TODO handle wrong filetype
+        if (filetype.test(path.extname(file.originalname).toLowerCase()))
             return cb(null, true);
-        cb("Error: File upload only supports the following filetypes - " + filetypes);
+        cb("Error: File upload only supports the following filetype: " + filetype);
     },
     storage: storage})
     .single('file');
@@ -76,13 +78,22 @@ app.post('/upload', (req, res) => {
             console.log(err); // Give the user feedback right here
             return res.status(422).send("an Error occured")
         }
-        // convert to json
-        // file validation
-        // redirect to visual
+        convertData();
+        // TODO file validation
+        // TODO reload graph
         path = req.file.path;
         return res.status(200).send("Upload Completed for "+path);
     });
 });
+
+const convertData = () => {
+    // TODO Check if err handling needed
+    const src = './uploads/politdaten.xlsx';
+    const dst = './data/data.json';
+    if (fs.existsSync(src)) {
+        convertExcel(src, dst); // TODO define clear excel rules for the user or check them
+    }
+};
 
 // send all requests back to index for client side routing
 app.get('/*', function (req, res) {
