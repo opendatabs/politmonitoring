@@ -24,7 +24,7 @@
             <label for="radio_all">Alle</label>
           </div>
         </div>
-        <div class="dropdown-item" *ngFor="let entry of dropdown; let i = index">
+        <div class="dropdown-item" *ngFor="let entry of categoryDropdown; let i = index">
           <div (click)="filterData(entry)">
             <input type="radio" id="radio_{{i}}" name="radio-group">
             <label for="radio_{{i}}">{{entry}}</label>
@@ -33,23 +33,17 @@
       </div>
     </div>
     <div id="dateFilter">
-      <div class="row">
-        <div class="col-6 pr-sm-2">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <div class="input-group-text">Von:</div>
+      <div class="dropdown mr-sm-5">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+          Jahre auswählen
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+          <div class="dropdown-item" *ngFor="let entry of yearDropdown; let i = index">
+            <div>
+              <input type="checkbox" id="checkbox_{{entry.year}}" [(checked)]="entry.checked" (change)="filterYears(entry)">
+              <label for="checkbox_{{entry.year}}">{{entry.year}}</label>
             </div>
-            <input class="form-control" type="date" aria-label="Von"
-                   [(ngModel)]="fromDate" (change)="filterByDate()">
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <div class="input-group-text">Bis:</div>
-            </div>
-            <input class="form-control" type="date" aria-label="Von"
-                   [(ngModel)]="toDate" (change)="filterByDate()">
           </div>
         </div>
       </div>

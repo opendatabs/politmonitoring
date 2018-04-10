@@ -15,10 +15,9 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
 
   searchText: String;
   originalData: any[] = [];
-  dropdown: String[];
+  categoryDropdown: String[];
+  yearDropdown = [];
   categoryFilter: String = 'all';
-  fromDate: string = '2015-01-01';
-  toDate: string = moment().format('YYYY-MM-DD');
 
   static scroll() {
     const navHeight = $('.navbar').outerHeight();
@@ -55,25 +54,25 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
       this.data = this.dataService.filterByCategory(this.data, this.categoryFilter);
     }
     this.data = this.dataService.searchInArrayOfObjects(this.data, this.searchText);
-    this.data = this.dataService.filterByDate(this.data, this.fromDate, this.toDate);
+    this.data = this.dataService.filterYears(this.data, this.yearDropdown);
     this.onFiltered.emit(this.data);
   }
 
-  filterByDate() {
-    if (moment(this.fromDate).isValid() && new Date(this.fromDate) > new Date('2000-01-01') &&
-      moment(this.toDate).isValid() && new Date(this.toDate) > new Date('2000-01-01')) {
-      this.filterData('');
-    }
-  }
-
   initDropdown() {
-    this.dropdown = $.unique(this.originalData.map(d => d.Themenbereich));
+    this.categoryDropdown = $.unique(this.originalData.map(d => d.Themenbereich));
+    this.yearDropdown = $.unique(this.originalData.map(d => d.Jahr));
+    this.yearDropdown = this.yearDropdown.map(d => {
+      return {year: d, checked: true};
+    });
   }
-
   keyDownFunction(event) {
     if (event.keyCode === 13) {
       this.filterData('');
     }
+  }
+  filterYears(entry: any) {
+    entry.checked = !entry.checked;
+    this.filterData('');
   }
 
 }
