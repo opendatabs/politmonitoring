@@ -1,19 +1,40 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
+import { Component, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from './shared/auth.service';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent{
+export class AppComponent {
   admin: boolean = false;
 
   constructor(
-      private router: Router
+    private router: Router,
+    private authService: AuthService,
+    private route: ActivatedRoute
   ) {
-      // router.events.subscribe((val) => {
-      //     this.admin = this.router.url.indexOf('admin') > -1;
-      // });
+      router.events.subscribe(() => {
+        console.log('admin before: ' + this.admin)
+          if (this.router.url.indexOf('admin') > -1) {
+            this.authService.requestLogin().subscribe(
+              event => {this.admin = event;
+                console.log('admin after: ' + this.admin)},
+              error => console.log(error)
+            );
+          }
+      });
+  //   this.route.url.subscribe(
+  //     (url) => {
+  //       if (url.length >= 1)
+  //         if (url[url.length - 1].path === 'admin')
+  //           this.authService.requestLogin().subscribe(
+  //             event => {this.admin = event
+  //             console.log('triggered')},
+  //             error => console.log(error)
+  //           );
+  //     });
   }
 }

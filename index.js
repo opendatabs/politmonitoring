@@ -80,7 +80,6 @@ app.post('/upload', (req, res) => {
         }
         convertData();
         // TODO file validation
-        // TODO reload graph
         path = req.file.path;
         return res.status(200).send("Upload Completed for "+path);
     });
