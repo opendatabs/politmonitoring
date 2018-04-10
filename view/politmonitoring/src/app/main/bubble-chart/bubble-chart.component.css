@@ -3,8 +3,14 @@
     margin-bottom: 20px;
 }
 
-#toolbar button.btn {
+#toolbar .button-wrapper {
   width: calc(20% - 4px);
+  display: inline-block;
+  padding: 0 10px;
+}
+
+#toolbar .button-wrapper .btn {
+  width: 100%;
 }
 
 #toolbar button.btn.active {

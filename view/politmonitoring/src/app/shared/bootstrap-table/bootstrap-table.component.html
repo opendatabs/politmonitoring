@@ -14,7 +14,6 @@
                      <i class="fa fa-search"></i>
                   </span>
                 </div>
-                <input id="search" type="text" class="form-control" [(ngModel)]="searchString" (ngModelChange)="filterData(searchString)" aria-describedby="input_search_addon">
               </div>
             </div>
           </div>
@@ -107,53 +106,53 @@
                 <tr #table *ngFor="let entry of dataAfterFilter | sortBy: sort.sortBy: sort.asc | slice:pagination.start:pagination.end"
                     (click)="selectEntry(entry)">
                   <td>
-                    <span *ngIf="entry['geschaefts_nr']" [innerHTML]="entry['geschaefts_nr'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['geschaefts_nr']"></span>
+                    <span *ngIf="entry['Geschäfts-nr.']" [innerHTML]="entry['Geschäfts-nr.'].toString() | highlight:searchString"></span>
+                    <span *ngIf="!entry['Geschäfts-nr.']"></span>
                   </td>
                   <td>
-                    <span *ngIf="entry['instrument']" [innerHTML]="entry['instrument'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['instrument']"></span>
+                    <span *ngIf="entry['Instrument']" [innerHTML]="entry['Instrument'].toString() | highlight:searchString"></span>
+                    <span *ngIf="!entry['Instrument']"></span>
                   </td>
                   <td>
-                    <span *ngIf="entry['urheber']" [innerHTML]="entry['urheber'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['urheber']"></span>
+                    <span *ngIf="entry['UrheberIn']" [innerHTML]="entry['UrheberIn'].toString() | highlight:searchString"></span>
+                    <span *ngIf="!entry['UrheberIn']"></span>
                   </td>
                   <td>
-                    <span *ngIf="entry['titel']" [innerHTML]="entry['titel'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['titel']"></span>
+                    <span *ngIf="entry['Titel']" [innerHTML]="entry['Titel'].toString() | highlight:searchString"></span>
+                    <span *ngIf="!entry['Titel']"></span>
                   </td>
                   <td>
-                    <span *ngIf="entry['status']" [innerHTML]="entry['status'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['status']"></span>
+                    <span *ngIf="entry['Status']" [innerHTML]="entry['Status'].toString() | highlight:searchString"></span>
+                    <span *ngIf="!entry['Status']"></span>
                   </td>
                   <td>
-                    <span *ngIf="entry['letzte_ueberweisung']" [innerHTML]="entry['letzte_ueberweisung'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['letzte_ueberweisung']"></span>
+                    <span *ngIf="entry['Jahr']" [innerHTML]="entry['Jahr'].toString() | highlight:searchString"></span>
+                    <span *ngIf="!entry['Jahr']"></span>
                   </td>
                   <td>
-                    <span *ngIf="entry['themenbereich']" [innerHTML]="entry['themenbereich'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['themenbereich']"></span>
+                    <span *ngIf="entry['Themenbereich']" [innerHTML]="entry['Themenbereich'].toString() | highlight:searchString"></span>
+                    <span *ngIf="!entry['Themenbereich']"></span>
                   </td>
                   <td>
-                    <span *ngIf="entry['thema_1']" [innerHTML]="entry['thema_1'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['thema_1']"></span>
+                    <span *ngIf="entry['Thema 1 (gleiche Nr. wie Themenbereich)']" [innerHTML]="entry['Thema 1 (gleiche Nr. wie Themenbereich)'].toString() | highlight:searchString"></span>
+                    <span *ngIf="!entry['Thema 1 (gleiche Nr. wie Themenbereich)']"></span>
                   </td>
                   <td>
-                    <span *ngIf="entry['thema_2']" [innerHTML]="entry['thema_2'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['thema_2']"></span>
+                    <span *ngIf="entry['Thema 2 (andere Nr.)']" [innerHTML]="entry['Thema 2 (andere Nr.)'].toString() | highlight:searchString"></span>
+                    <span *ngIf="!entry['Thema 2 (andere Nr.)']"></span>
                   </td>
                   <td>
-                    <span *ngIf="entry['schwerpunktthema']" [innerHTML]="entry['schwerpunktthema'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['schwerpunktthema']"></span>
+                    <span *ngIf="entry['Schwerpunktthema (bei Bedarf)']" [innerHTML]="entry['Schwerpunktthema (bei Bedarf)'].toString() | highlight:searchString"></span>
+                    <span *ngIf="!entry['Schwerpunktthema (bei Bedarf)']"></span>
                   </td>
                   <td class="customToolTip">
-                    <span *ngIf="entry['konsorten']" [innerHTML]="(entry['konsorten'].slice(0, 70).toString() | highlight:searchString) + '...'"></span>
-                    <span *ngIf="!entry['konsorten']"></span>
-                    <span class="tooltiptext">{{entry.konsorten}}</span>
+                    <span *ngIf="entry['Konsorten']" [innerHTML]="(entry['Konsorten'].slice(0, 70).toString() | highlight:searchString) + '...'"></span>
+                    <span *ngIf="!entry['Konsorten']"></span>
+                    <span class="tooltiptext">{{entry.Konsorten}}</span>
                   </td>
                   <td>
-                    <span *ngIf="entry['link']" [innerHTML]="entry['link'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['link']"></span>
+                    <span *ngIf="entry['Link']" [innerHTML]="entry['Link'].toString() | highlight:searchString"></span>
+                    <span *ngIf="!entry['Link']"></span>
                   </td>
                 </tr>
               </table>

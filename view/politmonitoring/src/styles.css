@@ -6,3 +6,7 @@
 #politmonitoring .container {
     max-width: 1400px;
 }
+
+body {
+  background-color: #f8f8f7;
+}
