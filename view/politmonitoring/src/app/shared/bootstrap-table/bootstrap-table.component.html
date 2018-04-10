@@ -95,8 +95,8 @@
                 <tr #table *ngFor="let entry of data | sortBy: sort.sortBy: sort.asc | slice:pagination.start:pagination.end"
                     (click)="selectEntry(entry)">
                   <td>
-                    <span *ngIf="entry['Geschäfts-nr.']" [innerHTML]="entry['Geschäfts-nr.'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['Geschäfts-nr.']"></span>
+                    <span *ngIf="entry['Geschäfts-nr']" [innerHTML]="entry['Geschäfts-nr'].toString() | highlight:searchString"></span>
+                    <span *ngIf="!entry['Geschäfts-nr']"></span>
                   </td>
                   <td>
                     <span *ngIf="entry['Instrument']" [innerHTML]="entry['Instrument'].toString() | highlight:searchString"></span>
@@ -123,12 +123,12 @@
                     <span *ngIf="!entry['Themenbereich']"></span>
                   </td>
                   <td>
-                    <span *ngIf="entry['Thema 1 (gleiche Nr. wie Themenbereich)']" [innerHTML]="entry['Thema 1 (gleiche Nr. wie Themenbereich)'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['Thema 1 (gleiche Nr. wie Themenbereich)']"></span>
+                    <span *ngIf="entry['Thema 1 (gleiche Nr wie Themenbereich)']" [innerHTML]="entry['Thema 1 (gleiche Nr wie Themenbereich)'].toString() | highlight:searchString"></span>
+                    <span *ngIf="!entry['Thema 1 (gleiche Nr wie Themenbereich)']"></span>
                   </td>
                   <td>
-                    <span *ngIf="entry['Thema 2 (andere Nr.)']" [innerHTML]="entry['Thema 2 (andere Nr.)'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['Thema 2 (andere Nr.)']"></span>
+                    <span *ngIf="entry['Thema 2 (andere Nr)']" [innerHTML]="entry['Thema 2 (andere Nr)'].toString() | highlight:searchString"></span>
+                    <span *ngIf="!entry['Thema 2 (andere Nr)']"></span>
                   </td>
                   <td>
                     <span *ngIf="entry['Schwerpunktthema (bei Bedarf)']" [innerHTML]="entry['Schwerpunktthema (bei Bedarf)'].toString() | highlight:searchString"></span>
