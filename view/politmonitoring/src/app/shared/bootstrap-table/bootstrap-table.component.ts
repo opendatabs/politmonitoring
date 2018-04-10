@@ -1,18 +1,17 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChildren} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChildren} from '@angular/core';
 
 @Component({
     selector: 'app-bootstrap-table',
     templateUrl: './bootstrap-table.component.html',
     styleUrls: ['./bootstrap-table.component.css']
 })
-export class BootstrapTableComponent implements OnInit {
+export class BootstrapTableComponent implements OnInit, OnChanges {
     @Input() data: Array<any>;
     @Input() title: string;
     @Input() initialSortBy: string;
 
     @Output() selectEntryEvent = new EventEmitter();
 
-    dataAfterFilter: Array<any>;
     searchString = '';
     pagination = {
         start: 0,
@@ -28,38 +27,14 @@ export class BootstrapTableComponent implements OnInit {
     constructor() {
     }
 
+    ngOnChanges(changes: any) {
+      console.log(changes);
+    }
+
     ngOnInit() {
         this.pagination.end = this.pagination.start + this.pagination.numberOfEntries;
         this.pagination.numberPages = Math.ceil(this.data.length / this.pagination.numberOfEntries);
         this.sort.sortBy = this.initialSortBy;
-        this.dataAfterFilter = this.data;
-    }
-
-    filterData(searchTerm: string) {
-        const list = this.data;
-        const result = [];
-        if (typeof list === 'undefined' || typeof searchTerm === 'undefined' || searchTerm === '')
-            this.dataAfterFilter = this.data;
-
-        let found: boolean;
-        for (let entry of list) {
-            found = false;
-            for(let key in entry) {
-                if (entry.hasOwnProperty(key)) {
-                    // debugger;
-                    if (entry[key] !== null && entry[key].toString().toLocaleLowerCase().indexOf(searchTerm.toLocaleLowerCase()) !== -1) {
-                        found = true;
-                    }
-                }
-            }
-            if (found) {
-                result.push(entry)
-            }
-        }
-        this.dataAfterFilter = result;
-        this.setPaginationToStart();
-        // if result length is smaller than numberOfEntries, we have to adapt pagination end
-        this.pagination.end = Math.min(this.pagination.end + this.pagination.numberOfEntries, this.dataAfterFilter.length);
     }
 
     pageBack() {
@@ -70,9 +45,9 @@ export class BootstrapTableComponent implements OnInit {
     }
 
     pageUp() {
-        if (this.pagination.end !== this.dataAfterFilter.length) {
+        if (this.pagination.end !== this.data.length) {
             this.pagination.start = this.pagination.start + this.pagination.numberOfEntries;
-            this.pagination.end = Math.min(this.pagination.end + this.pagination.numberOfEntries, this.dataAfterFilter.length);
+            this.pagination.end = Math.min(this.pagination.end + this.pagination.numberOfEntries, this.data.length);
         }
     }
 
@@ -85,11 +60,6 @@ export class BootstrapTableComponent implements OnInit {
             this.sort.sortBy = col;
             this.sort.asc = false;
         }
-    }
-
-    setPaginationToStart() {
-        this.pagination.start = 0;
-        this.pagination.end = this.pagination.numberOfEntries;
     }
 
     selectEntry(entry) {

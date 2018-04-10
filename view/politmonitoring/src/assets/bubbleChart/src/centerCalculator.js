@@ -33,6 +33,11 @@ class CenterCalculator {
         centers.push({title: d[category], size: d.radius * d.radius});
       }
     });
+    if (centers.length === 1) {
+      centers[0].x = width / 2;
+      centers[0].y = height / 2;
+      return centers;
+    }
 
 // TODO handle: arr has to be greater than 0. Test case if length === 1
     function sortBySize(arr) {

@@ -21,8 +21,8 @@
         <div id="paginationWrapper">
             <ul class="pagination">
               <li [class.disabled]="pagination.start === 0" [class.waves-effect]="pagination.start !== 0"><a (click)="pageBack()"><i class="fas fa-chevron-left"></i></a></li>
-              <li id="pageView">{{pagination.start}} - {{pagination.end}} / {{dataAfterFilter.length}}</li>
-              <li [class.disabled]="pagination.end === dataAfterFilter.length" [class.waves-effect]="pagination.end !== dataAfterFilter.length"><a (click)="pageUp()"><i class="fas fa-chevron-right"></i></a></li>
+              <li id="pageView">{{pagination.start}} - {{pagination.end}} / {{data.length}}</li>
+              <li [class.disabled]="pagination.end === data.length" [class.waves-effect]="pagination.end !== data.length"><a (click)="pageUp()"><i class="fas fa-chevron-right"></i></a></li>
             </ul>
         </div>
         <div class="row">
@@ -60,10 +60,10 @@
                       <i *ngIf="'status' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
                     </p>
                   </th>
-                  <th class="titleCol" (click)="changeSortBy('letzte_ueberweisung')">
-                    <p>Letzte Überweisung
-                      <i *ngIf="'letzte_ueberweisung' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'letzte_ueberweisung' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                  <th class="titleCol" (click)="changeSortBy('jahr')">
+                    <p>Jahr
+                      <i *ngIf="'jahr' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
+                      <i *ngIf="'jahr' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
                     </p>
                   </th>
                   <th class="titleCol" (click)="changeSortBy('themenbereich')">
@@ -103,7 +103,7 @@
                     </p>
                   </th>
                 </tr>
-                <tr #table *ngFor="let entry of dataAfterFilter | sortBy: sort.sortBy: sort.asc | slice:pagination.start:pagination.end"
+                <tr #table *ngFor="let entry of data | sortBy: sort.sortBy: sort.asc | slice:pagination.start:pagination.end"
                     (click)="selectEntry(entry)">
                   <td>
                     <span *ngIf="entry['Geschäfts-nr.']" [innerHTML]="entry['Geschäfts-nr.'].toString() | highlight:searchString"></span>

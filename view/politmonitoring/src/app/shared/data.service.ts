@@ -46,10 +46,15 @@ export class DataService {
       });
     }
 
-  filterByDate(data: any[], fromDate: string, toDate: string) {
+  filterYears(data: any[], years: any[]) {
     return data.filter( (d) => {
-      return new Date(d.Jahr) >= new Date(fromDate) &&
-        new Date(d.Jahr) <= new Date(toDate);
+      let found = false;
+      years.forEach(y => {
+        if (y.checked && y.year === d.Jahr) {
+          found = true;
+        }
+      });
+      return found;
     });
   }
 }
