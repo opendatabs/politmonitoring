@@ -9,7 +9,7 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   requestLogin(): Observable<any> {
-    return this.http.get(environment.apiUrl + '/auth');
+    return this.http.get(environment.apiUrl + 'auth');
   }
 
 }
