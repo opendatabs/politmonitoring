@@ -33,4 +33,5 @@ export class UploadComponent implements OnInit {
       console.log('ImageUpload:uploaded:', item, status, response);
     };
   }
+  // TODO add excel download for public user
 }

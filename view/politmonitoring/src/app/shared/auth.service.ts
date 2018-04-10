@@ -8,10 +8,8 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  requestLogin(): Observable<any>{
-    debugger;
-    // return this.http.get(environment.apiUrl + '/auth');
-    return this.http.get('http://localhost:5000/auth');
+  requestLogin(): Observable<any> {
+    return this.http.get(environment.apiUrl + 'auth');
   }
 
 }
