@@ -1,5 +1,7 @@
 <app-data-filter [data]="data" (onFiltered)="replaceFilteredData($event)"></app-data-filter>
-<app-upload *ngIf="admin"></app-upload>
+<app-upload *ngIf="admin"
+            (onUpload)="onUpload($event)">
+</app-upload>
 <app-bubble-chart [data]="data"></app-bubble-chart>
 <app-bootstrap-table *ngIf="data"
                        [data]="data"

@@ -75,12 +75,11 @@ app.post('/upload', (req, res) => {
     let path = '';
     upload(req, res, (err) => {
         if (err) {
-            console.log(err); // Give the user feedback right here
+            console.log(err); // TODO Give the user feedback right here
             return res.status(422).send("an Error occured")
         }
         convertData();
         // TODO file validation
-        // TODO reload graph
         path = req.file.path;
         return res.status(200).send("Upload Completed for "+path);
     });

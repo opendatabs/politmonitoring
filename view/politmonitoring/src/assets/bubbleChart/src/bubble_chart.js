@@ -83,7 +83,7 @@ var BubbleChart = {
 
             var myNodes = rawData.map(function (d) {
                 return {
-                    geschaefts_nr: d["Geschäfts-nr."],
+                    geschaefts_nr: d["Geschäfts-nr"],
                     radius: radiusScale(convertSize(d.Instrument)),
                     instrument: d.Instrument,
                     size_instrument: convertSize(d.Instrument),
@@ -92,8 +92,8 @@ var BubbleChart = {
                     status: d.Status,
                     letzte_uebersweisung: d.Jahr,
                     themenbereich: d.Themenbereich,
-                    thema_1: d["Thema 1 (gleiche Nr. wie Themenbereich)"],
-                    thema_2: d["Thema 2 (andere Nr.)"],
+                    thema_1: d["Thema 1 (gleiche Nr wie Themenbereich)"],
+                    thema_2: d["Thema 2 (andere Nr)"],
                     schwerpunktthema: d["Schwerpunktthema (bei Bedarf)"],
                     konsorten: d.Konsorten,
                     link: d.Link,

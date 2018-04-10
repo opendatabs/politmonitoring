@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, OnChanges, SimpleChanges, Input} from '@angular/core';
 import { DataService } from '../shared/data.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../shared/auth.service';
@@ -9,10 +9,11 @@ import { ActivatedRoute, Params } from '@angular/router';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnChanges {
   admin: boolean;
   data: any[];
   originalData: any[];
+  @Input() redrawChart: boolean = false;
 
   constructor(
       private dataService: DataService,
@@ -36,11 +37,28 @@ export class MainComponent implements OnInit {
         if (url.length >= 1)
           if (url[url.length - 1].path === 'admin')
             this.authService.requestLogin().subscribe(
-              event => {this.admin = event;
-              console.log(event)},
+              event => this.admin = event,
               error => console.log(error)
             );
       });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.redrawChart.currentValue) {
+      console.log('getting new data now');
+      // this.dataService.getData().subscribe(
+      //   (data) => {
+      //     this.data = data;
+      //     this.originalData = data;
+      //     this.redrawChart = false;
+      //   },
+      //   (err) => {
+      //     console.log(err);
+      //   });
+    }
+  }
+  onUpload(redrawChart: boolean) {
+    this.redrawChart = redrawChart;
   }
 
   replaceFilteredData(filteredData: any[]) {
