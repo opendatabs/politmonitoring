@@ -26,7 +26,17 @@ th.titleCol i {
 #paginationWrapper {
     position: absolute;
     right: 20px;
-    top: 75px;
+    z-index: 20;
+}
+
+#paginationWrapper ul {
+  float: right;
+  margin-top: 56px;
+}
+
+#paginationWrapper a:hover {
+  cursor: pointer;
+  background-color: #0000001f;
 }
 
 .highlight {

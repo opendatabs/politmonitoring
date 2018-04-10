@@ -23,6 +23,9 @@ export class MainComponent implements OnInit {
   ngOnInit() {
     this.dataService.getData().subscribe(
         (data) => {
+          data.forEach(d => {
+            d.Themenbereich = d.Themenbereich.substring(0, d.Themenbereich.indexOf('(')).trim();
+          });
           this.data = data;
           this.originalData = data;
         },
