@@ -18,8 +18,6 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   categoryDropdown: String[];
   yearDropdown = [];
   categoryFilter: String = 'all';
-  fromDate: string = '2015-01-01';
-  toDate: string = moment().format('YYYY-MM-DD');
 
   static scroll() {
     const navHeight = $('.navbar').outerHeight();
