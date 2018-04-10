@@ -15,6 +15,9 @@ import { DataFilterComponent } from './main/data-filter/data-filter.component';
 import {FormsModule} from "@angular/forms";
 import {AuthService} from "./shared/auth.service";
 import {FileUploadModule} from "ng2-file-upload";
+import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -32,7 +35,10 @@ import {FileUploadModule} from "ng2-file-upload";
         BootstrapTableModule,
         HttpClientModule,
         FormsModule,
-        FileUploadModule
+        FileUploadModule,
+        CommonModule,
+        BrowserAnimationsModule,
+        ToastrModule.forRoot()
     ],
     providers: [
       DataService,

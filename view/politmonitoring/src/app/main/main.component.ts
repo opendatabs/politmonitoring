@@ -26,8 +26,10 @@ export class MainComponent implements OnInit {
           data.forEach(d => {
             d.Themenbereich = d.Themenbereich.substring(0, d.Themenbereich.indexOf('(')).trim();
           });
-          this.data = data;
-          this.originalData = data;
+          // Remove empty elements from array
+          const filteredData = data.filter( el => el['Geschäfts-nr'] > 0);
+          this.data = filteredData;
+          this.originalData = filteredData;
         },
         (err) => {
           alert('An error occurred. See console for details.');
@@ -39,8 +41,7 @@ export class MainComponent implements OnInit {
         if (url.length >= 1)
           if (url[url.length - 1].path === 'admin')
             this.authService.requestLogin().subscribe(
-              event => {this.admin = event;
-              console.log(event)},
+              event => this.admin = event,
               error => console.log(error)
             );
       });
