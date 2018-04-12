@@ -431,12 +431,16 @@ const BubbleChart = {
       categoryLabels.exit().remove();
 
 
+      // this function moves some lables up/down if there is not enough space to show all title on same line
       function checkIfMoveNecessary(labels, i) {
         const margin = 15;
         const leftI = parseInt(categoryLabels[0][i].getAttribute("x")) - categoryLabels[0][i].getBBox().width / 2;
+        // previous label
         const rightIMinus1 = parseInt(categoryLabels[0][i - 1].getAttribute("x")) + categoryLabels[0][i - 1].getBBox().width / 2;
         const rightI = parseInt(categoryLabels[0][i].getAttribute("x")) + categoryLabels[0][i].getBBox().width / 2;
+        // following label
         let leftIplus1;
+        // if not last element
         if (typeof categoryLabels[0][i + 1] !== 'undefined')
           leftIplus1 = parseInt(categoryLabels[0][i + 1].getAttribute("x")) - categoryLabels[0][i + 1].getBBox().width / 2;
         else {
@@ -450,7 +454,7 @@ const BubbleChart = {
 
       // fix category labels
       // TODO: fix this
-      for (var i = 1; i < categoryLabels[0].length; i += 2) {
+      for (let i = 1; i < categoryLabels[0].length; i += 2) {
         if (checkIfMoveNecessary(categoryLabels[0], i))
           d3.select(categoryLabels[0][i]).attr("y", parseInt(categoryLabels[0][i].getAttribute("y")) + 30);
       }

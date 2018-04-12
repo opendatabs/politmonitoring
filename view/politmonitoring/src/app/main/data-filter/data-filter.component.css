@@ -95,3 +95,8 @@
 #seachInput .input-group-append {
   cursor: pointer;
 }
+
+.dropdown-menu {
+  max-height: 500px;
+  overflow-y: auto;
+}

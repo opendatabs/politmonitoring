@@ -60,6 +60,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
 
   initDropdown() {
     this.categoryDropdown = $.unique(this.originalData.map(d => d.Themenbereich));
+    this.categoryDropdown.sort();
     this.yearDropdown = $.unique(this.originalData.map(d => d.Jahr));
     this.yearDropdown = this.yearDropdown.map(d => {
       return {year: d, checked: true};
@@ -72,6 +73,11 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   }
   filterYears(entry: any) {
     entry.checked = !entry.checked;
+    this.filterData('');
+  }
+  resetFilters() {
+    this.searchText = '';
+    this.categoryFilter = 'all';
     this.filterData('');
   }
 

@@ -14,13 +14,13 @@
     <div class="dropdown mr-sm-5">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
-        <span *ngIf="categoryFilter === 'all'">Kategorie auswählen</span>
+        <span *ngIf="categoryFilter === 'all'">Themenbereich auswählen</span>
         <span *ngIf="categoryFilter !== 'all'">{{categoryFilter}}</span>
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <div class="dropdown-item">
           <div (click)="filterData('all')">
-            <input type="radio" id="radio_all" name="radio-group" checked>
+            <input type="radio" id="radio_all" name="radio-group" [checked]="categoryFilter === 'all'">
             <label for="radio_all">Alle</label>
           </div>
         </div>
@@ -36,7 +36,7 @@
       <div class="dropdown mr-sm-5">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-          Jahre auswählen
+          Jahr auswählen
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
           <div class="dropdown-item" *ngFor="let entry of yearDropdown; let i = index">
@@ -46,6 +46,9 @@
             </div>
           </div>
         </div>
+        <button class="btn btn-secondary" type="button" (click)="resetFilters()">
+          X
+        </button>
       </div>
     </div>
   </div>
