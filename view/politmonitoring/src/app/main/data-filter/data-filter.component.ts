@@ -18,6 +18,8 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   categoryDropdown: String[];
   yearDropdown = [];
   categoryFilter: String = 'all';
+  statusFilter: String = 'all';
+  filtered: boolean = false;
 
   static scroll() {
     const navHeight = $('.navbar').outerHeight();
@@ -35,6 +37,9 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
 
   ngAfterViewChecked(): void {
     DataFilterComponent.scroll();
+/*    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();
+    });*/
   }
 
   ngOnChanges(changes: any) {
@@ -45,16 +50,23 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     }
   }
 
-  filterData(category: String) {
+  filterData() {
     this.data = this.originalData;
-    if (category.length !== 0) {
-      this.categoryFilter = category;
-    }
     if (this.categoryFilter !== 'all') {
       this.data = this.dataService.filterByCategory(this.data, this.categoryFilter);
     }
+    if (this.statusFilter !== 'all') {
+      this.data = this.dataService.filterByStatus(this.data, this.statusFilter);
+    }
     this.data = this.dataService.searchInArrayOfObjects(this.data, this.searchText);
     this.data = this.dataService.filterYears(this.data, this.yearDropdown);
+    // check if any filter is set.
+    this.filtered = this.categoryFilter !== 'all' || this.searchText.length > 0 || this.statusFilter !== 'all';
+    this.yearDropdown.forEach(d => {
+      if (!d.checked) {
+        this.filtered = true;
+      }
+    });
     this.onFiltered.emit(this.data);
   }
 
@@ -68,17 +80,29 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   }
   keyDownFunction(event) {
     if (event.keyCode === 13) {
-      this.filterData('');
+      this.filterData();
     }
   }
   filterYears(entry: any) {
     entry.checked = !entry.checked;
-    this.filterData('');
+    this.filterData();
+  }
+  filterStatus(status: string) {
+    this.statusFilter = status;
+    this.filterData();
+  }
+  filterByCategory(category: string) {
+    this.categoryFilter = category;
+    this.filterData();
   }
   resetFilters() {
     this.searchText = '';
     this.categoryFilter = 'all';
-    this.filterData('');
+    this.yearDropdown.forEach( d => {
+      d.checked = true;
+    });
+    this.statusFilter = 'all';
+    this.filterData();
   }
 
 }

@@ -83,15 +83,6 @@
   transform: scale(1);
 }
 
-#dateFilter {
-  position: absolute;
-  right: 40px;
-}
-
-#dateFilter .col-6 {
-  padding: 0 0;
-}
-
 #seachInput .input-group-append {
   cursor: pointer;
 }
@@ -99,4 +90,9 @@
 .dropdown-menu {
   max-height: 500px;
   overflow-y: auto;
+}
+
+#dateFilter {
+  position: absolute;
+  right: 30px;
 }

@@ -1,4 +1,4 @@
-
+const $ = jQuery;
 
 /* bubbleChart creation function. Returns a function that will
  * instantiate a new bubble chart given a DOM element to display
