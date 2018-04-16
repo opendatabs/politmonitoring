@@ -89,7 +89,7 @@ class CenterCalculator {
         // first row
         if (i < Math.ceil(centers.length / 2)) {
           y = height / 3;
-          x = margin.left + (i) / Math.ceil((centers.length-1) / 2) * innerWidth;
+          x = margin.left + i / Math.ceil((centers.length) / 2-1) * innerWidth;
           // second row
         } else {
           centers[i].secondRow = true;

@@ -38,7 +38,7 @@ import { ToastrModule } from 'ngx-toastr';
         FileUploadModule,
         CommonModule,
         BrowserAnimationsModule,
-        ToastrModule.forRoot()
+        ToastrModule.forRoot(),
     ],
     providers: [
       DataService,

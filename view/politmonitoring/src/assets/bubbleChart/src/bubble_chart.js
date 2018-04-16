@@ -435,29 +435,28 @@ const BubbleChart = {
       function checkIfMoveNecessary(labels, i) {
         const margin = 15;
         const leftI = parseInt(categoryLabels[0][i].getAttribute("x")) - categoryLabels[0][i].getBBox().width / 2;
-        // previous label
+        // PREVIOUS LABEL
         const rightIMinus1 = parseInt(categoryLabels[0][i - 1].getAttribute("x")) + categoryLabels[0][i - 1].getBBox().width / 2;
-        const rightI = parseInt(categoryLabels[0][i].getAttribute("x")) + categoryLabels[0][i].getBBox().width / 2;
-        // following label
-        let leftIplus1;
-        // if not last element
-        if (typeof categoryLabels[0][i + 1] !== 'undefined')
-          leftIplus1 = parseInt(categoryLabels[0][i + 1].getAttribute("x")) - categoryLabels[0][i + 1].getBBox().width / 2;
-        else {
-          // number should be high enough
-          leftIplus1 = 10000;
+        const leftIMinus1 = parseInt(categoryLabels[0][i - 1].getAttribute("x")) - categoryLabels[0][i - 1].getBBox().width / 2;
+        // if x of this element is smaller than x of previous element, this is the first element of the second row
+        if (leftI < leftIMinus1) {
+          return false;
         }
-        return leftI < rightIMinus1 + margin || rightI > leftIplus1 - margin;
-        /*                parseInt(categoryLabels[0][i].getAttribute("x")) - categoryLabels[0][i].clientWidth / 2 < parseInt(categoryLabels[0][i-1].getAttribute("x")) ||
-                        (categoryLabels[i+1] && parseInt(categoryLabels[0][i].getAttribute("x")) + categoryLabels[0][i].clientWidth / 2 > parseInt(categoryLabels[0][i+1].getAttribute("x")))*/
+
+        return leftI < rightIMinus1 + margin;
       }
 
       // fix category labels
-      // TODO: fix this
-      for (let i = 1; i < categoryLabels[0].length; i += 2) {
-        if (checkIfMoveNecessary(categoryLabels[0], i))
-          d3.select(categoryLabels[0][i]).attr("y", parseInt(categoryLabels[0][i].getAttribute("y")) + 30);
+      let move = false;
+      for (let i = 1; i < categoryLabels[0].length - 1; i ++) {
+          move = move || checkIfMoveNecessary(categoryLabels[0], i);
       }
+      if (move) {
+        for (let i = 1; i < categoryLabels[0].length; i += 2) {
+          d3.select(categoryLabels[0][i]).attr("y", parseInt(categoryLabels[0][i].getAttribute("y")) + 30);
+        }
+      }
+
     }
 
 

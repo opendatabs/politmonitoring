@@ -13,7 +13,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   @Input() data: any[];
   @Output() onFiltered: EventEmitter<any> = new EventEmitter();
 
-  searchText: String;
+  searchText: String = '';
   originalData: any[] = [];
   categoryDropdown: String[];
   yearDropdown = [];
