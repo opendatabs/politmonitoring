@@ -2,6 +2,11 @@ import {AfterViewChecked, Component, EventEmitter, Input, OnChanges, OnInit, Out
 import {DataService} from '../../shared/data.service';
 import * as moment from 'moment';
 declare const $: any;
+declare var jQuery: any;
+
+interface jQuery {
+  tooltip(options?: any): any;
+}
 
 @Component({
   selector: 'app-data-filter',
@@ -33,13 +38,13 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
 
   ngOnInit() {
     window.addEventListener('scroll', DataFilterComponent.scroll, true);
+/*    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();
+    });*/
   }
 
   ngAfterViewChecked(): void {
     DataFilterComponent.scroll();
-/*    $(document).ready(function(){
-      $('[data-toggle="tooltip"]').tooltip();
-    });*/
   }
 
   ngOnChanges(changes: any) {

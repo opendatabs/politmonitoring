@@ -18,6 +18,7 @@ import { FileUploadModule } from "ng2-file-upload";
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { ToastrModule } from 'ngx-toastr';
         CommonModule,
         BrowserAnimationsModule,
         ToastrModule.forRoot(),
+        NgbModule.forRoot()
     ],
     providers: [
       DataService,

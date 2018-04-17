@@ -11,13 +11,13 @@
         </div>
       </div>
     </form>
-    <div class="dropdown mr-sm-2">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+    <div ngbDropdown class="mr-sm-2">
+      <button ngbDropdownToggle class="btn btn-secondary" type="button" id="dropdownMenuButton"
               aria-haspopup="true" aria-expanded="false">
         <span *ngIf="categoryFilter === 'all'">Themenbereich</span>
         <span *ngIf="categoryFilter !== 'all'">{{categoryFilter}}</span>
       </button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <div ngbDropdownMenu aria-labelledby="dropdownMenuButton">
         <div class="dropdown-item">
           <div (click)="filterByCategory('all')">
             <input type="radio" id="radio_all" name="radio-group" [checked]="categoryFilter === 'all'">
@@ -32,12 +32,12 @@
         </div>
       </div>
     </div>
-    <div class="dropdown mr-sm-2">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown"
+    <div ngbDropdown class="mr-sm-2">
+      <button class="btn btn-secondary" type="button" id="dropdownMenuButton2" ngbDropdownToggle
               aria-haspopup="true" aria-expanded="false">
         Jahr
       </button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+      <div ngbDropdownMenu aria-labelledby="dropdownMenuButton2">
         <div class="dropdown-item" *ngFor="let entry of yearDropdown; let i = index">
           <div>
             <input type="checkbox" id="checkbox_{{entry.year}}" [(checked)]="entry.checked" (change)="filterYears(entry)">
@@ -46,13 +46,13 @@
         </div>
       </div>
     </div>
-    <div class="dropdown mr-sm-2">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton3" data-toggle="dropdown"
+    <div ngbDropdown class="mr-sm-2">
+      <button class="btn btn-secondary" type="button" id="dropdownMenuButton3" ngbDropdownToggle
               aria-haspopup="true" aria-expanded="false">
         <span *ngIf="statusFilter === 'all'">Status</span>
         <span *ngIf="statusFilter !== 'all'">{{statusFilter}}</span>
       </button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
+      <div ngbDropdownMenu aria-labelledby="dropdownMenuButton3">
         <div class="dropdown-item">
           <div (click)="filterStatus('all')">
             <input type="radio" id="radio_status_all" name="radio-group2" [checked]="statusFilter === 'all'">
@@ -74,7 +74,7 @@
       </div>
     </div>
     <div id="dateFilter" *ngIf="filtered">
-      <button class="btn btn-secondary" type="button" (click)="resetFilters()">
+      <button class="btn btn-secondary" type="button" (click)="resetFilters()" placement="bottom" ngbTooltip="Tooltip on top">
         X
       </button>
     </div>
