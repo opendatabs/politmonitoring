@@ -19,84 +19,80 @@
             <div id="tableWrapper">
               <table id="table" class="table highlight table-hover">
                 <tr>
-                  <th class="titleCol" (click)="changeSortBy('geschaefts_nr')">
+                  <th class="titleCol" (click)="changeSortBy('Geschäfts-nr')">
                     <p>Geschäftsnummer
-                      <i *ngIf="'geschaefts_nr' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'geschaefts_nr' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      <i *ngIf="'Geschäfts-nr' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
+                      <i *ngIf="'Geschäfts-nr' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
                     </p>
                   </th>
-                  <th class="titleCol" (click)="changeSortBy('instrument')">
+                  <th class="titleCol" (click)="changeSortBy('Instrument')">
                     <p>Instrument
-                      <i *ngIf="'instrument' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'instrument' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      <i *ngIf="'Instrument' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
+                      <i *ngIf="'Instrument' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
                     </p>
                   </th>
-                  <th class="titleCol" (click)="changeSortBy('urheber')">
-                    <p>Urheber
-                      <i *ngIf="'urheber' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'urheber' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                  <th class="titleCol" (click)="changeSortBy('UrheberIn')">
+                    <p>Urheber/in
+                      <i *ngIf="'UrheberIn' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
+                      <i *ngIf="'UrheberIn' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
                     </p>
                   </th>
-                  <th class="titleCol" (click)="changeSortBy('titel')">
+                  <th class="titleCol" (click)="changeSortBy('Titel')">
                     <p>Titel
-                      <i *ngIf="'titel' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'titel' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      <i *ngIf="'Titel' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
+                      <i *ngIf="'Titel' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
                     </p>
                   </th>
-                  <th class="titleCol" (click)="changeSortBy('status')">
+                  <th class="titleCol" (click)="changeSortBy('Status')">
                     <p>Status
-                      <i *ngIf="'status' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'status' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      <i *ngIf="'Status' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
+                      <i *ngIf="'Status' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
                     </p>
                   </th>
-                  <th class="titleCol" (click)="changeSortBy('jahr')">
+                  <th class="titleCol" (click)="changeSortBy('Jahr')">
                     <p>Jahr
-                      <i *ngIf="'jahr' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'jahr' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      <i *ngIf="'Jahr' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
+                      <i *ngIf="'Jahr' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
                     </p>
                   </th>
-                  <th class="titleCol" (click)="changeSortBy('themenbereich')">
+                  <th class="titleCol" (click)="changeSortBy('Themenbereich')">
                     <p>Themenbereich
-                      <i *ngIf="'themenbereich' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'themenbereich' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      <i *ngIf="'Themenbereich' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
+                      <i *ngIf="'Themenbereich' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
                     </p>
                   </th>
-                  <th class="titleCol" (click)="changeSortBy('thema_1')">
+                  <th class="titleCol" (click)="changeSortBy('Thema 1 (gleiche Nr wie Themenbereich)')">
                     <p>Thema 1
-                      <i *ngIf="'thema_1' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'thema_1' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      <i *ngIf="'Thema 1 (gleiche Nr wie Themenbereich)' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
+                      <i *ngIf="'Thema 1 (gleiche Nr wie Themenbereich)' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
                     </p>
                   </th>
-                  <th class="titleCol" (click)="changeSortBy('thema_2')">
+                  <th class="titleCol" (click)="changeSortBy('Thema 2 (andere Nr)')">
                     <p>Thema 2
-                      <i *ngIf="'thema_2' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'thema_2' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      <i *ngIf="'Thema 2 (andere Nr)' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
+                      <i *ngIf="'Thema 2 (andere Nr)' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
                     </p>
                   </th>
-                  <th class="titleCol" (click)="changeSortBy('schwerpunktthema')">
+                  <th class="titleCol" (click)="changeSortBy('Schwerpunktthema (bei Bedarf)')">
                     <p>Schwerpunktthema
-                      <i *ngIf="'schwerpunktthema' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'schwerpunktthema' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      <i *ngIf="'Schwerpunktthema (bei Bedarf)' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
+                      <i *ngIf="'Schwerpunktthema (bei Bedarf)' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
                     </p>
                   </th>
-                  <th class="titleCol" (click)="changeSortBy('konsorten')">
+                  <th class="titleCol" (click)="changeSortBy('Konsorten')">
                     <p>Konsorten
-                      <i *ngIf="'konsorten' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'konsorten' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
-                    </p>
-                  </th>
-                  <th class="titleCol" (click)="changeSortBy('link')">
-                    <p>Link
-                      <i *ngIf="'link' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'link' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      <i *ngIf="'Konsorten' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
+                      <i *ngIf="'Konsorten' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
                     </p>
                   </th>
                 </tr>
                 <tr #table *ngFor="let entry of data | sortBy: sort.sortBy: sort.asc | slice:pagination.start:pagination.end"
                     (click)="selectEntry(entry)">
                   <td>
-                    <span *ngIf="entry['Geschäfts-nr']" [innerHTML]="entry['Geschäfts-nr'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['Geschäfts-nr']"></span>
+                    <a href="{{entry['Link'].toString()}}" target="_blank">
+                      <span *ngIf="entry['Geschäfts-nr']" [innerHTML]="entry['Geschäfts-nr'].toFixed(4) | highlight:searchString"></span>
+                      <span *ngIf="!entry['Geschäfts-nr']"></span>
+                    </a>
                   </td>
                   <td>
                     <span *ngIf="entry['Instrument']" [innerHTML]="entry['Instrument'].toString() | highlight:searchString"></span>
@@ -138,10 +134,6 @@
                     <span *ngIf="entry['Konsorten']" [innerHTML]="(entry['Konsorten'].slice(0, 70).toString() | highlight:searchString) + '...'"></span>
                     <span *ngIf="!entry['Konsorten']"></span>
                     <span class="tooltiptext">{{entry.Konsorten}}</span>
-                  </td>
-                  <td>
-                    <span *ngIf="entry['Link']" [innerHTML]="entry['Link'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['Link']"></span>
                   </td>
                 </tr>
               </table>

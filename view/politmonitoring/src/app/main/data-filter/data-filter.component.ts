@@ -38,9 +38,6 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
 
   ngOnInit() {
     window.addEventListener('scroll', DataFilterComponent.scroll, true);
-/*    $(document).ready(function(){
-      $('[data-toggle="tooltip"]').tooltip();
-    });*/
   }
 
   ngAfterViewChecked(): void {

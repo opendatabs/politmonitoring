@@ -28,7 +28,11 @@ export class BootstrapTableComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: any) {
-      console.log(changes);
+      if (changes.data && changes.data.currentValue) {
+        this.pagination.start = 0;
+        this.pagination.end = this.pagination.start + this.pagination.numberOfEntries;
+        this.pagination.numberPages = Math.ceil(this.data.length / this.pagination.numberOfEntries);
+      }
     }
 
     ngOnInit() {

@@ -18,6 +18,10 @@
   color: #fff;
 }
 
+.bubble {
+  cursor: pointer;
+}
+
 
 #vis {
   height: 600px;

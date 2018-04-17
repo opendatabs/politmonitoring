@@ -479,7 +479,7 @@ const BubbleChart = {
       d3.select(self).attr('stroke', 'black');
 
       let content = '<span class="name">Geschäftsnummer: </span><span class="value"><a target="_blank" href="' + d.link + '">' +
-        d.geschaefts_nr +
+        d.geschaefts_nr.toFixed(4) +
         '</a></span><br/>' +
         '<span class="name">Titel: </span><span class="value">' +
         d.titel +
