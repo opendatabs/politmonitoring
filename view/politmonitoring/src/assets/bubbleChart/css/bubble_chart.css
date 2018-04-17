@@ -36,11 +36,10 @@
   cursor: default;
 }
 
-.tooltip {
+.custom_tooltip {
 	position: absolute;
 	top: 100px;
 	left: 100px;
-  pointer-events: none;
   -moz-border-radius:5px;
   border-radius: 5px;
   border: 2px solid #000;
@@ -53,11 +52,15 @@
   z-index: 10;
 }
 
-.tooltip .title {
+.custom_tooltip.fixed_tooltip {
+  box-shadow: 0 0 0 0.2rem rgba(108,117,125,.5);
+}
+
+.custom_tooltip .title {
 	font-size: 13px;
 }
 
-.tooltip .name {
+.custom_tooltip .name {
   font-weight:bold;
 }
 

@@ -9,7 +9,7 @@ function floatingTooltip(tooltipId, width) {
   // manipulation in other functions.
   var tt = d3.select('body')
     .append('div')
-    .attr('class', 'tooltip')
+    .attr('class', 'custom_tooltip')
     .attr('id', tooltipId);
 
   // Set a width if it is provided.
@@ -27,9 +27,10 @@ function floatingTooltip(tooltipId, width) {
    *
    * event is d3.event for positioning.
    */
-  function showTooltip(content, event) {
-    tt.style('opacity', 1.0)
+  function showTooltip(content, event, fixed) {
+    tt.style('display', 'block')
       .html(content);
+    tt.classed('fixed_tooltip', fixed);
 
     updatePosition(event);
   }
@@ -38,7 +39,7 @@ function floatingTooltip(tooltipId, width) {
    * Hide the tooltip div.
    */
   function hideTooltip() {
-    tt.style('opacity', 0.0);
+    tt.style('display', 'none');
   }
 
   /*

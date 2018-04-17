@@ -23,6 +23,7 @@ const BubbleChart = {
 
     // tooltip for mouseover functionality
     const tooltip = floatingTooltip('gates_tooltip', 240);
+    let tooltipFixed = false;
 
     // Locations to move bubbles towards, depending
     // on which view mode is selected.
@@ -158,8 +159,17 @@ const BubbleChart = {
           return d3.rgb(fillColor(d.themenbereich)).darker();
         })
         .attr('stroke-width', 2)
-        .on('mouseover', showDetail)
-        .on('mouseout', hideDetail);
+        .on('mouseover', function(d) {
+          if (!tooltipFixed) {
+            showDetail(this, d, false)
+          }
+        })
+        .on('click', function(d) {showDetail(this, d, true) })
+        .on('mouseout', function(d) {
+          if (!tooltipFixed) {
+            hideDetail(this, d)
+          }
+        });
 
       // Fancy transition to make bubbles appear, ending with the
       // correct radius
@@ -464,9 +474,9 @@ const BubbleChart = {
      * Function called on mouseover to display the
      * details of a bubble in the tooltip.
      */
-    function showDetail(d) {
+    function showDetail(self, d, fixed) {
       // change outline to indicate hover state.
-      d3.select(this).attr('stroke', 'black');
+      d3.select(self).attr('stroke', 'black');
 
       let content = '<span class="name">Geschäftsnummer: </span><span class="value"><a target="_blank" href="' + d.link + '">' +
         d.geschaefts_nr +
@@ -492,26 +502,23 @@ const BubbleChart = {
         d.thema_2 + '</span>';
       }
 
-      tooltip.showTooltip(content, d3.event);
+      tooltip.showTooltip(content, d3.event, fixed);
+      tooltipFixed = fixed;
 
-      $('.tooltip').on('mouseleave', function () {
-        hideDetail(d);
+      $('.custom_tooltip').on('mouseleave', function () {
+        tooltipFixed = false;
+        hideDetail(self, d);
       })
     }
 
     /*
      * Hides tooltip
      */
-    function hideDetail(d) {
+    function hideDetail(self, d) {
       // reset outline
-
-      d3.select(this)
+      d3.select(self)
         .attr('stroke', d3.rgb(fillColor(d.themenbereich)).darker());
-
-      if (!$('.tooltip').is(':hover')) {
-        tooltip.hideTooltip();
-      }
-
+      tooltip.hideTooltip();
     }
 
     /*
