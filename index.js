@@ -6,7 +6,6 @@ const config = require('./config/config');
 var path = require('path');
 const basicAuth = require('basic-auth');
 const multer = require('multer');
-// const excel2Json = require('node-excel-to-json');
 convertExcel = require('excel-as-json').processFile;
 
 
@@ -90,7 +89,7 @@ const convertData = () => {
     const src = './uploads/politdaten.xlsx';
     const dst = './data/data.json';
     if (fs.existsSync(src)) {
-        convertExcel(src, dst); // TODO define clear excel rules for the user or check them
+        convertExcel(src, dst, {sheet: '2'}); // TODO define clear excel rules for the user or check them
     }
 };
 

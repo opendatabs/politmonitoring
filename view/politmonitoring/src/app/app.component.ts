@@ -1,4 +1,4 @@
-import { Component, OnInit, Output } from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './shared/auth.service';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -9,7 +9,7 @@ import { ActivatedRoute, Params } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  admin: boolean = false;
+  admin: boolean;
 
   constructor(
     private router: Router,
@@ -19,9 +19,13 @@ export class AppComponent {
       router.events.subscribe(() => {
           if (this.router.url.indexOf('admin') > -1) {
             this.authService.requestLogin().subscribe(
-              event => this.admin = event,
-              error => console.log(error)
-            );
+              event => {
+                if (event) {
+                  this.admin = event;
+                  this.authService.changeAdminState(this.admin);
+                }
+              },
+              error => console.log(error));
           }
       });
   //   this.route.url.subscribe(

@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChildren} from '@angular/core';
+import { AuthService } from '../auth.service';
 
 @Component({
     selector: 'app-bootstrap-table',
@@ -12,6 +13,7 @@ export class BootstrapTableComponent implements OnInit, OnChanges {
 
     @Output() selectEntryEvent = new EventEmitter();
 
+    admin: boolean;
     searchString = '';
     pagination = {
         start: 0,
@@ -24,7 +26,7 @@ export class BootstrapTableComponent implements OnInit, OnChanges {
         asc: false
     };
 
-    constructor() {
+    constructor(private authService: AuthService) {
     }
 
     ngOnChanges(changes: any) {
@@ -36,9 +38,10 @@ export class BootstrapTableComponent implements OnInit, OnChanges {
     }
 
     ngOnInit() {
-        this.pagination.end = this.pagination.start + this.pagination.numberOfEntries;
-        this.pagination.numberPages = Math.ceil(this.data.length / this.pagination.numberOfEntries);
-        this.sort.sortBy = this.initialSortBy;
+      this.authService.currentAdminState.subscribe(admin => this.admin = admin);
+      this.pagination.end = this.pagination.start + this.pagination.numberOfEntries;
+      this.pagination.numberPages = Math.ceil(this.data.length / this.pagination.numberOfEntries);
+      this.sort.sortBy = this.initialSortBy;
     }
 
     pageBack() {

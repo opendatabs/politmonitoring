@@ -73,7 +73,7 @@
                       <i *ngIf="'Thema 2 (andere Nr)' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
                     </p>
                   </th>
-                  <th class="titleCol" (click)="changeSortBy('Schwerpunktthema (bei Bedarf)')">
+                  <th *ngIf="admin" class="titleCol" (click)="changeSortBy('Schwerpunktthema (bei Bedarf)')">
                     <p>Schwerpunktthema
                       <i *ngIf="'Schwerpunktthema (bei Bedarf)' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
                       <i *ngIf="'Schwerpunktthema (bei Bedarf)' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
@@ -126,7 +126,7 @@
                     <span *ngIf="entry['Thema 2 (andere Nr)']" [innerHTML]="entry['Thema 2 (andere Nr)'].toString() | highlight:searchString"></span>
                     <span *ngIf="!entry['Thema 2 (andere Nr)']"></span>
                   </td>
-                  <td>
+                  <td *ngIf="admin">
                     <span *ngIf="entry['Schwerpunktthema (bei Bedarf)']" [innerHTML]="entry['Schwerpunktthema (bei Bedarf)'].toString() | highlight:searchString"></span>
                     <span *ngIf="!entry['Schwerpunktthema (bei Bedarf)']"></span>
                   </td>

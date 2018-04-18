@@ -1,25 +1,27 @@
 <div class="row">
   <div class="col-12">
-    <div class="card">
+    <!--<div class="card my-3" *ngIf="admin">-->
+    <div class="card my-3">
       <div class="card-body">
         <h2>Neue Daten hochladen</h2>
         <p>Hier kann die Visualisierung mit neuen Grossratsgeschäfts-Daten aktualisiert werden.</p>
         <p>Die neue Datei muss für eine erfolgreiche Aktualisierung die untenstehenden Bedingungen erfüllen.</p>
         <div class="custom-file w-25">
           <input type="file" class="custom-file-input" id="customFile"
-                 name="json" ng2FileSelect [uploader]="uploader">
-          <label class="custom-file-label" for="customFile">Choose file</label>
+                 name="json" ng2FileSelect [uploader]="uploader"
+                 (change)="changePathValue($event)">
+          <label class="custom-file-label" id="uploadLabel" for="customFile">Daten auswählen</label>
           <!--<input class="custom-file-input" type="file" name="json" ng2FileSelect [uploader]="uploader" />-->
           <button type="button" class="btn btn-secondary my-2"
                   (click)="uploader.uploadAll()"
-                  [disabled]="!uploader.getNotUploadedItems().length">Upload file
+                  [disabled]="!uploader.getNotUploadedItems().length">Hochladen
           </button>
         </div>
         <div class="beschreibung w-100 mt-5">
         <b>Excel-Voraussetzungen</b>
         <ol>
           <li>Dateiformat: <em>.xlsx</em></li>
-          <li>Enthält nur ein Arbeitsblatt (worksheet)</li>
+          <li>Die relevanten Daten befinden sich im zweiten Arbeitsblatt (worksheet)</li>
           <li>Kein freistehender Text. Nur Daten zu den jeweiligen Spalten</li>
           <li>Spaltenüberschriften:
             <ul>
@@ -42,6 +44,13 @@
         <p><b>Wichtig: </b>In den Spaltenüberschriften sollten keine Punkte <b><em>.</em></b> oder
           eckige Klammern <b><em>[ ]</em></b> verwendet werden.</p>
         </div>
+      </div>
+    </div>
+    <!--<div class="card my-3" *ngIf="!admin">-->
+    <div class="card my-3">
+      <div class="m-2">
+        <h1>Kein Zugriff</h1>
+        <p>Bitte Authorisieren Sie sich <b><a [routerLink]="['/admin']">hier</a></b> um Zugriff zu erhalten</p>
       </div>
     </div>
   </div>

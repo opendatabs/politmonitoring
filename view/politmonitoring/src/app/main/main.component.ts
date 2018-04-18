@@ -21,7 +21,9 @@ export class MainComponent implements OnInit {
         (data) => {
           data.forEach(d => {
             d.Themenbereich = d.Themenbereich.substring(0, d.Themenbereich.indexOf('(')).trim();
-            d['Thema 1 (gleiche Nr wie Themenbereich)'] = d['Thema 1 (gleiche Nr wie Themenbereich)'].substring(0, d['Thema 1 (gleiche Nr wie Themenbereich)'].indexOf('(')).trim();
+            // TODO dangerous. Maybe we should simplify the property name
+            d['Thema 1 (gleiche Nr wie Themenbereich)'] = d['Thema 1 (gleiche Nr wie Themenbereich)']
+              .substring(0, d['Thema 1 (gleiche Nr wie Themenbereich)'].indexOf('(')).trim();
             d['Thema 2 (andere Nr)'] = d['Thema 2 (andere Nr)'].substring(0, d['Thema 2 (andere Nr)'].indexOf('(')).trim();
           });
           // Remove empty elements from array
@@ -31,7 +33,7 @@ export class MainComponent implements OnInit {
         },
         (err) => {
           alert('An error occurred. See console for details.');
-          console.log(err);
+          console.log(err); // TODO Add error handling
         });
   }
 
