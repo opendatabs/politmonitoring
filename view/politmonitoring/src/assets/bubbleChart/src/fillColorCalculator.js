@@ -5,7 +5,7 @@ class FillColorCalculator {
     this.MAX_CATEGORIES = 3;
   }
 
-  calculateColor(themenbereich, thema_1) {
+  calculateColor(themenbereich, thema_1, darker) {
     let finalColor = "";
     COLORS.forEach(function (color) {
       if (color.themenbereich === themenbereich)
@@ -15,6 +15,9 @@ class FillColorCalculator {
     if (this.useSubColors) {
       finalColor = this.calculateSubcolor(finalColor, thema_1);
     }
+
+    if (darker)
+      finalColor = d3.rgb(finalColor).darker();
 
     return finalColor;
   }
@@ -49,10 +52,6 @@ class FillColorCalculator {
       color = newColor;
     }
     return d3.rgb(color.r, color.g, color);
-  }
-
-  calculateBorder(color) {
-    return d3.rgb(color).darker();
   }
 
 

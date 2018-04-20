@@ -157,7 +157,7 @@ const BubbleChart = {
           return BubbleChart.fillColorCalculator.calculateColor(d.themenbereich, d.thema_1);
         })
         .attr('stroke', function (d) {
-          return BubbleChart.fillColorCalculator.calculateBorder(d.themenbereich);
+          return BubbleChart.fillColorCalculator.calculateColor(d.themenbereich, d.thema_1, true);
         })
         .attr('stroke-width', 2)
         .on('mouseover', function(d) {
@@ -183,7 +183,7 @@ const BubbleChart = {
           return BubbleChart.fillColorCalculator.calculateColor(d.themenbereich, d.thema_1);
         })
         .attr('stroke', function (d) {
-          return BubbleChart.fillColorCalculator.calculateBorder(d.themenbereich);
+          return BubbleChart.fillColorCalculator.calculateColor(d.themenbereich, d.thema_1, true);
         });
 
       bubbles.exit().remove();
@@ -508,7 +508,7 @@ const BubbleChart = {
     function hideDetail(self, d) {
       // reset outline
       d3.select(self)
-        .attr('stroke', BubbleChart.fillColorCalculator.calculateBorder(d.themenbereich));
+        .attr('stroke', BubbleChart.fillColorCalculator.calculateColor(d.themenbereich, d.thema_1, true));
       tooltip.hideTooltip();
     }
 
