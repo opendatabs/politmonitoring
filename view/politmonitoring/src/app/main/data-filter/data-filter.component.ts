@@ -18,13 +18,15 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   @Input() data: any[];
   @Output() onFiltered: EventEmitter<any> = new EventEmitter();
 
-  searchText: String = '';
+  searchText: string = '';
   originalData: any[] = [];
-  categoryDropdown: String[];
+  categoryDropdown: string[];
   yearDropdown = [];
-  categoryFilter: String = 'all';
-  statusFilter: String = 'all';
+  categoryFilter: string = 'all';
+  statusFilter: string = 'all';
   filtered: boolean = false;
+  subCategoryFilter: string = 'all';
+  subCategoryDropdown: string[];
 
   static scroll() {
     const navHeight = $('.navbar').outerHeight();
@@ -56,6 +58,9 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     this.data = this.originalData;
     if (this.categoryFilter !== 'all') {
       this.data = this.dataService.filterByCategory(this.data, this.categoryFilter);
+      if (this.subCategoryFilter !== 'all') {
+        this.data = this.dataService.filterBySubCategory(this.data, this.subCategoryFilter);
+      }
     }
     if (this.statusFilter !== 'all') {
       this.data = this.dataService.filterByStatus(this.data, this.statusFilter);
@@ -69,13 +74,13 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
         this.filtered = true;
       }
     });
-    this.onFiltered.emit(this.data);
+    this.onFiltered.emit({data: this.data, categoryFilter: this.categoryFilter});
   }
 
   initDropdown() {
-    this.categoryDropdown = $.unique(this.originalData.map(d => d.Themenbereich));
+    this.categoryDropdown = this.dataService.unique(this.originalData.map(d => d.Themenbereich));
     this.categoryDropdown.sort();
-    this.yearDropdown = $.unique(this.originalData.map(d => d.Jahr));
+    this.yearDropdown = this.dataService.unique(this.originalData.map(d => d.Jahr));
     this.yearDropdown = this.yearDropdown.map(d => {
       return {year: d, checked: true};
     });
@@ -95,6 +100,15 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   }
   filterByCategory(category: string) {
     this.categoryFilter = category;
+    this.filterData();
+    // prepare sub category dropdown
+    let allCategories = this.data.map(d => d["Thema 1 (gleiche Nr wie Themenbereich)"]);
+    this.subCategoryDropdown = this.dataService.unique(allCategories);
+    this.subCategoryDropdown.sort();
+    this.subCategoryFilter = 'all';
+  }
+  filterBySubCategory(subCategory: string) {
+    this.subCategoryFilter = subCategory;
     this.filterData();
   }
   resetFilters() {

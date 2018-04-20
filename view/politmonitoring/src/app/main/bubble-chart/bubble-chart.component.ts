@@ -8,6 +8,7 @@ declare var BubbleChart;
 })
 export class BubbleChartComponent implements OnInit, OnChanges {
     @Input() data;
+    @Input() categoryFilter;
 
     bubblesInitialized: boolean = false;
 

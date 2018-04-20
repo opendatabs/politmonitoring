@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {environment} from '../../environments/environment';
+declare const $: any;
+declare var jQuery: any;
 
 @Injectable()
 export class DataService {
@@ -45,6 +47,13 @@ export class DataService {
     });
   }
 
+  filterBySubCategory(data: any[], subCategoryFilter: string) {
+    return data.filter((d) => {
+      return d['Thema 1 (gleiche Nr wie Themenbereich)'] === subCategoryFilter ||
+        d['Thema 2 (andere Nr)'] === subCategoryFilter;
+    });
+  }
+
   filterYears(data: any[], years: any[]) {
     return data.filter((d) => {
       let found = false;
@@ -60,6 +69,12 @@ export class DataService {
   filterByStatus(data: any[], statusFilter: String) {
     return data.filter((d) => {
       return d.Status.toLowerCase() === statusFilter.toLowerCase();
+    });
+  }
+
+  unique(array) {
+    return $.grep(array, function(el, index) {
+      return index == $.inArray(el, array);
     });
   }
 }

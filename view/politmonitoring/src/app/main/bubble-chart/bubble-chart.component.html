@@ -6,7 +6,8 @@
           <div class="row">
             <div class="col-12">
               <div class="button-wrapper">
-                <button id="themenbereich" class="btn btn-light active">Themenbereich</button>
+                <button *ngIf="!categoryFilter || categoryFilter === 'all'" id="themenbereich" class="btn btn-light active">Themenbereich</button>
+                <button *ngIf="categoryFilter && categoryFilter !== 'all'" id="subthema" class="btn btn-light">Unterthema</button>
               </div>
               <div class="button-wrapper">
                 <button id="parteien" class="btn btn-light">Partei</button>
