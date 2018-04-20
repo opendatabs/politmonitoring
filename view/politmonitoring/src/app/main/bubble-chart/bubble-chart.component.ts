@@ -1,33 +1,42 @@
 import {AfterViewChecked, Component, Input, OnChanges, OnInit} from '@angular/core';
+
 declare var BubbleChart;
+declare const $: any;
+declare var jQuery: any;
 
 @Component({
-    selector: 'app-bubble-chart',
-    templateUrl: './bubble-chart.component.html',
-    styleUrls: ['./bubble-chart.component.css']
+  selector: 'app-bubble-chart',
+  templateUrl: './bubble-chart.component.html',
+  styleUrls: ['./bubble-chart.component.css']
 })
 export class BubbleChartComponent implements OnInit, OnChanges {
-    @Input() data;
-    @Input() categoryFilter;
+  @Input() data;
+  @Input() categoryFilter;
 
-    bubblesInitialized: boolean = false;
+  bubblesInitialized: boolean = false;
 
-    constructor() {
+  constructor() {
+  }
+
+
+  ngOnInit() {
+  }
+
+  ngOnChanges(changes: any): void {
+    if (changes.data && changes.data.currentValue) {
+      if (!changes.data.previousValue) {
+        BubbleChart.initialize(changes.data.currentValue);
+      } else {
+        BubbleChart.update(changes.data.currentValue);
+      }
     }
+  }
 
-
-    ngOnInit() {
-    }
-
-    ngOnChanges(changes: any): void {
-      if (changes.data && changes.data.currentValue) {
-        if (!changes.data.previousValue) {
-            BubbleChart.initialize(changes.data.currentValue);
-          } else {
-            BubbleChart.update(changes.data.currentValue);
-          }
-        }
-    }
-
+  setId() {
+    if (!this.categoryFilter || this.categoryFilter === 'all')
+      return 'themenbereich';
+    else
+      return 'thema_1';
+  }
 
 }

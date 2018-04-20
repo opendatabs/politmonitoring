@@ -5,9 +5,12 @@
         <div id="toolbar">
           <div class="row">
             <div class="col-12">
+              <!--We have to change just id and innerhtml. otherwise d3 couldn't set class active corrrectly-->
               <div class="button-wrapper">
-                <button *ngIf="!categoryFilter || categoryFilter === 'all'" id="themenbereich" class="btn btn-light active">Themenbereich</button>
-                <button *ngIf="categoryFilter && categoryFilter !== 'all'" id="subthema" class="btn btn-light">Unterthema</button>
+                <button [id]="setId()" class="btn btn-light active">
+                  <span *ngIf="!categoryFilter || categoryFilter === 'all'">Themenbereich</span>
+                  <span *ngIf="categoryFilter && categoryFilter !== 'all'">Unterthema</span>
+                </button>
               </div>
               <div class="button-wrapper">
                 <button id="parteien" class="btn btn-light">Partei</button>

@@ -30,6 +30,7 @@
         "assets/bubbleChart/config/colors.js",
         "assets/bubbleChart/config/centers.js",
         "assets/bubbleChart/src/centerCalculator.js",
+        "assets/bubbleChart/src/fillColorCalculator.js",
         "assets/bubbleChart/src/bubble_chart.js"
       ],
       "environmentSource": "environments/environment.ts",

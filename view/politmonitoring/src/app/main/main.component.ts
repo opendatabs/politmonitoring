@@ -11,7 +11,7 @@ import { DataService } from '../shared/data.service';
 export class MainComponent implements OnInit {
   data: any[];
   originalData: any[];
-  private categoryFilter: String;
+  categoryFilter: String;
 
   constructor(
       private dataService: DataService,
