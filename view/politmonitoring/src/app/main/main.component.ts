@@ -1,19 +1,23 @@
-import {Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { DataService } from '../shared/data.service';
-
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
+  encapsulation: ViewEncapsulation.None,
   styleUrls: ['./main.component.css']
 })
 
 export class MainComponent implements OnInit {
+  @ViewChild('content') content: ElementRef;
   data: any[];
   originalData: any[];
 
   constructor(
       private dataService: DataService,
+      private modalService: NgbModal
   ) { }
 
   ngOnInit() {
@@ -30,6 +34,7 @@ export class MainComponent implements OnInit {
           const filteredData = data.filter( el => el['Geschäfts-nr'] > 0);
           this.data = filteredData;
           this.originalData = filteredData;
+          this.modalService.open(this.content, { size: 'lg' });
         },
         (err) => {
           alert('An error occurred. See console for details.');
@@ -39,5 +44,8 @@ export class MainComponent implements OnInit {
 
   replaceFilteredData(filteredData: any[]) {
     this.data = filteredData;
+  }
+  openLg(content) {
+    this.modalService.open(content, { size: 'lg' , windowClass: 'animated slideInUp' });
   }
 }

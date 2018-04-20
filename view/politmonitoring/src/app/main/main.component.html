@@ -6,3 +6,50 @@
                        [title]="'Politdaten'"
                        [initialSortBy]="'Geschäfts-nr'">
 </app-bootstrap-table>
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Informationen zur Visualisierung</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Das Politmonitoring ist ein Arbeitsinstrument der basel-städtischen Kantons- und Stadtentwicklung.
+      Damit beobachtet die Kantons- und Stadtentwicklung systematisch das politische Geschehen und analysiert
+      die Themen sowie die Entwicklung des Stadt-Kantons. <br><br>
+      In der Visualisierung abgebildet werden politische Geschäfte in Form von Punkten. Die  <b>Farbe eines
+      Punktes</b> ist durch die Themenzuordnung der Kantons- und Stadtentwicklung bestimmt. Die <b>Grösse
+      der Punkte</b> basiert auf dem Instrument und dessen Wirkungskraft (Initiative > Motion > Anzug > Petition).
+      Abgebildet werden Motionen, Anzüge und Petitionen, die vom Grossen Rat mit einem Mehrheitsbeschluss an den
+      Regierungsrat überwiesen werden, sowie Volksinitiativen.</p>
+    <!--<br><br>-->
+    <!--<h5>Begriffserklärungen</h5>-->
+    <!--<p>Die <b>Motion</b> ist das parlamentarische Instrument mit dem stärksten verpflichtenden Charakter.-->
+      <!--Mit ihr kann jedes Ratsmitglied oder eine ständige Kommission vom Regierungsrat verbindlich fordern,-->
+      <!--dem Grossen Rat ein neues Gesetz, eine Verfassungs- oder Gesetzesänderung oder eine Massnahme zu unterbreiten.-->
+      <!--Nur die an den Regierungsrat überwiesenen Motionen werden in der Visualisierung abgebildet.-->
+      <!--<br><br>-->
+      <!--Der <b>Anzug</b> ist das am häufigsten gewählte parlamentarische Instrument und entspricht dem Postulat beim Bund bzw.-->
+      <!--den meisten Kantonen. Per Anzug kann jedes Ratsmitglied oder eine ständige Kommission dem Regierungsrat oder dem-->
+      <!--Grossen Rat Anregungen zur Änderung der Verfassung, zu Gesetzen oder Beschlüssen oder zu Massnahmen der Verwaltung-->
+      <!--vorlegen. Nur die an den Regierungsrat überwiesenen Anzüge werden in der Visualisierung erfasst.-->
+      <!--<br><br>-->
+      <!--Die <b>Petition</b> ist ein Grundrecht, das allen Menschen unabhängig von Nationalität oder Alter zur Verfügung steht.-->
+      <!--Auch Ausländerinnen und Ausländer, Bewohner anderer Kantone und Kinder haben also das Recht, schriftlich Bitten,-->
+      <!--Anregungen oder Beschwerden an jede Behörde zu richten. Petitionen werden von der Petitionskommission bearbeitet-->
+      <!--und benötigen keine Mindestzahl an Unterschriften. Nur die durch den Grossen Rat an den Regierungsrat überwiesenen-->
+      <!--Petitionen werden in der Visualisierung erfasst.-->
+      <!--<br><br>-->
+      <!--3'000 Stimmberechtigte können innert 18 Monaten eine <b>Initiative</b> einreichen, um eine Verfassungs- oder-->
+      <!--eine Gesetzesänderung einzubringen. Sofern der Grosse Rat die Volksinitiative als rechtlich zulässig erachtet,-->
+      <!--muss er sie behandeln. Er kann die Initiative unterstützen, zur Ablehnung empfehlen oder einen Gegenvorschlag-->
+      <!--beschliessen und ausarbeiten lassen. Auch der Regierungsrat kann beim Grossen Rat einen Gegenvorschlag beantragen.-->
+      <!--In der Visualisierung werden alle zustande gekommenen Initiativen erfasst. Im Anschluss an eine Abstimmung gelten-->
+      <!--sie als erledigt.-->
+    <!--</p>-->
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="c('Close click')">Schliessen</button>
+  </div>
+</ng-template>
+<button class="btn btn-primary m-2 p-2 px-3 infoBtn" id="openModal" (click)="openLg(content)">i</button>

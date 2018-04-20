@@ -1,5 +1,6 @@
-import {AfterViewChecked, Component, Input, OnChanges, OnInit} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, Component, Input, OnChanges, OnInit} from '@angular/core';
 declare var BubbleChart;
+import * as $ from 'jquery';
 
 @Component({
     selector: 'app-bubble-chart',

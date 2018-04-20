@@ -89,7 +89,7 @@ const convertData = () => {
     const src = './uploads/politdaten.xlsx';
     const dst = './data/data.json';
     if (fs.existsSync(src)) {
-        convertExcel(src, dst, {sheet: '2'}); // TODO define clear excel rules for the user or check them
+        convertExcel(src, dst, );// Option to choose sheet: {sheet: '2'};
     }
 };
 

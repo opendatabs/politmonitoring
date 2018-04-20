@@ -18,7 +18,7 @@ export class BootstrapTableComponent implements OnInit, OnChanges {
     pagination = {
         start: 0,
         end: 0,
-        numberOfEntries: 20,
+        numberOfEntries: 10,
         numberPages: 0
     };
     sort = {

@@ -76,3 +76,22 @@
   visibility: hidden;
 }
 
+div.infoTooltip {
+  position: absolute;
+  text-align: left;
+  width: 250px;
+  padding: 5px;
+  font: 12px sans-serif;
+  color: white;
+  background: rgba(0,0,0,0.8);
+  border: 0px;
+  pointer-events: none;
+  text-decoration: none;
+  background-color: #000000;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+
+
+

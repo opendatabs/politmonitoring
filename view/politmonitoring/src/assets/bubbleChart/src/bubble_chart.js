@@ -68,6 +68,13 @@ const BubbleChart = {
       .exponent(0.5)
       .range([2, 9]);
 
+    let infotext = {
+      motion: 'Die Motion ist das parlamentarische Instrument mit dem stärksten verpflichtenden Charakter. Mit ihr kann jedes Ratsmitglied oder eine ständige Kommission vom Regierungsrat verbindlich fordern, dem Grossen Rat ein neues Gesetz, eine Verfassungs- oder Gesetzesänderung oder eine Massnahme zu unterbreiten. Nur die an den Regierungsrat überwiesenen Motionen werden in der Visualisierung abgebildet.',
+      petition: 'Die Petition ist ein Grundrecht, das allen Menschen unabhängig von Nationalität oder Alter zur Verfügung steht. Auch Ausländerinnen und Ausländer, Bewohner anderer Kantone und Kinder haben also das Recht, schriftlich Bitten, Anregungen oder Beschwerden an jede Behörde zu richten. Petitionen werden von der Petitionskommission bearbeitet und benötigen keine Mindestzahl an Unterschriften. Nur die durch den Grossen Rat an den Regierungsrat überwiesenen Petitionen werden in der Visualisierung erfasst.',
+      anzug: 'Der Anzug ist das am häufigsten gewählte parlamentarische Instrument und entspricht dem Postulat beim Bund bzw. den meisten Kantonen. Per Anzug kann jedes Ratsmitglied oder eine ständige Kommission dem Regierungsrat oder dem Grossen Rat Anregungen zur Änderung der Verfassung, zu Gesetzen oder Beschlüssen oder zu Massnahmen der Verwaltung vorlegen. Nur die an den Regierungsrat überwiesenen Anzüge werden in der Visualisierung erfasst.`',
+      initiative: '3\'000 Stimmberechtigte können innert 18 Monaten eine Initiative einreichen, um eine Verfassungs- oder eine Gesetzesänderung einzubringen. Sofern der Grosse Rat die Volksinitiative als rechtlich zulässig erachtet, muss er sie behandeln. Er kann die Initiative unterstützen, zur Ablehnung empfehlen oder einen Gegenvorschlag beschliessen und ausarbeiten lassen. Auch der Regierungsrat kann beim Grossen Rat einen Gegenvorschlag beantragen. In der Visualisierung werden alle zustande gekommenen Initiativen erfasst. Im Anschluss an eine Abstimmung gelten sie als erledigt.'
+    };
+
     /*
      * This data manipulation function takes the raw data
      * and converts it into an array of node objects.
@@ -398,6 +405,10 @@ const BubbleChart = {
       svg.selectAll('.categoryLabels').remove();
     }
 
+    let infoTooltip = d3.select("body").append("div")
+      .attr("class", "infoTooltip")
+      .style("opacity", 0);
+
     /*
      * Shows Year title displays.
      */
@@ -418,7 +429,35 @@ const BubbleChart = {
         })
         .text(function (d) {
           return d.title;
-        });
+      }).on("mouseover", (d) => onMouseOver(d, this, infoTooltip))
+        .on("mouseout", (d) => onMouseOut(infoTooltip));
+
+
+      onMouseOver = (d, scope, infoTooltip) => {
+        let info = 'info';
+
+        infoTooltip.transition()
+          // .delay(500)
+          .duration(2000)
+          .style("opacity", 1);
+
+        if (d.title === 'Petition')
+          info = infotext.petition;
+        if (d.title === 'Anzug')
+          info = infotext.anzug;
+        if (d.title === 'Motion')
+          info = infotext.motion;
+        if (d.title === 'Initiative')
+          info = infotext.initiative;
+
+        infoTooltip.html(info)
+          .style("left", (d.x - 80) + "px")
+          .style("top", (d.y + - 20) + "px");
+      };
+
+      onMouseOut = (infoTooltip) => {
+        infoTooltip.transition().duration(500).style("opacity", 0);
+      };
 
       categoryLabels.enter()
         .append('text')
@@ -610,6 +649,7 @@ const BubbleChart = {
 
     // setup the buttons.
     BubbleChart.setupButtons();
-  }
+  },
+
 
 };
