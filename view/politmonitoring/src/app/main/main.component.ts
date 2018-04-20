@@ -15,6 +15,7 @@ export class MainComponent implements OnInit {
   data: any[];
   originalData: any[];
   categoryFilter: String;
+  firstDisplay: boolean = true;
 
   constructor(
       private dataService: DataService,
@@ -35,7 +36,10 @@ export class MainComponent implements OnInit {
           const filteredData = data.filter( el => el['Geschäfts-nr'] > 0);
           this.data = filteredData;
           this.originalData = filteredData;
-          this.modalService.open(this.content, { size: 'lg' });
+          if (this.firstDisplay) {
+            this.modalService.open(this.content, { size: 'lg' });
+            this.firstDisplay = false;
+          }
         },
         (err) => {
           alert('An error occurred. See console for details.');
