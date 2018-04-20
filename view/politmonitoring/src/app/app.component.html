@@ -2,3 +2,24 @@
 <div class="container">
   <router-outlet></router-outlet>
 </div>
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Informationen zur Visualisierung</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Das Politmonitoring ist ein Arbeitsinstrument der basel-städtischen Kantons- und Stadtentwicklung.
+      Damit beobachtet die Kantons- und Stadtentwicklung systematisch das politische Geschehen und analysiert
+      die Themen sowie die Entwicklung des Stadt-Kantons. <br><br>
+      In der Visualisierung abgebildet werden politische Geschäfte in Form von Punkten. Die  <b>Farbe eines
+        Punktes</b> ist durch die Themenzuordnung der Kantons- und Stadtentwicklung bestimmt. Die <b>Grösse
+        der Punkte</b> basiert auf dem Instrument und dessen Wirkungskraft (Initiative > Motion > Anzug > Petition).
+      Abgebildet werden Motionen, Anzüge und Petitionen, die vom Grossen Rat mit einem Mehrheitsbeschluss an den
+      Regierungsrat überwiesen werden, sowie Volksinitiativen.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="c('Close click')">Schliessen</button>
+  </div>
+</ng-template>

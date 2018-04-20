@@ -1,7 +1,6 @@
-import {Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
+import {Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, AfterViewInit} from '@angular/core';
 import { DataService } from '../shared/data.service';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import * as $ from 'jquery';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-main',
@@ -11,10 +10,10 @@ import * as $ from 'jquery';
 })
 
 export class MainComponent implements OnInit {
-  @ViewChild('content') content: ElementRef;
   data: any[];
   originalData: any[];
   categoryFilter: String;
+  @ViewChild('content') content: ElementRef;
   firstDisplay: boolean = true;
 
   constructor(
@@ -36,16 +35,18 @@ export class MainComponent implements OnInit {
           const filteredData = data.filter( el => el['Geschäfts-nr'] > 0);
           this.data = filteredData;
           this.originalData = filteredData;
-          if (this.firstDisplay) {
-            this.modalService.open(this.content, { size: 'lg' });
-            this.firstDisplay = false;
-          }
         },
         (err) => {
           alert('An error occurred. See console for details.');
           console.log(err); // TODO Add error handling
         });
   }
+  // ngAfterViewInit(): void {
+  //   if (this.firstDisplay) {
+  //     this.modalService.open(this.content, {size: 'lg'});
+  //     this.firstDisplay = false;
+  //   }
+  // }
 
   replaceFilteredData(value: any) {
     this.data = value.data;

@@ -1,20 +1,25 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import { Component, ViewEncapsulation, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './shared/auth.service';
 import { ActivatedRoute, Params } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
   admin: boolean;
+  @ViewChild('content') content: ElementRef;
+  firstDisplay: boolean = true;
+
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private modalService: NgbModal
   ) {
       router.events.subscribe(() => {
           if (this.router.url.indexOf('admin') > -1) {
@@ -28,6 +33,13 @@ export class AppComponent {
               error => console.log(error));
           }
       });
+    }
+    ngAfterViewInit(): void {
+      if (this.firstDisplay && !this.admin) {
+        this.modalService.open(this.content, {size: 'lg'});
+        this.firstDisplay = false;
+      }
+    }
   //   this.route.url.subscribe(
   //     (url) => {
   //       if (url.length >= 1)
@@ -38,5 +50,4 @@ export class AppComponent {
   //             error => console.log(error)
   //           );
   //     });
-  }
 }
