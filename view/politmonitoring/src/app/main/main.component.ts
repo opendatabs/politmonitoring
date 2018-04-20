@@ -14,6 +14,7 @@ export class MainComponent implements OnInit {
   @ViewChild('content') content: ElementRef;
   data: any[];
   originalData: any[];
+  categoryFilter: String;
 
   constructor(
       private dataService: DataService,
@@ -42,8 +43,9 @@ export class MainComponent implements OnInit {
         });
   }
 
-  replaceFilteredData(filteredData: any[]) {
-    this.data = filteredData;
+  replaceFilteredData(value: any) {
+    this.data = value.data;
+    this.categoryFilter = value.categoryFilter;
   }
   openLg(content) {
     this.modalService.open(content, { size: 'lg' , windowClass: 'animated slideInUp' });
