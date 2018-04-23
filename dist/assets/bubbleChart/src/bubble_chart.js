@@ -634,7 +634,7 @@ initialize: function (data) {
   },
 
   update: function (data) {
-    BubbleChart.fillColorCalculator = new FillColorCalculator($('#toolbar').find('.active').attr('id') === 'thema_1');
+    BubbleChart.fillColorCalculator = new FillColorCalculator($('#toolbar').find('#thema_1').length === 1);
     BubbleChart.myBubbleChart = BubbleChart.bubbleChart();
     // Show the data
     BubbleChart.display(data);

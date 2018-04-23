@@ -22,7 +22,10 @@ export class BubbleChartComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: any): void {
     if (changes.data && changes.data.currentValue) {
-      BubbleChart.initialize(changes.data.currentValue);
+      // we have to set a small timeout. otherwise, the id of the buttons aren't correctly set until d3 needs them
+      setTimeout(function () {
+        BubbleChart.initialize(changes.data.currentValue);
+      }, 50);
     }
   }
 
