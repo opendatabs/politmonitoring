@@ -32,27 +32,27 @@
         </div>
       </div>
     </div>
-    <div ngbDropdown class="mr-sm-2" *ngIf="categoryFilter !== 'all'">
-      <button ngbDropdownToggle class="btn btn-secondary" type="button" id="dropdownMenuButtonSub"
-              aria-haspopup="true" aria-expanded="false">
-        <span *ngIf="subCategoryFilter === 'all'">Unterthema</span>
-        <span *ngIf="subCategoryFilter !== 'all'">{{subCategoryFilter}}</span>
-      </button>
-      <div ngbDropdownMenu aria-labelledby="dropdownMenuButtonSub">
-        <div class="dropdown-item">
-          <div (click)="filterBySubCategory('all')">
-            <input type="radio" id="radio_all_sub" name="radio-group-sub" [checked]="subCategoryFilter === 'all'">
-            <label for="radio_all_sub">Alle</label>
-          </div>
-        </div>
-        <div class="dropdown-item" *ngFor="let entry of subCategoryDropdown; let i = index">
-          <div (click)="filterBySubCategory(entry)">
-            <input type="radio" id="radio_sub_{{i}}" name="radio-group-sub">
-            <label for="radio_sub_{{i}}">{{entry}}</label>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!--<div ngbDropdown class="mr-sm-2" *ngIf="categoryFilter !== 'all'">-->
+      <!--<button ngbDropdownToggle class="btn btn-secondary" type="button" id="dropdownMenuButtonSub"-->
+              <!--aria-haspopup="true" aria-expanded="false">-->
+        <!--<span *ngIf="subCategoryFilter === 'all'">Unterthema</span>-->
+        <!--<span *ngIf="subCategoryFilter !== 'all'">{{subCategoryFilter}}</span>-->
+      <!--</button>-->
+      <!--<div ngbDropdownMenu aria-labelledby="dropdownMenuButtonSub">-->
+        <!--<div class="dropdown-item">-->
+          <!--<div (click)="filterBySubCategory('all')">-->
+            <!--<input type="radio" id="radio_all_sub" name="radio-group-sub" [checked]="subCategoryFilter === 'all'">-->
+            <!--<label for="radio_all_sub">Alle</label>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="dropdown-item" *ngFor="let entry of subCategoryDropdown; let i = index">-->
+          <!--<div (click)="filterBySubCategory(entry)">-->
+            <!--<input type="radio" id="radio_sub_{{i}}" name="radio-group-sub">-->
+            <!--<label for="radio_sub_{{i}}">{{entry}}</label>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
     <div ngbDropdown class="mr-sm-2">
       <button class="btn btn-secondary" type="button" id="dropdownMenuButton2" ngbDropdownToggle
               aria-haspopup="true" aria-expanded="false">

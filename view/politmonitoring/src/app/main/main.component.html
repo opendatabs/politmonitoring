@@ -3,12 +3,12 @@
 <app-bubble-chart [data]="data" [categoryFilter]="categoryFilter"></app-bubble-chart>
 <app-bootstrap-table *ngIf="data"
                        [data]="data"
-                       [title]="'Politdaten'"
+                       [title]="'Grossratsgeschäfte'"
                        [initialSortBy]="'Geschäfts-nr'">
 </app-bootstrap-table>
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title">Informationen zur Visualisierung</h4>
+    <h4 class="modal-title">Informationen zum Politmonitoring</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>

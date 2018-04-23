@@ -19,7 +19,7 @@ const BubbleChart = {
     const wrapper = document.getElementById('vis');
     const width = wrapper.clientWidth;
     const height = wrapper.clientHeight;
-    const margin = {left: 140, right: 140};
+    const margin = {left: 140, right: 160};
     const innerWidth = width - margin.left - margin.right;
 
     // tooltip for mouseover functionality
