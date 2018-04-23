@@ -623,9 +623,11 @@ const BubbleChart = {
     return x1 + x2;
   },
 
-  initialize: function (data) {
-    // Create a SVG element inside the provided selector
-    // with desired size.
+  // Create a SVG element inside the provided selector
+initialize: function (data) {
+    // remove old svg element
+    BubbleChart.svg = d3.select('#vis').select('svg').remove();
+  // with desired size.
     BubbleChart.svg = d3.select('#vis')
       .append('svg');
     BubbleChart.update(data);
