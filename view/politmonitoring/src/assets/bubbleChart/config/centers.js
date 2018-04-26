@@ -1,4 +1,4 @@
-const CENTERS = {
+var CENTERS = {
   instrument: [
     {title: "Initiative", center: 0.9},
     {title: "Motion", center: 0.63333},

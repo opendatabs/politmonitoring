@@ -81,9 +81,15 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     this.categoryDropdown = this.dataService.unique(this.originalData.map(d => d.Themenbereich));
     this.categoryDropdown.sort();
     this.yearDropdown = this.dataService.unique(this.originalData.map(d => d.Jahr));
-    this.yearDropdown = this.yearDropdown.map(d => {
-      return {year: d, checked: true};
+    // sort descending
+    this.yearDropdown.sort((a, b) => {
+      return b - a;
     });
+    // check only last 3 years
+    this.yearDropdown = this.yearDropdown.map((d, i) => {
+      return {year: d, checked: (i < 3)};
+    });
+    this.filterData();
   }
   keyDownFunction(event) {
     if (event.keyCode === 13) {
