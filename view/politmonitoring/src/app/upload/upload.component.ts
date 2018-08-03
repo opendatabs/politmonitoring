@@ -3,7 +3,7 @@ import { FileUploader } from 'ng2-file-upload';
 import { environment } from '../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../shared/auth.service';
-import * as $ from 'jquery';
+
 
 const URL = environment.apiUrl + 'upload';
 
