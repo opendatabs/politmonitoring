@@ -96,3 +96,26 @@
   position: absolute;
   right: 30px;
 }
+
+button.reset-filter {
+  position: absolute;
+  width: 25px;
+  height: 20px;
+  padding: 0;
+  margin-top: -7px;
+  line-height: 1px;
+  right: -10px;
+  border: 1px solid black;
+  z-index: 10;
+}
+
+button.reset-filter:hover {
+  background-color: #aeb3b7;
+}
+
+.reset-filter > span {
+  position: absolute;
+  top: 8px;
+  left: 7.5px;
+  font-size: 13px;
+}

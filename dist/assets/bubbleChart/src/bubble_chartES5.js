@@ -458,7 +458,7 @@ var BubbleChart = {
       // change outline to indicate hover state.
       d3.select(self).attr('stroke', 'black');
 
-      var content = '<span class="name">Geschäftsnummer: </span><span class="value"><a target="_blank" href="' + d.link + '">' + d.geschaefts_nr.toFixed(4) + '</a></span><br/>' + '<span class="name">Titel: </span><span class="value">' + d.titel + '</span><br/>' + '<span class="name">Partei: </span><span class="value">' + d.parteien + '</span><br/>' + '<span class="name">Status: </span><span class="value">' + d.status + '</span><br/>' + '<span class="name">Themenbereich: </span><span class="value">' + d.themenbereich + '</span><br/>' + '<span class="name">Thema 1: </span><span class="value">' + d.thema_1 + '</span><br/>';
+      var content = '<span class="name">Geschäftsnummer: </span><span class="value"><a target="_blank" href="' + d.link + '">' + d.geschaefts_nr.toFixed(4) + '</a> (' + d.jahr + ')</span><br/>' + '<span class="name">Titel: </span><span class="value">' + d.titel + '</span><br/>' + '<span class="name">Partei: </span><span class="value">' + d.parteien + '</span><br/>' + '<span class="name">Status: </span><span class="value">' + d.status + '</span><br/>' + '<span class="name">Themenbereich: </span><span class="value">' + d.themenbereich + '</span><br/>' + '<span class="name">Thema 1: </span><span class="value">' + d.thema_1 + '</span><br/>';
       if (d.thema_2.length !== 0) {
 
         content += '<span class="name">Thema 2: </span><span class="value">' + d.thema_2 + '</span>';

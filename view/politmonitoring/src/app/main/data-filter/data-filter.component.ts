@@ -25,6 +25,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   categoryFilter: string = 'all';
   statusFilter: string = 'all';
   filtered: boolean = false;
+  yearFilterSet: boolean = false;
   subCategoryFilter: string = 'all';
   subCategoryDropdown: string[];
 
@@ -50,7 +51,13 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     // save originalData when data is loaded the first time
     if (changes.data.currentValue && this.originalData.length === 0) {
       this.originalData = changes.data.currentValue;
-      this.initDropdown();
+      this.initDropdowns();
+    }
+  }
+
+  keyDownFunction(event) {
+    if (event.keyCode === 13) {
+      this.filterData();
     }
   }
 
@@ -68,42 +75,38 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     this.data = this.dataService.searchInArrayOfObjects(this.data, this.searchText);
     this.data = this.dataService.filterYears(this.data, this.yearDropdown);
     // check if any filter is set.
-    this.filtered = this.categoryFilter !== 'all' || this.searchText.length > 0 || this.statusFilter !== 'all';
-    this.yearDropdown.forEach(d => {
-      if (!d.checked) {
-        this.filtered = true;
-      }
-    });
-    this.onFiltered.emit({data: this.data, categoryFilter: this.categoryFilter});
+    this.checkFilterYearsSet();
+    this.filtered = this.categoryFilter !== 'all' || this.searchText.length > 0 || this.statusFilter !== 'all' || this.yearFilterSet;
+    // do this async (not in same angular digest). Otherwise, it will throw expressionChangedAfterItHasBeenCheckedError
+    setTimeout(() => {
+      this.onFiltered.emit({data: this.data, categoryFilter: this.categoryFilter});
+    }, 0)
   }
 
-  initDropdown() {
-    this.categoryDropdown = this.dataService.unique(this.originalData.map(d => d.Themenbereich));
-    this.categoryDropdown.sort();
-    this.yearDropdown = this.dataService.unique(this.originalData.map(d => d.Jahr));
-    // sort descending
-    this.yearDropdown.sort((a, b) => {
-      return b - a;
-    });
-    // check only last 3 years
-    this.yearDropdown = this.yearDropdown.map((d, i) => {
-      return {year: d, checked: (i < 3)};
-    });
-    this.filterData();
-  }
-  keyDownFunction(event) {
-    if (event.keyCode === 13) {
-      this.filterData();
-    }
-  }
   filterYears(entry: any) {
     entry.checked = !entry.checked;
     this.filterData();
   }
+
+  checkAllYears() {
+    this.yearDropdown.forEach(d => d.checked = true);
+    this.filterData();
+  }
+  uncheckAllYears() {
+    this.yearDropdown.forEach(d => d.checked = false);
+    this.filterData();
+  }
+
+  // checks if filter of year is set
+  checkFilterYearsSet() {
+    this.yearFilterSet = JSON.stringify(this.yearDropdown) !== JSON.stringify(this.getInitYears())
+  }
+
   filterStatus(status: string) {
     this.statusFilter = status;
     this.filterData();
   }
+
   filterByCategory(category: string) {
     this.categoryFilter = category;
     this.filterData();
@@ -113,18 +116,65 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     this.subCategoryDropdown.sort();
     this.subCategoryFilter = 'all';
   }
+
   filterBySubCategory(subCategory: string) {
     this.subCategoryFilter = subCategory;
     this.filterData();
   }
+
   resetFilters() {
     this.searchText = '';
     this.categoryFilter = 'all';
-    this.yearDropdown.forEach( d => {
-      d.checked = true;
-    });
+    this.yearDropdown = this.getInitYears();
     this.statusFilter = 'all';
     this.filterData();
+  }
+
+  resetSearchText() {
+    this.searchText = '';
+    this.filterData();
+  }
+
+  resetCategoryFilter() {
+    this.categoryFilter = 'all';
+    this.filterData();
+  }
+
+  resetYearFilter() {
+    this.yearDropdown = this.getInitYears();
+    this.filterData();
+  }
+
+  resetStatusFilter() {
+    this.statusFilter = 'all';
+    this.filterData();
+  }
+
+  stopEventPropagation(event) {
+    event.stopPropagation();
+  }
+
+  private initDropdowns() {
+    this.categoryDropdown = this.dataService.unique(this.originalData.map(d => d.Themenbereich));
+    this.categoryDropdown.sort((a, b) => a.localeCompare(b));
+    this.yearDropdown = this.getInitYears();
+    this.filterData();
+  }
+
+  // gets the original values for years
+  // check only last 5 years (if year bigger than 2018)
+  private getInitYears() {
+    let years = this.dataService.unique(this.originalData.map(d => d.Jahr));
+    // sort descending
+    years.sort((a, b) => {
+      return b - a;
+    });
+    return years.map((d, i) => {
+      let checked = (i < 5 && d > 2014);
+      return {
+        year: d, checked: checked
+      };
+    });
   }
 
 }

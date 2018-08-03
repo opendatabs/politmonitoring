@@ -510,7 +510,7 @@ const BubbleChart = {
 
       let content = '<span class="name">Geschäftsnummer: </span><span class="value"><a target="_blank" href="' + d.link + '">' +
         d.geschaefts_nr.toFixed(4) +
-        '</a></span><br/>' +
+        '</a> ('+d.jahr +')</span><br/>' +
         '<span class="name">Titel: </span><span class="value">' +
         d.titel +
         '</span><br/>' +
