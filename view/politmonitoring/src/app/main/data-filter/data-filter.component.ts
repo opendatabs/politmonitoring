@@ -54,7 +54,77 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     }
   }
 
-  filterData() {
+  initDropdown() {
+    this.categoryDropdown = this.dataService.unique(this.originalData.map(d => d.Themenbereich));
+    this.categoryDropdown.sort((a, b) => a.localeCompare(b));
+    this.yearDropdown = this.dataService.unique(this.originalData.map(d => d.Jahr));
+    // sort descending
+    this.yearDropdown.sort((a, b) => {
+      return b - a;
+    });
+    // check only last 3 years
+    this.yearDropdown = this.yearDropdown.map((d, i) => {
+      let checked = (i < 5 && d > 2014);
+      return {
+        year: d, checked: checked
+      };
+    });
+    this.filterData();
+  }
+  keyDownFunction(event) {
+    if (event.keyCode === 13) {
+      this.filterData();
+    }
+  }
+  filterYears(entry: any) {
+    entry.checked = !entry.checked;
+    this.filterData();
+  }
+
+  checkAllYears() {
+    this.yearDropdown.forEach(d => d.checked = true);
+    this.filterData();
+  }
+  uncheckAllYears() {
+    this.yearDropdown.forEach(d => d.checked = false);
+    this.filterData();
+  }
+
+  filterStatus(status: string) {
+    this.statusFilter = status;
+    this.filterData();
+  }
+
+  filterByCategory(category: string) {
+    this.categoryFilter = category;
+    this.filterData();
+    // prepare sub category dropdown
+    let allCategories = this.data.map(d => d["Thema 1 (gleiche Nr wie Themenbereich)"]);
+    this.subCategoryDropdown = this.dataService.unique(allCategories);
+    this.subCategoryDropdown.sort();
+    this.subCategoryFilter = 'all';
+  }
+
+  filterBySubCategory(subCategory: string) {
+    this.subCategoryFilter = subCategory;
+    this.filterData();
+  }
+
+  resetFilters() {
+    this.searchText = '';
+    this.categoryFilter = 'all';
+    this.yearDropdown.forEach( d => {
+      d.checked = true;
+    });
+    this.statusFilter = 'all';
+    this.filterData();
+  }
+
+  stopEventPropagation(event) {
+    event.stopPropagation();
+  }
+
+  private filterData() {
     this.data = this.originalData;
     if (this.categoryFilter !== 'all') {
       this.data = this.dataService.filterByCategory(this.data, this.categoryFilter);
@@ -76,55 +146,4 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     });
     this.onFiltered.emit({data: this.data, categoryFilter: this.categoryFilter});
   }
-
-  initDropdown() {
-    this.categoryDropdown = this.dataService.unique(this.originalData.map(d => d.Themenbereich));
-    this.categoryDropdown.sort();
-    this.yearDropdown = this.dataService.unique(this.originalData.map(d => d.Jahr));
-    // sort descending
-    this.yearDropdown.sort((a, b) => {
-      return b - a;
-    });
-    // check only last 3 years
-    this.yearDropdown = this.yearDropdown.map((d, i) => {
-      return {year: d, checked: (i < 3)};
-    });
-    this.filterData();
-  }
-  keyDownFunction(event) {
-    if (event.keyCode === 13) {
-      this.filterData();
-    }
-  }
-  filterYears(entry: any) {
-    entry.checked = !entry.checked;
-    this.filterData();
-  }
-  filterStatus(status: string) {
-    this.statusFilter = status;
-    this.filterData();
-  }
-  filterByCategory(category: string) {
-    this.categoryFilter = category;
-    this.filterData();
-    // prepare sub category dropdown
-    let allCategories = this.data.map(d => d["Thema 1 (gleiche Nr wie Themenbereich)"]);
-    this.subCategoryDropdown = this.dataService.unique(allCategories);
-    this.subCategoryDropdown.sort();
-    this.subCategoryFilter = 'all';
-  }
-  filterBySubCategory(subCategory: string) {
-    this.subCategoryFilter = subCategory;
-    this.filterData();
-  }
-  resetFilters() {
-    this.searchText = '';
-    this.categoryFilter = 'all';
-    this.yearDropdown.forEach( d => {
-      d.checked = true;
-    });
-    this.statusFilter = 'all';
-    this.filterData();
-  }
-
 }

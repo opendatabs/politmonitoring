@@ -53,12 +53,14 @@
         <!--</div>-->
       <!--</div>-->
     <!--</div>-->
-    <div ngbDropdown class="mr-sm-2">
+    <div ngbDropdown class="mr-sm-2" (click)="stopEventPropagation($event)">
       <button class="btn btn-secondary" type="button" id="dropdownMenuButton2" ngbDropdownToggle
               aria-haspopup="true" aria-expanded="false">
         Jahr
       </button>
       <div ngbDropdownMenu aria-labelledby="dropdownMenuButton2">
+        <button class="btn ml-2 mb-2" type="button" (click)="checkAllYears()">Alle</button>
+        <button class="btn mb-2" type="button" (click)="uncheckAllYears()">Keine</button>
         <div class="dropdown-item" *ngFor="let entry of yearDropdown; let i = index">
           <div>
             <input type="checkbox" id="checkbox_{{entry.year}}" [(checked)]="entry.checked" (change)="filterYears(entry)">
@@ -77,19 +79,19 @@
         <div class="dropdown-item">
           <div (click)="filterStatus('all')">
             <input type="radio" id="radio_status_all" name="radio-group2" [checked]="statusFilter === 'all'">
-            <label for="radio_all">Alle</label>
+            <label for="radio_status_all">Alle</label>
           </div>
         </div>
         <div class="dropdown-item">
           <div (click)="filterStatus('Erledigt')">
             <input type="radio" id="radio_status_erledigt" name="radio-group2" [checked]="statusFilter === 'Erledigt'">
-            <label for="radio_all">Erledigt</label>
+            <label for="radio_status_erledigt">Erledigt</label>
           </div>
         </div>
         <div class="dropdown-item">
           <div (click)="filterStatus('In Bearbeitung')">
             <input type="radio" id="radio_status_bearbeitung" name="radio-group2" [checked]="statusFilter === 'In Bearbeitung'">
-            <label for="radio_all">In Bearbeitung</label>
+            <label for="radio_status_bearbeitung">In Bearbeitung</label>
           </div>
         </div>
       </div>
