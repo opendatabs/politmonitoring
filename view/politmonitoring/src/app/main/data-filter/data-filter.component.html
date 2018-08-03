@@ -2,16 +2,18 @@
 <div class="invisible-navbar-placeholder"></div>
 <div class="custom-fixed-navbar container navbar">
   <div class="content">
-    <form class="form-inline">
+    <div class="form-inline">
       <div class="input-group mr-sm-2" id='seachInput'>
-        <input name='search' class="form-control" type="search" placeholder="Suchen" aria-label="Suchen"
+        <button class="btn reset-filter" *ngIf="searchText.length > 0" (click)="resetSearchText()"><span>X</span></button>
+        <input name='search' class="form-control" type="search" placeholder="Volltextsuche" aria-label="Suchen"
                (keydown)="keyDownFunction($event)" [(ngModel)]="searchText">
         <div class="input-group-append">
           <div class="input-group-text" (click)="filterData()">Suchen</div>
         </div>
       </div>
-    </form>
+    </div>
     <div ngbDropdown class="mr-sm-2">
+      <button class="btn reset-filter" *ngIf="categoryFilter !== 'all'" (click)="resetCategoryFilter()"><span>X</span></button>
       <button ngbDropdownToggle class="btn btn-secondary" type="button" id="dropdownMenuButton"
               aria-haspopup="true" aria-expanded="false">
         <span *ngIf="categoryFilter === 'all'">Themenbereich</span>
@@ -54,6 +56,7 @@
       <!--</div>-->
     <!--</div>-->
     <div ngbDropdown class="mr-sm-2" (click)="stopEventPropagation($event)">
+      <button class="btn reset-filter" *ngIf="yearFilterSet" (click)="resetYearFilter()"><span>X</span></button>
       <button class="btn btn-secondary" type="button" id="dropdownMenuButton2" ngbDropdownToggle
               aria-haspopup="true" aria-expanded="false">
         Jahr
@@ -70,6 +73,7 @@
       </div>
     </div>
     <div ngbDropdown class="mr-sm-2">
+      <button class="btn reset-filter" *ngIf="statusFilter !== 'all'" (click)="resetStatusFilter()"><span>X</span></button>
       <button class="btn btn-secondary" type="button" id="dropdownMenuButton3" ngbDropdownToggle
               aria-haspopup="true" aria-expanded="false">
         <span *ngIf="statusFilter === 'all'">Status</span>

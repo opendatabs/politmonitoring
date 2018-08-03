@@ -36,8 +36,11 @@ export class AppComponent implements AfterViewInit {
     }
     ngAfterViewInit(): void {
       if (this.firstDisplay && !this.admin) {
-        this.modalService.open(this.content, {size: 'lg'});
-        this.firstDisplay = false;
+        // do this async (not in same digest). Otherwise it will throw expressionChangedAfterItHasBeenCheckedError
+        setTimeout(()=> {
+          this.modalService.open(this.content, {size: 'lg'});
+          this.firstDisplay = false;
+        }, 0);
       }
     }
   //   this.route.url.subscribe(
