@@ -12,7 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class AppComponent implements AfterViewInit {
   admin: boolean;
   @ViewChild('content') content: ElementRef;
-  firstDisplay: boolean = true;
+  firstDisplay: boolean = false; // TODO: only false during development
 
 
   constructor(

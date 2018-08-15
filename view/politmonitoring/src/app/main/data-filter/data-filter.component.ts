@@ -15,11 +15,11 @@ interface jQuery {
 })
 export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges {
 
-  @Input() data: any[];
+  @Input() data: any[]; //TODO: get via service
   @Output() onFiltered: EventEmitter<any> = new EventEmitter();
 
   searchText: string = '';
-  originalData: any[] = [];
+  originalData: any[] = []; //TODO: get via service
   categoryDropdown: string[];
   yearDropdown = [];
   categoryFilter: string = 'all';
@@ -36,22 +36,23 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   }
 
   constructor(
-    private dataService: DataService
+    private dataService: DataService,
   ) { }
 
   ngOnInit() {
     window.addEventListener('scroll', DataFilterComponent.scroll, true);
   }
-
+  
   ngAfterViewChecked(): void {
     DataFilterComponent.scroll();
   }
-
+  
   ngOnChanges(changes: any) {
     // save originalData when data is loaded the first time
     if (changes.data.currentValue && this.originalData.length === 0) {
       this.originalData = changes.data.currentValue;
       this.initDropdowns();
+      this.getOriginalDownloadData();
     }
   }
 
@@ -80,6 +81,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     // do this async (not in same angular digest). Otherwise, it will throw expressionChangedAfterItHasBeenCheckedError
     setTimeout(() => {
       this.onFiltered.emit({data: this.data, categoryFilter: this.categoryFilter});
+      this.getDownloadData();
     }, 0)
   }
 
@@ -175,6 +177,14 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
         year: d, checked: checked
       };
     });
+  }
+
+  private getDownloadData(): void {
+    this.dataService.sendJSON(this.data);
+  }
+
+  private getOriginalDownloadData(): void {
+    this.dataService.sendOriginalJSON(this.originalData);
   }
 
 }
