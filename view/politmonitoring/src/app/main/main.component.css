@@ -4,6 +4,7 @@
   right: 0;
   border-radius: 50%;
   font-family: Georgia;
+  z-index: 102;
 }
 .dark-modal .modal-content {
   background-color: #292b2c;

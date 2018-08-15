@@ -11,7 +11,7 @@ export class BubbleChartComponent implements OnInit, OnChanges {
   @Input() data;
   @Input() categoryFilter;
 
-  bubblesInitialized: boolean = false;
+  bubblesInitialized = false;
 
   constructor() {
   }

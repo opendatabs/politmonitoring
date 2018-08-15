@@ -1,0 +1,15 @@
+.downloadMenuBtn {
+    position: fixed;
+    bottom: 0;
+    right: 45px;
+    border-radius: 50%;
+    padding: 8px 11px 8px 11px;
+    z-index: 102;
+  }
+
+.downloadMenu {
+    position: fixed;
+    bottom: 0;
+    right: 55px;
+    z-index: 101;
+}
