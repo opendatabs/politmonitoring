@@ -1,6 +1,7 @@
 import {AfterViewChecked, Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {DataService} from '../../shared/data.service';
 import * as moment from 'moment';
+import {AuthService} from "../../shared/auth.service";
 declare const $: any;
 declare var jQuery: any;
 
@@ -21,10 +22,12 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   searchText: string = '';
   originalData: any[] = [];
   categoryDropdown: string[];
+  keyTopicDropdown: string[];
   partyDropdown: string[];
   instrumentDropdown: string[];
   yearDropdown = [];
   categoryFilter: string = 'all';
+  keyTopicFilter: string = 'all';
   partyFilter: string = 'all';
   instrumentFilter: string = 'all';
   statusFilter: string = 'all';
@@ -32,6 +35,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   yearFilterSet: boolean = false;
   subCategoryFilter: string = 'all';
   subCategoryDropdown: string[];
+  admin: boolean;
 
   static scroll() {
     const navHeight = $('.navbar').outerHeight();
@@ -40,11 +44,13 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   }
 
   constructor(
-    private dataService: DataService
+    private dataService: DataService,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
     window.addEventListener('scroll', DataFilterComponent.scroll, true);
+    this.authService.currentAdminState.subscribe(admin => this.admin = admin);
   }
 
   ngAfterViewChecked(): void {
@@ -73,6 +79,9 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
         this.data = this.dataService.filterBySubCategory(this.data, this.subCategoryFilter);
       }
     }
+    if (this.keyTopicFilter !== 'all') {
+      this.data = this.dataService.filterByKeyTopic(this.data, this.keyTopicFilter);
+    }
     if (this.statusFilter !== 'all') {
       this.data = this.dataService.filterByStatus(this.data, this.statusFilter);
     }
@@ -86,8 +95,8 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     this.data = this.dataService.filterYears(this.data, this.yearDropdown);
     // check if any filter is set.
     this.checkFilterYearsSet();
-    this.filtered = this.categoryFilter !== 'all' || this.searchText.length > 0 || this.statusFilter !== 'all'
-      || this.yearFilterSet || this.partyFilter !== 'all' || this.instrumentFilter !== 'all';
+    this.filtered = this.categoryFilter !== 'all' || this.keyTopicFilter !== 'all' || this.searchText.length > 0
+      || this.statusFilter !== 'all' || this.yearFilterSet || this.partyFilter !== 'all' || this.instrumentFilter !== 'all';
     // do this async (not in same angular digest). Otherwise, it will throw expressionChangedAfterItHasBeenCheckedError
     setTimeout(() => {
       console.log(this.data);
@@ -129,6 +138,11 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     this.subCategoryFilter = 'all';
   }
 
+  filterByKeyTopic(keyTopic: string) {
+    this.keyTopicFilter = keyTopic;
+    this.filterData();
+  }
+
   filterByParty(party: string) {
     this.partyFilter = party;
     this.filterData();
@@ -147,6 +161,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   resetFilters() {
     this.searchText = '';
     this.categoryFilter = 'all';
+    this.keyTopicFilter = 'all';
     this.yearDropdown = this.getInitYears();
     this.statusFilter = 'all';
     this.partyFilter = 'all';
@@ -161,6 +176,11 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
 
   resetCategoryFilter() {
     this.categoryFilter = 'all';
+    this.filterData();
+  }
+
+  resetKeyTopicFilter() {
+    this.keyTopicFilter = 'all';
     this.filterData();
   }
 
@@ -191,6 +211,10 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   private initDropdowns() {
     this.categoryDropdown = this.dataService.unique(this.originalData.map(d => d.Themenbereich));
     this.categoryDropdown.sort((a, b) => a.localeCompare(b));
+    this.keyTopicDropdown = this.dataService
+      .unique(this.originalData.map(d => d["Schwerpunktthema (bei Bedarf)"]))
+      .filter(d => d !== '');
+    this.keyTopicDropdown.sort((a, b) => a.localeCompare(b));
     this.partyDropdown = ["BastA!", "CVP", "EVP", "FDP", "GLP", "Grüne", "LDP", "SP", "SVP", "Parteilos", "Kommission", "Bevölkerung"];
     this.instrumentDropdown = ["Petition", "Anzug", "Motion", "Initiative"];
     this.yearDropdown = this.getInitYears();

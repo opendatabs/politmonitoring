@@ -34,6 +34,28 @@
         </div>
       </div>
     </div>
+    <div ngbDropdown class="mr-sm-2" *ngIf="admin">
+      <button class="btn reset-filter" *ngIf="keyTopicFilter !== 'all'" (click)="resetKeyTopicFilter()"><span>X</span></button>
+      <button ngbDropdownToggle class="btn btn-secondary" type="button" id="keyTopicDropdownButton"
+              aria-haspopup="true" aria-expanded="false">
+        <span *ngIf="keyTopicFilter === 'all'">Schwerpunktthema</span>
+        <span *ngIf="keyTopicFilter !== 'all'">{{keyTopicFilter}}</span>
+      </button>
+      <div ngbDropdownMenu aria-labelledby="dropdownMenuButton">
+        <div class="dropdown-item">
+          <div (click)="filterByKeyTopic('all')">
+            <input type="radio" id="radio_all_key_topic" name="radio-group-key-topic" [checked]="keyTopicFilter === 'all'">
+            <label for="radio_all_key_topic">Alle</label>
+          </div>
+        </div>
+        <div class="dropdown-item" *ngFor="let entry of keyTopicDropdown; let i = index">
+          <div (click)="filterByKeyTopic(entry)">
+            <input type="radio" id="radio_key_topic_{{i}}" name="radio-group-key-topic">
+            <label for="radio_key_topic_{{i}}">{{entry}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
     <div ngbDropdown class="mr-sm-2">
       <button class="btn reset-filter" *ngIf="partyFilter !== 'all'" (click)="resetPartyFilter()"><span>X</span></button>
       <button ngbDropdownToggle class="btn btn-secondary" type="button" id="partyDropdownButton"

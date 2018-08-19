@@ -47,6 +47,12 @@ export class DataService {
     });
   }
 
+  filterByKeyTopic(data: any[], keyTopicFilter: string) {
+    return data.filter((d) => {
+      return d["Schwerpunktthema (bei Bedarf)"] === keyTopicFilter;
+    });
+  }
+
   filterBySubCategory(data: any[], subCategoryFilter: string) {
     return data.filter((d) => {
       debugger;
@@ -89,7 +95,7 @@ export class DataService {
     });
   }
 
-  unique(array) {
+  unique(array): any[] {
     return $.grep(array, function(el, index) {
       return index == $.inArray(el, array);
     });
