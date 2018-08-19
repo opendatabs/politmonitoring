@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
+import {Observable, BehaviorSubject} from 'rxjs';
 import {environment} from '../../environments/environment';
 declare const $: any;
 declare var jQuery: any;
@@ -8,6 +8,11 @@ declare var jQuery: any;
 @Injectable()
 export class DataService {
   private headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+  private dataSrc = new BehaviorSubject([]);
+  data = this.dataSrc.asObservable();
+  private orgDataSrc = new BehaviorSubject([]);
+  originalData = this.orgDataSrc.asObservable();
 
   constructor(private http: HttpClient) {
   }
@@ -99,5 +104,13 @@ export class DataService {
     return $.grep(array, function(el, index) {
       return index == $.inArray(el, array);
     });
+  }
+
+  sendJSON(data: object[]): void {
+    this.dataSrc.next(JSON.parse(JSON.stringify(data)));
+  }
+  
+  sendOriginalJSON(originalData: object[]): void {
+    this.orgDataSrc.next(JSON.parse(JSON.stringify(originalData)));
   }
 }

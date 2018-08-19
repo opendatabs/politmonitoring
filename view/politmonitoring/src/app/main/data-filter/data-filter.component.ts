@@ -16,11 +16,11 @@ interface jQuery {
 })
 export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges {
 
-  @Input() data: any[];
+  @Input() data: any[]; //TODO: get via service
   @Output() onFiltered: EventEmitter<any> = new EventEmitter();
 
   searchText: string = '';
-  originalData: any[] = [];
+  originalData: any[] = []; //TODO: get via service
   categoryDropdown: string[];
   keyTopicDropdown: string[];
   partyDropdown: string[];
@@ -62,6 +62,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     if (changes.data.currentValue && this.originalData.length === 0) {
       this.originalData = changes.data.currentValue;
       this.initDropdowns();
+      this.getOriginalDownloadData();
     }
   }
 
@@ -101,6 +102,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     setTimeout(() => {
       console.log(this.data);
       this.onFiltered.emit({data: this.data, categoryFilter: this.categoryFilter});
+      this.getDownloadData();
     }, 0)
   }
 
@@ -235,6 +237,14 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
         year: d, checked: checked
       };
     });
+  }
+
+  private getDownloadData(): void {
+    this.dataService.sendJSON(this.data);
+  }
+
+  private getOriginalDownloadData(): void {
+    this.dataService.sendOriginalJSON(this.originalData);
   }
 
 }
