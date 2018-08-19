@@ -77,6 +77,18 @@ export class DataService {
     });
   }
 
+  filterByParty(data: any[], partyFilter: string) {
+    return data.filter((d) => {
+      return d.Partei.toLowerCase() === partyFilter.toLowerCase();
+    });
+  }
+
+  filterByInstrument(data: any[], instrumentFilter: string) {
+    return data.filter((d) => {
+      return d.Instrument.toLowerCase() === instrumentFilter.toLowerCase();
+    });
+  }
+
   unique(array) {
     return $.grep(array, function(el, index) {
       return index == $.inArray(el, array);

@@ -21,8 +21,12 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   searchText: string = '';
   originalData: any[] = [];
   categoryDropdown: string[];
+  partyDropdown: string[];
+  instrumentDropdown: string[];
   yearDropdown = [];
   categoryFilter: string = 'all';
+  partyFilter: string = 'all';
+  instrumentFilter: string = 'all';
   statusFilter: string = 'all';
   filtered: boolean = false;
   yearFilterSet: boolean = false;
@@ -72,13 +76,21 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     if (this.statusFilter !== 'all') {
       this.data = this.dataService.filterByStatus(this.data, this.statusFilter);
     }
+    if (this.partyFilter !== 'all') {
+      this.data = this.dataService.filterByParty(this.data, this.partyFilter);
+    }
+    if (this.instrumentFilter !== 'all') {
+      this.data = this.dataService.filterByInstrument(this.data, this.instrumentFilter);
+    }
     this.data = this.dataService.searchInArrayOfObjects(this.data, this.searchText);
     this.data = this.dataService.filterYears(this.data, this.yearDropdown);
     // check if any filter is set.
     this.checkFilterYearsSet();
-    this.filtered = this.categoryFilter !== 'all' || this.searchText.length > 0 || this.statusFilter !== 'all' || this.yearFilterSet;
+    this.filtered = this.categoryFilter !== 'all' || this.searchText.length > 0 || this.statusFilter !== 'all'
+      || this.yearFilterSet || this.partyFilter !== 'all' || this.instrumentFilter !== 'all';
     // do this async (not in same angular digest). Otherwise, it will throw expressionChangedAfterItHasBeenCheckedError
     setTimeout(() => {
+      console.log(this.data);
       this.onFiltered.emit({data: this.data, categoryFilter: this.categoryFilter});
     }, 0)
   }
@@ -117,6 +129,16 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     this.subCategoryFilter = 'all';
   }
 
+  filterByParty(party: string) {
+    this.partyFilter = party;
+    this.filterData();
+  }
+
+  filterByInstrument(instrument: string) {
+    this.instrumentFilter = instrument;
+    this.filterData();
+  }
+
   filterBySubCategory(subCategory: string) {
     this.subCategoryFilter = subCategory;
     this.filterData();
@@ -127,6 +149,8 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     this.categoryFilter = 'all';
     this.yearDropdown = this.getInitYears();
     this.statusFilter = 'all';
+    this.partyFilter = 'all';
+    this.instrumentFilter = 'all';
     this.filterData();
   }
 
@@ -137,6 +161,16 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
 
   resetCategoryFilter() {
     this.categoryFilter = 'all';
+    this.filterData();
+  }
+
+  resetPartyFilter() {
+    this.partyFilter = 'all';
+    this.filterData();
+  }
+
+  resetInstrumentFilter() {
+    this.instrumentFilter = 'all';
     this.filterData();
   }
 
@@ -157,6 +191,8 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   private initDropdowns() {
     this.categoryDropdown = this.dataService.unique(this.originalData.map(d => d.Themenbereich));
     this.categoryDropdown.sort((a, b) => a.localeCompare(b));
+    this.partyDropdown = ["BastA!", "CVP", "EVP", "FDP", "GLP", "Grüne", "LDP", "SP", "SVP", "Parteilos", "Kommission", "Bevölkerung"];
+    this.instrumentDropdown = ["Petition", "Anzug", "Motion", "Initiative"];
     this.yearDropdown = this.getInitYears();
     this.filterData();
   }

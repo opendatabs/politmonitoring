@@ -34,27 +34,50 @@
         </div>
       </div>
     </div>
-    <!--<div ngbDropdown class="mr-sm-2" *ngIf="categoryFilter !== 'all'">-->
-      <!--<button ngbDropdownToggle class="btn btn-secondary" type="button" id="dropdownMenuButtonSub"-->
-              <!--aria-haspopup="true" aria-expanded="false">-->
-        <!--<span *ngIf="subCategoryFilter === 'all'">Unterthema</span>-->
-        <!--<span *ngIf="subCategoryFilter !== 'all'">{{subCategoryFilter}}</span>-->
-      <!--</button>-->
-      <!--<div ngbDropdownMenu aria-labelledby="dropdownMenuButtonSub">-->
-        <!--<div class="dropdown-item">-->
-          <!--<div (click)="filterBySubCategory('all')">-->
-            <!--<input type="radio" id="radio_all_sub" name="radio-group-sub" [checked]="subCategoryFilter === 'all'">-->
-            <!--<label for="radio_all_sub">Alle</label>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--<div class="dropdown-item" *ngFor="let entry of subCategoryDropdown; let i = index">-->
-          <!--<div (click)="filterBySubCategory(entry)">-->
-            <!--<input type="radio" id="radio_sub_{{i}}" name="radio-group-sub">-->
-            <!--<label for="radio_sub_{{i}}">{{entry}}</label>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
+    <div ngbDropdown class="mr-sm-2">
+      <button class="btn reset-filter" *ngIf="partyFilter !== 'all'" (click)="resetPartyFilter()"><span>X</span></button>
+      <button ngbDropdownToggle class="btn btn-secondary" type="button" id="partyDropdownButton"
+              aria-haspopup="true" aria-expanded="false">
+        <span *ngIf="partyFilter === 'all'">Partei</span>
+        <span *ngIf="partyFilter !== 'all'">{{partyFilter}}</span>
+      </button>
+      <div ngbDropdownMenu aria-labelledby="partyDropdownButton">
+        <div class="dropdown-item">
+          <div (click)="filterByParty('all')">
+            <input type="radio" id="radio_all_party" name="radio-group-party" [checked]="partyFilter === 'all'">
+            <label for="radio_all_party">Alle</label>
+          </div>
+        </div>
+        <div class="dropdown-item" *ngFor="let entry of partyDropdown; let i = index">
+          <div (click)="filterByParty(entry)">
+            <input type="radio" id="radio_party_{{i}}" name="radio-group-party">
+            <label for="radio_party_{{i}}">{{entry}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div ngbDropdown class="mr-sm-2">
+      <button class="btn reset-filter" *ngIf="instrumentFilter !== 'all'" (click)="resetInstrumentFilter()"><span>X</span></button>
+      <button ngbDropdownToggle class="btn btn-secondary" type="button" id="instrumentDropdownButton"
+              aria-haspopup="true" aria-expanded="false">
+        <span *ngIf="instrumentFilter === 'all'">Instrument</span>
+        <span *ngIf="instrumentFilter !== 'all'">{{instrumentFilter}}</span>
+      </button>
+      <div ngbDropdownMenu aria-labelledby="instrumentDropdownButton">
+        <div class="dropdown-item">
+          <div (click)="filterByInstrument('all')">
+            <input type="radio" id="radio_all_instrument" name="radio-group-instrument" [checked]="instrumentFilter === 'all'">
+            <label for="radio_all_instrument">Alle</label>
+          </div>
+        </div>
+        <div class="dropdown-item" *ngFor="let entry of instrumentDropdown; let i = index">
+          <div (click)="filterByInstrument(entry)">
+            <input type="radio" id="radio_instrument_{{i}}" name="radio-group-instrument">
+            <label for="radio_instrument_{{i}}">{{entry}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
     <div ngbDropdown class="mr-sm-2" (click)="stopEventPropagation($event)">
       <button class="btn reset-filter" *ngIf="yearFilterSet" (click)="resetYearFilter()"><span>X</span></button>
       <button class="btn btn-secondary" type="button" id="dropdownMenuButton2" ngbDropdownToggle
