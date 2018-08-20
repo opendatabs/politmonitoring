@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
 import { DataService } from '../shared/data.service';
 import { Angular5Csv } from 'angular5-csv/Angular5-csv';
 import { trigger, state, animate, transition, style } from '@angular/animations';
-import * as moment from 'moment';
+import 'moment';
 
 @Component({
   selector: 'app-download',
@@ -19,7 +19,7 @@ import * as moment from 'moment';
 })
 export class DownloadComponent implements OnInit {
 
-  // TODO: Add timestamp to download / useful name --> namig function
+  // TODO: Doublecheck if original data contains all datapoints
   data: object[];
   originalData: object[];
   showDownloadMenu = false;
