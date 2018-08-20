@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
 import { DataService } from '../shared/data.service';
 import { Angular5Csv } from 'angular5-csv/Angular5-csv';
 import { trigger, state, animate, transition, style } from '@angular/animations';
-import 'moment';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-download',
