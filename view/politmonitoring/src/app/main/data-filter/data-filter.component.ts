@@ -82,7 +82,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     setTimeout(() => {
       this.onFiltered.emit({data: this.data, categoryFilter: this.categoryFilter});
       this.getDownloadData();
-    }, 0)
+    }, 0);
   }
 
   filterYears(entry: any) {
