@@ -87,6 +87,10 @@
   cursor: pointer;
 }
 
+#seachInput input {
+  padding: 0 10px;
+}
+
 .dropdown-menu {
   max-height: 500px;
   overflow-y: auto;

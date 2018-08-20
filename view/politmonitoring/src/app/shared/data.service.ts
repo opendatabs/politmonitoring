@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, BehaviorSubject} from 'rxjs';
 import {environment} from '../../environments/environment';
+import {Category} from "./category";
 declare const $: any;
 declare var jQuery: any;
 
@@ -46,9 +47,15 @@ export class DataService {
     return result;
   }
 
-  filterByCategory(data: any[], category: String): any[] {
+  filterByCategory(data: any[], category: number): any[] {
     return data.filter((d) => {
-      return d.Themenbereich === category;
+      return d.Themenbereich_Number === category || d.Thema2_Number === category;
+    });
+  }
+
+  filterByKeyTopic(data: any[], keyTopicFilter: string) {
+    return data.filter((d) => {
+      return d["Schwerpunktthema (bei Bedarf)"] === keyTopicFilter;
     });
   }
 
@@ -82,17 +89,60 @@ export class DataService {
     });
   }
 
-  unique(array) {
+  filterByParty(data: any[], partyFilter: string) {
+    return data.filter((d) => {
+      return d.Partei.toLowerCase() === partyFilter.toLowerCase();
+    });
+  }
+
+  filterByInstrument(data: any[], instrumentFilter: string) {
+    return data.filter((d) => {
+      return d.Instrument.toLowerCase() === instrumentFilter.toLowerCase();
+    });
+  }
+
+  unique(array): any[] {
     return $.grep(array, function(el, index) {
       return index == $.inArray(el, array);
     });
   }
 
+  uniqueCategories(categories: Category[]) {
+    let unique: Category[] = [];
+    categories.forEach(d => {
+      let found = false;
+      unique.forEach(u => {
+        if (u.number === d.number) {
+          found = true;
+        }
+      });
+      if (!found) {
+        unique.push(d);
+      }
+    });
+    return unique;
+  }
+
   sendJSON(data: object[]): void {
     this.dataSrc.next(JSON.parse(JSON.stringify(data)));
   }
-  
+
   sendOriginalJSON(originalData: object[]): void {
     this.orgDataSrc.next(JSON.parse(JSON.stringify(originalData)));
+  }
+
+  static extractNumber(content: string): number {
+    let start = content.indexOf('(') + 1;
+    let end = content.indexOf(')');
+    let number;
+    if (content.length > 0) {
+      number = parseInt(content.substring(start, end));
+    } else {
+      number = -1;
+    }
+    if (isNaN(number)) {
+      console.error('Could not find number');
+    }
+    return number;
   }
 }

@@ -43,6 +43,8 @@
     "@types/jasmine": "^2.8.8",
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "^6.0.115",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "codelyzer": "^4.4.2",
     "jasmine-core": "~2.8.0",
     "jasmine-spec-reporter": "~4.2.1",
