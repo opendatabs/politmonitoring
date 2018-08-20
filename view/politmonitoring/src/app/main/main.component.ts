@@ -25,6 +25,12 @@ export class MainComponent implements OnInit {
     this.dataService.getData().subscribe(
         (data) => {
           data.forEach(d => {
+
+            // extract numbers of categories
+            d.Themenbereich_Number = DataService.extractNumber(d.Themenbereich);
+            d.Thema2_Number = DataService.extractNumber(d['Thema 2 (andere Nr)']);
+
+            // remove number
             d.Themenbereich = d.Themenbereich.substring(0, d.Themenbereich.indexOf('(')).trim();
             // TODO dangerous. Maybe we should simplify the property name
             d['Thema 1 (gleiche Nr wie Themenbereich)'] = d['Thema 1 (gleiche Nr wie Themenbereich)']
