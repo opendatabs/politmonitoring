@@ -1,0 +1,41 @@
+<button class="btn btn-primary m-2 downloadMenuBtn" (click)="showDownloadMenu = !showDownloadMenu">
+  <fa name="download"></fa>
+</button>
+<div class="downloadMenu pb-5" [@visibilityChanged]="showDownloadMenu">
+  <div class="row mb-1" id="row1">
+    <div class="col">
+      <button class="btn btn-primary btn-sm downloadBtn" (click)="onDownloadFullCsv()" >
+        <fa name="file-text-o"></fa>&nbsp;CSV vollständig&nbsp;&nbsp;
+      </button>
+    </div>
+    <div class="col">
+      <button class="btn btn-primary btn-sm downloadBtn" (click)="onDownloadCsv()" >
+        <fa name="file-text-o"></fa>&nbsp;CSV gefiltert&nbsp;&nbsp;
+      </button>
+    </div>
+  </div>
+  <div class="row mb-1" id="row2">
+    <div class="col">
+        <button class="btn btn-primary btn-sm downloadBtn" (click)="onDownloadFullXlsx()" >
+          <fa name="file-excel-o"></fa>&nbsp;XLSX vollständig
+        </button>
+      </div>
+      <div class="col">
+        <button class="btn btn-primary btn-sm downloadBtn" (click)="onDownloadXlsx()" >
+          <fa name="file-excel-o"></fa>&nbsp;XLSX gefiltert
+        </button>
+      </div>
+    </div>
+    <div class="row mb-1" id="row3">
+        <div class="col">
+          <button disabled class="btn btn-primary btn-sm downloadBtn" (click)="onDownloadPdf()" >
+            <fa name="file-pdf-o"></fa>&nbsp;PDF vollständig&nbsp;&nbsp;
+          </button>
+        </div>
+        <div class="col">
+          <button disabled class="btn btn-primary btn-sm downloadBtn" (click)="onDownloadFullPdf()" >
+            <fa name="file-pdf-o"></fa>&nbsp;PDF gefiltert&nbsp;&nbsp;
+          </button>
+        </div>
+      </div>
+</div>

@@ -19,6 +19,9 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Angular5Csv } from 'angular5-csv/Angular5-csv';
+import { DownloadComponent } from './download/download.component';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 
 @NgModule({
@@ -28,7 +31,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         MainComponent,
         UploadComponent,
         BubbleChartComponent,
-        DataFilterComponent
+        DataFilterComponent,
+        DownloadComponent
     ],
     imports: [
         BrowserModule,
@@ -39,6 +43,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         FileUploadModule,
         CommonModule,
         BrowserAnimationsModule,
+        AngularFontAwesomeModule,
         ToastrModule.forRoot(),
         NgbModule.forRoot()
     ],

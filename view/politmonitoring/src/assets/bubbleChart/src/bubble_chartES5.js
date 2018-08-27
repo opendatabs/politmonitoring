@@ -15,6 +15,13 @@ var BubbleChart = {
   myBubbleChart: null,
   svg: null,
   fillColorCalculator: null,
+  // defines size of bubbles
+  AMOUNT_INSTRUMENTS: {
+    Initiative: 8,
+    Anzug: 4,
+    Motion: 2,
+    Petition: 1
+  },
 
   bubbleChart: function bubbleChart() {
     // Constants for sizing
@@ -62,7 +69,7 @@ var BubbleChart = {
     var force = d3.layout.force().size([innerWidth, height]).charge(charge).gravity(0);
 
     // Sizes bubbles based on their area instead of raw radius
-    var radiusScale = d3.scale.pow().exponent(0.5).range([2, 9]);
+    var radiusScale = d3.scale.pow().exponent(0.5).range([1, 10]);
 
     var infotext = {
       motion: 'Die Motion ist das parlamentarische Instrument mit dem stärksten verpflichtenden Charakter. Mit ihr kann jedes Ratsmitglied oder eine ständige Kommission vom Regierungsrat verbindlich fordern, dem Grossen Rat ein neues Gesetz, eine Verfassungs- oder Gesetzesänderung oder eine Massnahme zu unterbreiten. Nur die an den Regierungsrat überwiesenen Motionen werden in der Visualisierung abgebildet.',
@@ -88,9 +95,8 @@ var BubbleChart = {
       var myNodes = rawData.map(function (d) {
         return {
           geschaefts_nr: d["Geschäfts-nr"],
-          radius: radiusScale(convertSize(d.Instrument)),
+          radius: radiusScale(BubbleChart.AMOUNT_INSTRUMENTS[d.Instrument]),
           instrument: d.Instrument,
-          size_instrument: convertSize(d.Instrument),
           urheber: d["UrheberIn"],
           titel: d.Titel,
           status: d.Status,
@@ -131,13 +137,7 @@ var BubbleChart = {
      * a d3 loading function like d3.csv.
      */
     var chart = function chart(selector, rawData) {
-      // Use the max total_amount in the data as the max in the scale's domain
-      // note we have to ensure the total_amount is a number by converting it
-      // with `+`.
-      var maxAmount = d3.max(rawData, function (d) {
-        return convertSize(d.Instrument);
-      });
-      radiusScale.domain([0, maxAmount]);
+      radiusScale.domain([0, BubbleChart.AMOUNT_INSTRUMENTS.Initiative]);
 
       nodes = createNodes(rawData);
       // Set the force's nodes to our newly created nodes array.
@@ -181,24 +181,6 @@ var BubbleChart = {
 
       chart.toggleDisplay($('#toolbar').find('.active').attr('id'));
     };
-
-    // Use map() to convert raw data into node data.
-    // convert size based on importance of instrument
-    function convertSize(instrument) {
-      switch (instrument) {
-        case 'Initiative':
-          return 8;
-        case 'Motion':
-          return 4;
-        case 'Anzug':
-          return 2;
-        case 'Petition':
-          return 1;
-        default:
-          console.error("Instrument not valid");
-          return 0;
-      }
-    }
 
     /*
      * Sets visualization in "single group mode".
