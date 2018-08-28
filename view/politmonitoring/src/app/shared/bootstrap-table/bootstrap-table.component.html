@@ -6,10 +6,19 @@
           <div class="col-9">
             <h2>{{title}} ({{data.length}})</h2>
           </div>
-          <div class="col-3" id="paginationWrapper">
+          <div class="col-3 paginationWrapper">
+            <div id="selectNumberOfEntries">
+              <label for="numberOfEntries">Anzahl Einträge: </label>
+              <select name="numberOfEntries" id="numberOfEntries"
+                      (change)="selectNumberOfEntries($event.target.value)">
+                <option [value]="25" selected>25</option>
+                <option [value]="50">50</option>
+                <option [value]="100">100</option>
+              </select>
+            </div>
             <ul class="pagination">
               <li [class.disabled]="pagination.start === 0" [class.waves-effect]="pagination.start !== 0"><a (click)="pageBack()"><i class="fas fa-chevron-left"></i></a></li>
-              <li id="pageView">{{pagination.start}} - {{pagination.end}} / {{data.length}}</li>
+              <li class="pageView">{{pagination.start}} - {{pagination.end}} / {{data.length}}</li>
               <li [class.disabled]="pagination.end === data.length" [class.waves-effect]="pagination.end !== data.length"><a (click)="pageUp()"><i class="fas fa-chevron-right"></i></a></li>
             </ul>
           </div>
@@ -19,13 +28,13 @@
             <div id="tableWrapper">
               <table id="table" class="table highlight table-hover">
                 <tr>
-                  <th class="titleCol" (click)="changeSortBy('Geschäfts-nr')">
-                    <p>Geschäftsnummer
+                  <th width="100px" class="titleCol fixed-width" (click)="changeSortBy('Geschäfts-nr')">
+                    <p>Geschäfts- <br>nummer
                       <i *ngIf="'Geschäfts-nr' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
                       <i *ngIf="'Geschäfts-nr' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
                     </p>
                   </th>
-                  <th class="titleCol" (click)="changeSortBy('Instrument')">
+                  <th width="105px" class="titleCol fixed-width" (click)="changeSortBy('Instrument')">
                     <p>Instrument
                       <i *ngIf="'Instrument' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
                       <i *ngIf="'Instrument' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
@@ -37,7 +46,13 @@
                       <i *ngIf="'UrheberIn' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
                     </p>
                   </th>
-                  <th class="titleCol" (click)="changeSortBy('Titel')">
+                  <th class="titleCol" (click)="changeSortBy('Partei')">
+                    <p>Partei
+                      <i *ngIf="'Partei' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
+                      <i *ngIf="'Partei' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                    </p>
+                  </th>
+                  <th width="170px" class="titleCol fixed-width" (click)="changeSortBy('Titel')">
                     <p>Titel
                       <i *ngIf="'Titel' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
                       <i *ngIf="'Titel' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
@@ -49,7 +64,7 @@
                       <i *ngIf="'Status' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
                     </p>
                   </th>
-                  <th class="titleCol" (click)="changeSortBy('Jahr')">
+                  <th width="60px" class="titleCol fixed-width" (click)="changeSortBy('Jahr')">
                     <p>Jahr
                       <i *ngIf="'Jahr' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
                       <i *ngIf="'Jahr' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
@@ -103,6 +118,10 @@
                     <span *ngIf="!entry['UrheberIn']"></span>
                   </td>
                   <td>
+                    <span *ngIf="entry['Partei']" [innerHTML]="entry['Partei'].toString() | highlight:searchString"></span>
+                    <span *ngIf="!entry['Partei']"></span>
+                  </td>
+                  <td>
                     <span *ngIf="entry['Titel']" [innerHTML]="entry['Titel'].toString() | highlight:searchString"></span>
                     <span *ngIf="!entry['Titel']"></span>
                   </td>
@@ -138,6 +157,16 @@
                 </tr>
               </table>
             </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-9"></div>
+          <div class="col-3 paginationWrapper">
+            <ul class="pagination">
+              <li [class.disabled]="pagination.start === 0" [class.waves-effect]="pagination.start !== 0"><a (click)="pageBack()"><i class="fas fa-chevron-left"></i></a></li>
+              <li class="pageView">{{pagination.start}} - {{pagination.end}} / {{data.length}}</li>
+              <li [class.disabled]="pagination.end === data.length" [class.waves-effect]="pagination.end !== data.length"><a (click)="pageUp()"><i class="fas fa-chevron-right"></i></a></li>
+            </ul>
           </div>
         </div>
       </div>
