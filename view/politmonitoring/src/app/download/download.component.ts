@@ -3,6 +3,7 @@ import { DataService } from '../shared/data.service';
 import { Angular5Csv } from 'angular5-csv/Angular5-csv';
 import { trigger, state, animate, transition, style } from '@angular/animations';
 import * as moment from 'moment';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-download',
@@ -19,7 +20,7 @@ import * as moment from 'moment';
 })
 export class DownloadComponent implements OnInit {
 
-  // TODO: Add timestamp to download / useful name --> namig function
+  // TODO: Doublecheck if original data contains all datapoints
   data: object[];
   originalData: object[];
   showDownloadMenu = false;
@@ -42,26 +43,25 @@ export class DownloadComponent implements OnInit {
     }
   }
 
-  nameFile(filtered: boolean = false): string {
-    const filterStatus: string = (filtered ? '' : '_(gefiltert)');
-    const timestamp: string = moment().format('DD/MM/YYYY');
-    return `Grossratsgeschäfte_Basel_Stadt_${timestamp}${filterStatus}`;
+  onDownloadCsv(): void {
+    new Angular5Csv(this.data, this.nameFile(true));
   }
 
   onDownloadFullCsv(): void {
-    new Angular5Csv(this.data, this.nameFile());
-  }
-
-  onDownloadCsv(): void {
-    new Angular5Csv(this.originalData, this.nameFile(true));
+    new Angular5Csv(this.originalData, this.nameFile());
   }
 
   onDownloadXlsx(): void {
-    console.log(this.nameFile());
+    // TODO: Check if download original file? --> needs a seperate (non-admin) file
+    XLSX.writeFile(
+      this.createXlsx(this.data),
+      this.nameFile(true) + '.xlsx');
   }
 
   onDownloadFullXlsx(): void {
-    console.log(this.nameFile(true));
+    XLSX.writeFile(
+      this.createXlsx(this.originalData),
+      this.nameFile() + '.xlsx');
   }
 
   onDownloadPdf(): void {
@@ -70,5 +70,19 @@ export class DownloadComponent implements OnInit {
 
   onDownloadFullPdf(): void {
     console.log('something');
+  }
+
+  private nameFile(filtered: boolean = false): string {
+    const filterStatus: string = (!filtered ? '' : '_(gefiltert)');
+    const timestamp: string = moment().format('DD/MM/YYYY');
+    return `Grossratsgeschäfte_Basel_Stadt_${timestamp}${filterStatus}`;
+  }
+
+  private createXlsx(data: object[]): XLSX.WorkBook {
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+     // add the worksheet to the workbook, name the tab
+    XLSX.utils.book_append_sheet(wb, ws, 'Grossratsgeschäfte');
+    return wb;
   }
 }

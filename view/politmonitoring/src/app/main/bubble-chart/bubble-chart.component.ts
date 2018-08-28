@@ -1,4 +1,4 @@
-import {AfterViewChecked, AfterViewInit, Component, Input, OnChanges, OnInit} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, Component, Input, OnChanges, OnInit, HostListener} from '@angular/core';
 declare var BubbleChart;
 import * as $ from 'jquery';
 
@@ -12,6 +12,7 @@ export class BubbleChartComponent implements OnInit, OnChanges {
   @Input() categoryFilter;
 
   bubblesInitialized = false;
+  lastDataLoaded: object;
 
   constructor() {
   }
@@ -24,6 +25,7 @@ export class BubbleChartComponent implements OnInit, OnChanges {
     if (changes.data && changes.data.currentValue) {
       // we have to set a small timeout. otherwise, the id of the buttons aren't correctly set until d3 needs them
       setTimeout(function () {
+        this.lastDataLoaded = changes.data.currentValue;
         BubbleChart.initialize(changes.data.currentValue);
       }, 50);
     }
@@ -34,6 +36,14 @@ export class BubbleChartComponent implements OnInit, OnChanges {
       return 'themenbereich';
     else
       return 'thema_1';
+  }
+
+  // Reload the graph on window resize
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    setTimeout(function () {
+      BubbleChart.initialize(this.lastDataLoaded);
+    }, 900);
   }
 
 }

@@ -104,7 +104,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
       console.log(this.data);
       this.onFiltered.emit({data: this.data, categoryFilter: this.categoryFilter.description});
       this.getDownloadData();
-    }, 0)
+    }, 0);
   }
 
   filterYears(entry: any) {
