@@ -1,5 +1,16 @@
 <app-data-filter [data]="data" (onFiltered)="replaceFilteredData($event)"></app-data-filter>
 <!--<app-upload *ngIf="admin"></app-upload>-->
+<div class="alert alert-warning my-2 d-lg-none" role="alert">
+  <b>Hinweis:</b> Die Visualisierung ist nicht für Mobilegeräte und Anzeigegrössen unter 990 Pixel optimiert.
+</div>
+<div class="alert alert-warning my-2" role="alert" *ngIf="detectIE()">
+  <b>Hinweis:</b> Sie verwenden einen veralteten Browser, der vielen modernen Webseiten nicht mehr länger unterstützt wird.
+  Für mehr Sicherheit im Internet und ein besseres Nutznugserlebnis empfehlen wir Ihnen auf einen modernen Browser umzusteigen: 
+  <a href="https://www.mozilla.org/de/" target="_blank">Firefox</a>, <a href="https://www.google.com/chrome/" target="_blank">Chrome</a>, 
+  <a href="https://support.apple.com/downloads/safari-for-windows" target="_blank">Safari</a>,
+  <a href="https://www.opera.com/de" target="_blank">Opera</a> oder <a href="https://brave.com/" target="_blank">Brave</a>.
+</div>
+
 <app-bubble-chart [data]="data" [categoryFilter]="categoryFilter"></app-bubble-chart>
 <app-bootstrap-table *ngIf="data"
                        [data]="data"

@@ -18,7 +18,7 @@ export class BootstrapTableComponent implements OnInit, OnChanges {
     pagination = {
         start: 0,
         end: 0,
-        numberOfEntries: 10,
+        numberOfEntries: 25,
         numberPages: 0
     };
     sort = {
@@ -31,17 +31,27 @@ export class BootstrapTableComponent implements OnInit, OnChanges {
 
     ngOnChanges(changes: any) {
       if (changes.data && changes.data.currentValue) {
-        this.pagination.start = 0;
-        this.pagination.end = this.pagination.start + this.pagination.numberOfEntries;
-        this.pagination.numberPages = Math.ceil(this.data.length / this.pagination.numberOfEntries);
+        this.toStart();
       }
     }
 
     ngOnInit() {
-      this.authService.currentAdminState.subscribe(admin => this.admin = admin);
+      this.authService.currentAdminState.subscribe(admin => {this.admin = admin; console.log(this.admin)});
       this.pagination.end = this.pagination.start + this.pagination.numberOfEntries;
       this.pagination.numberPages = Math.ceil(this.data.length / this.pagination.numberOfEntries);
       this.sort.sortBy = this.initialSortBy;
+    }
+
+    // sets pagination to start. calculates number of pages and end
+    toStart() {
+      this.pagination.start = 0;
+      this.pagination.end = this.pagination.start + this.pagination.numberOfEntries;
+      this.pagination.numberPages = Math.ceil(this.data.length / this.pagination.numberOfEntries);
+    }
+
+    selectNumberOfEntries(value: string) {
+      this.pagination.numberOfEntries = parseInt(value);
+      this.toStart();
     }
 
     pageBack() {

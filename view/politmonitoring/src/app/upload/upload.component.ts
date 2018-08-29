@@ -52,6 +52,4 @@ export class UploadComponent implements OnInit {
     const fileName = event.target.files[0].name;
     $('#uploadLabel').html(fileName);
   }
-
-  // TODO add excel download for public user
 }
