@@ -6,6 +6,8 @@ import { AuthService } from '../shared/auth.service';
 import * as moment from 'moment';
 import * as XLSX from 'xlsx';
 
+declare var jsPDF: any;
+
 @Component({
   selector: 'app-download',
   templateUrl: './download.component.html',
@@ -69,11 +71,88 @@ export class DownloadComponent implements OnInit {
   }
 
   onDownloadPdf(): void {
-    console.log('something');
+    const columns: Array<{ title: string; dataKey: string; }> = [
+      { title: "Geschäft", dataKey: "Geschäfts-nr" },
+      { title: "Instrument", dataKey: "Instrument" },
+      { title: "Urherber", dataKey: "UrheberIn" },
+      { title: "Titel", dataKey: "Titel" },
+      { title: "Status", dataKey: "Status" },
+      { title: "Jahr", dataKey: "Jahr" },
+      { title: "Partei", dataKey: "Partei" },
+      { title: "Themen-\nereich", dataKey: "Themenbereich" },
+      { title: "Thema 1", dataKey: "Thema 1 (gleiche Nr wie Themenbereich)" },
+      { title: "Thema 2", dataKey: "Thema 2 (andere Nr)" },
+      // { title: "Schwer-\npunkt", dataKey: "Schwerpunktthema (bei Bedarf)" }
+    ];
+
+    const doc = new jsPDF({ orientation: 'landscape' });
+    doc.text(7, 15, "Grossratsgeschäfte Basel Stadt");
+    doc.autoTable(columns, this.clearData(this.data), {
+      startY: 20,
+      margin: { horizontal: 7 },
+      bodyStyles: { valign: 'top' },
+      styles: {
+        overflow: 'linebreak',
+        fontSize: 8,
+       },
+      columnStyles: {
+        "Geschäfts-nr": { columnWidth: 18 },
+        "Instrument": { columnWidth: 20 },
+        "UrheberIn": { columnWidth: 25 },
+        "Titel": { columnWidth: 80 },
+        "Status": { columnWidth: 25 },
+        "Jahr": { columnWidth: 10 },
+        "Partei": { columnWidth: 20 },
+        "Themenbereich": { columnWidth: 30 },
+        "Thema 1 (gleiche Nr wie Themenbereich)": { columnWidth: 30 },
+        "Thema 2 (andere Nr)": { columnWidth: 30 },
+      //  "Schwerpunktthema (bei Bedarf)": { columnWidth: 20 }
+      },
+    });
+    doc.save(this.nameFile(true) + '.pdf');
   }
 
   onDownloadFullPdf(): void {
-    this.clearData(this.data);
+    // TODO: Write redundent stuff as method
+    const columns: Array<{ title: string; dataKey: string; }> = [
+      { title: "Geschäft", dataKey: "Geschäfts-nr" },
+      { title: "Instrument", dataKey: "Instrument" },
+      { title: "Urherber", dataKey: "UrheberIn" },
+      { title: "Titel", dataKey: "Titel" },
+      { title: "Status", dataKey: "Status" },
+      { title: "Jahr", dataKey: "Jahr" },
+      { title: "Partei", dataKey: "Partei" },
+      { title: "Themen-\nereich", dataKey: "Themenbereich" },
+      { title: "Thema 1", dataKey: "Thema 1 (gleiche Nr wie Themenbereich)" },
+      { title: "Thema 2", dataKey: "Thema 2 (andere Nr)" },
+      { title: "Schwer-\npunkt", dataKey: "Schwerpunktthema (bei Bedarf)" }
+    ];
+
+    const doc = new jsPDF({ orientation: 'landscape' });
+    doc.text(7, 15, "Grossratsgeschäfte Basel Stadt");
+    doc.autoTable(columns, this.clearData(this.originalData), {
+      startY: 20,
+      margin: { horizontal: 7 },
+      bodyStyles: { valign: 'top' },
+      styles: {
+        overflow: 'linebreak',
+        fontSize: 7,
+      },
+      columnStyles: {
+        "Geschäfts-nr": { columnWidth: 18 },
+        "Instrument": { columnWidth: 18 },
+        "UrheberIn": { columnWidth: 25 },
+        "Titel": { columnWidth: 60 },
+        "Status": { columnWidth: 25 },
+        "Jahr": { columnWidth: 10 },
+        "Partei": { columnWidth: 18 },
+        "Themenbereich": { columnWidth: 30 },
+        "Thema 1 (gleiche Nr wie Themenbereich)": { columnWidth: 30 },
+        "Thema 2 (andere Nr)": { columnWidth: 30 },
+        "Schwerpunktthema (bei Bedarf)": { columnWidth: 20 }
+      },
+    });
+    doc.save(this.nameFile() + '.pdf');
   }
 
   /*

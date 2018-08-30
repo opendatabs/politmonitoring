@@ -366,7 +366,7 @@ var BubbleChart = {
         }
       }).text(function (d) {
         return d.title;
-      })
+      }).style('text-decoration', 'overline')
       // .style('fill', function(d){
       // TODO: let function return black as default
       // })
