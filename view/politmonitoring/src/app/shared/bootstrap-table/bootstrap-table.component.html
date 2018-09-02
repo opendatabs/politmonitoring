@@ -71,7 +71,9 @@
                     </p>
                   </th>
                   <th class="titleCol" (click)="changeSortBy('Themenbereich')">
-                    <p>Themenbereich
+                    <p>
+                      <span *ngIf="!admin">Themenbereich</span>
+                      <span *ngIf="admin">Themen- <br>bereich</span>
                       <i *ngIf="'Themenbereich' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
                       <i *ngIf="'Themenbereich' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
                     </p>
@@ -89,7 +91,7 @@
                     </p>
                   </th>
                   <th *ngIf="admin" class="titleCol" (click)="changeSortBy('Schwerpunktthema (bei Bedarf)')">
-                    <p>Schwerpunktthema
+                    <p>Schwerpunkt
                       <i *ngIf="'Schwerpunktthema (bei Bedarf)' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
                       <i *ngIf="'Schwerpunktthema (bei Bedarf)' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
                     </p>

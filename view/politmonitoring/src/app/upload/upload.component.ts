@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../shared/auth.service';
 import * as $ from 'jquery';
 
+
 const URL = environment.apiUrl + 'upload';
 
 @Component({
@@ -51,6 +52,4 @@ export class UploadComponent implements OnInit {
     const fileName = event.target.files[0].name;
     $('#uploadLabel').html(fileName);
   }
-
-  // TODO add excel download for public user
 }

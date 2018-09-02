@@ -55,10 +55,22 @@ export class MainComponent implements OnInit {
   //   }
   // }
 
+  /*
+  * Retruns true if used browser is of type IE 11, 10 or older
+  */
+  detectIE(): boolean {
+    const ua = window.navigator.userAgent;
+    return ua.indexOf('Trident/') > 0 || ua.indexOf('MSIE ') > 0;
+  }
+
   replaceFilteredData(value: any) {
     this.data = value.data;
     this.categoryFilter = value.categoryFilter;
   }
+  /*
+  * Triggers the modal to apear. Modaloption can be passed as arguments
+  * See: https://ng-bootstrap.github.io/#/components/modal/examples
+  */
   openLg(content) {
     this.modalService.open(content, { size: 'lg' , windowClass: 'animated slideInUp' });
   }

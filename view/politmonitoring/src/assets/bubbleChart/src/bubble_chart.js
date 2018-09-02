@@ -409,8 +409,10 @@ const BubbleChart = {
           }
         })
         .text(function (d) {
-          return d.title;
-      }).on("mouseover", (d) => onMouseOver(d, this, infoTooltip))
+          return "d.title";
+          })
+
+        .on("mouseover", (d) => onMouseOver(d, this, infoTooltip))
         .on("mouseout", (d) => onMouseOut(infoTooltip));
 
 

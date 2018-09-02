@@ -366,7 +366,12 @@ var BubbleChart = {
         }
       }).text(function (d) {
         return d.title;
-      }).on("mouseover", function (d) {
+      }).style('text-decoration', 'overline')
+      // .style('fill', function(d){
+      // TODO: let function return black as default
+      // })
+
+      .on("mouseover", function (d) {
         return onMouseOver(d, _this, infoTooltip);
       }).on("mouseout", function (d) {
         return onMouseOut(infoTooltip);
@@ -401,7 +406,12 @@ var BubbleChart = {
         }
       }).attr('text-anchor', 'middle').text(function (d) {
         return d.title;
-      });
+      })
+      // TODO: Fill color underline
+      // .style('text-decoration', 'underline')
+      // .style('text-decoration-color', function(d){
+      //     return BubbleChart.fillColorCalculator.calculateColor(d.title, d.thema_1);
+      //   });
 
       categoryLabels.exit().remove();
 
