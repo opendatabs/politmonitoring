@@ -27,12 +27,12 @@
       "scripts": [
         "../node_modules/moment/min/moment.min.js",
         "assets/bubbleChart/lib/d3.js",
-        "assets/bubbleChart/src/tooltip.js",
+        "assets/bubbleChart/build/tooltip.js",
         "assets/bubbleChart/config/colors.js",
         "assets/bubbleChart/config/centers.js",
-        "assets/bubbleChart/src/centerCalculator.js",
-        "assets/bubbleChart/src/fillColorCalculator.js",
-        "assets/bubbleChart/src/bubble_chart.js",
+        "assets/bubbleChart/build/centerCalculator.js",
+        "assets/bubbleChart/build/fillColorCalculator.js",
+        "assets/bubbleChart/build/bubble_chart.js",
         "../node_modules/jspdf/dist/jspdf.min.js",
         "../node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js"
       ],

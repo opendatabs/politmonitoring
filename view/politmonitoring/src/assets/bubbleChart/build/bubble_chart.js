@@ -1,4 +1,6 @@
-const $ = jQuery;
+'use strict';
+
+var $ = jQuery;
 
 /* bubbleChart creation function. Returns a function that will
  * instantiate a new bubble chart given a DOM element to display
@@ -9,7 +11,7 @@ const $ = jQuery;
  *
  */
 
-const BubbleChart = {
+var BubbleChart = {
   myBubbleChart: null,
   svg: null,
   fillColorCalculator: null,
@@ -22,32 +24,30 @@ const BubbleChart = {
     Petition: 1
   },
 
-  bubbleChart: function () {
+  bubbleChart: function bubbleChart() {
     // Constants for sizing
-    const wrapper = document.getElementById('vis');
-    const width = wrapper.clientWidth;
-    const height = wrapper.clientHeight;
-    const margin = {left: 140, right: 160};
-    const innerWidth = width - margin.left - margin.right;
+    var wrapper = document.getElementById('vis');
+    var width = wrapper.clientWidth;
+    var height = wrapper.clientHeight;
+    var margin = { left: 140, right: 160 };
+    var innerWidth = width - margin.left - margin.right;
 
     // tooltip for mouseover functionality
-    const tooltip = floatingTooltip('gates_tooltip', 240);
-    let tooltipFixed = false;
+    var tooltip = floatingTooltip('gates_tooltip', 240);
+    var tooltipFixed = false;
 
     // Locations to move bubbles towards, depending
     // on which view mode is selected.
-    const center = {x: width / 2, y: height / 2};
+    var center = { x: width / 2, y: height / 2 };
 
     // Used when setting up force and
     // moving around nodes
-    const damper = 0.102;
+    var damper = 0.102;
 
     // These will be set in create_nodes and create_vis
-    const svg = BubbleChart.svg
-      .attr('width', width)
-      .attr('height', height);
-    let bubbles = null;
-    let nodes = [];
+    var svg = BubbleChart.svg.attr('width', width).attr('height', height);
+    var bubbles = null;
+    var nodes = [];
 
     // Charge function that is called for each node.
     // Charge is proportional to the diameter of the
@@ -67,17 +67,12 @@ const BubbleChart = {
     // from above. This also sets some contants
     // to specify how the force layout should behave.
     // More configuration is done below.
-    const force = d3.layout.force()
-      .size([innerWidth, height])
-      .charge(charge)
-      .gravity(0);
+    var force = d3.layout.force().size([innerWidth, height]).charge(charge).gravity(0);
 
     // Sizes bubbles based on their area instead of raw radius
-    const radiusScale = d3.scale.pow()
-      .exponent(0.5)
-      .range([1, 10]);
+    var radiusScale = d3.scale.pow().exponent(0.5).range([1, 10]);
 
-    let infotext = {
+    var infotext = {
       motion: 'Die Motion ist das parlamentarische Instrument mit dem stärksten verpflichtenden Charakter. Mit ihr kann jedes Ratsmitglied oder eine ständige Kommission vom Regierungsrat verbindlich fordern, dem Grossen Rat ein neues Gesetz, eine Verfassungs- oder Gesetzesänderung oder eine Massnahme zu unterbreiten. Nur die an den Regierungsrat überwiesenen Motionen werden in der Visualisierung abgebildet.',
       petition: 'Die Petition ist ein Grundrecht, das allen Menschen unabhängig von Nationalität oder Alter zur Verfügung steht. Auch Ausländerinnen und Ausländer, Bewohner anderer Kantone und Kinder haben also das Recht, schriftlich Bitten, Anregungen oder Beschwerden an jede Behörde zu richten. Petitionen werden von der Petitionskommission bearbeitet und benötigen keine Mindestzahl an Unterschriften. Nur die durch den Grossen Rat an den Regierungsrat überwiesenen Petitionen werden in der Visualisierung erfasst.',
       anzug: 'Der Anzug ist das am häufigsten gewählte parlamentarische Instrument und entspricht dem Postulat beim Bund bzw. den meisten Kantonen. Per Anzug kann jedes Ratsmitglied oder eine ständige Kommission dem Regierungsrat oder dem Grossen Rat Anregungen zur Änderung der Verfassung, zu Gesetzen oder Beschlüssen oder zu Massnahmen der Verwaltung vorlegen. Nur die an den Regierungsrat überwiesenen Anzüge werden in der Visualisierung erfasst.',
@@ -98,7 +93,7 @@ const BubbleChart = {
      */
     function createNodes(rawData) {
 
-      const myNodes = rawData.map(function (d) {
+      var myNodes = rawData.map(function (d) {
         return {
           geschaefts_nr: d["Geschäfts-nr"],
           radius: radiusScale(BubbleChart.AMOUNT_INSTRUMENTS[d.Instrument]),
@@ -143,7 +138,7 @@ const BubbleChart = {
      * rawData is expected to be an array of data objects as provided by
      * a d3 loading function like d3.csv.
      */
-    const chart = function chart(selector, rawData) {
+    var chart = function chart(selector, rawData) {
       radiusScale.domain([0, BubbleChart.AMOUNT_INSTRUMENTS.Initiative]);
 
       nodes = createNodes(rawData);
@@ -151,54 +146,42 @@ const BubbleChart = {
       force.nodes(nodes);
 
       // Bind nodes data to what will become DOM elements to represent them.
-      bubbles = svg.selectAll('.bubble')
-        .data(nodes, function (d) {
-          return d.geschaefts_nr;
-        });
+      bubbles = svg.selectAll('.bubble').data(nodes, function (d) {
+        return d.geschaefts_nr;
+      });
 
       // Create new circle elements each with class `bubble`.
       // There will be one circle.bubble for each object in the nodes array.
       // Initially, their radius (r attribute) will be 0.
-      bubbles.enter().append('circle')
-        .classed('bubble', true)
-        .attr('r', 0)
-        .attr('fill', function (d) {
-          return BubbleChart.fillColorCalculator.calculateColor(d.themenbereich, d.thema_1);
-        })
-        .attr('stroke', function (d) {
-          return BubbleChart.fillColorCalculator.calculateColor(d.themenbereich, d.thema_1, true);
-        })
-        .attr('stroke-width', 2)
-        .on('mouseover', function(d) {
-          if (!tooltipFixed) {
-            showDetail(this, d, false)
-          }
-        })
-        .on('click', function(d) {showDetail(this, d, true) })
-        .on('mouseout', function(d) {
-          if (!tooltipFixed) {
-            hideDetail(this, d)
-          }
-        });
+      bubbles.enter().append('circle').classed('bubble', true).attr('r', 0).attr('fill', function (d) {
+        return BubbleChart.fillColorCalculator.calculateColor(d.themenbereich, d.thema_1);
+      }).attr('stroke', function (d) {
+        return BubbleChart.fillColorCalculator.calculateColor(d.themenbereich, d.thema_1, true);
+      }).attr('stroke-width', 2).on('mouseover', function (d) {
+        if (!tooltipFixed) {
+          showDetail(this, d, false);
+        }
+      }).on('click', function (d) {
+        showDetail(this, d, true);
+      }).on('mouseout', function (d) {
+        if (!tooltipFixed) {
+          hideDetail(this, d);
+        }
+      });
 
       // Fancy transition to make bubbles appear, ending with the
       // correct radius
-      bubbles.transition()
-        .duration(2000)
-        .attr('r', function (d) {
-          return d.radius;
-        })
-        .attr('fill', function (d) {
-          return BubbleChart.fillColorCalculator.calculateColor(d.themenbereich, d.thema_1);
-        })
-        .attr('stroke', function (d) {
-          return BubbleChart.fillColorCalculator.calculateColor(d.themenbereich, d.thema_1, true);
-        });
+      bubbles.transition().duration(2000).attr('r', function (d) {
+        return d.radius;
+      }).attr('fill', function (d) {
+        return BubbleChart.fillColorCalculator.calculateColor(d.themenbereich, d.thema_1);
+      }).attr('stroke', function (d) {
+        return BubbleChart.fillColorCalculator.calculateColor(d.themenbereich, d.thema_1, true);
+      });
 
       bubbles.exit().remove();
 
       chart.toggleDisplay($('#toolbar').find('.active').attr('id'));
-
     };
 
     /*
@@ -211,13 +194,11 @@ const BubbleChart = {
       hideCategories();
 
       force.on('tick', function (e) {
-        bubbles.each(moveToCenter(e.alpha))
-          .attr('cx', function (d) {
-            return d.x;
-          })
-          .attr('cy', function (d) {
-            return d.y;
-          });
+        bubbles.each(moveToCenter(e.alpha)).attr('cx', function (d) {
+          return d.x;
+        }).attr('cy', function (d) {
+          return d.y;
+        });
       });
 
       force.start();
@@ -252,10 +233,10 @@ const BubbleChart = {
      */
 
     // todo: remove counter
-    let counter;
+    var counter = void 0;
 
     function splitBubbles(category) {
-      let centers;
+      var centers = void 0;
 
       if (category === 'all') {
         centers = [{
@@ -265,45 +246,32 @@ const BubbleChart = {
           y: height / 2
         }];
       } else {
-        const centerCalculator = new CenterCalculator(category, width, height, margin, innerWidth, BubbleChart.themenbereichFilter);
+        var centerCalculator = new CenterCalculator(category, width, height, margin, innerWidth, BubbleChart.themenbereichFilter);
         centers = centerCalculator.calculateCenters(nodes);
       }
 
       showTitles(centers);
 
-      const centerMarkers = svg.selectAll('.centerMarkers')
-        .data(centers)
-        .attr('cx', function (d) {
-          return d.x;
-        })
-        .attr('cy', function (d) {
-          return d.y;
-        });
+      var centerMarkers = svg.selectAll('.centerMarkers').data(centers).attr('cx', function (d) {
+        return d.x;
+      }).attr('cy', function (d) {
+        return d.y;
+      });
 
-      centerMarkers
-        .enter()
-        .append('circle')
-        .attr('class', 'centerMarkers')
-        .attr('r', 5)
-        .attr('cx', function (d) {
-          return d.x;
-        })
-        .attr('cy', function (d) {
-          return d.y;
-        });
+      centerMarkers.enter().append('circle').attr('class', 'centerMarkers').attr('r', 5).attr('cx', function (d) {
+        return d.x;
+      }).attr('cy', function (d) {
+        return d.y;
+      });
 
       centerMarkers.exit().remove();
 
       force.on('tick', function (e) {
-        bubbles
-          .each(moveToCategories(e.alpha, centers, category))
-          .each(collide(.11))
-          .attr('cx', function (d) {
-            return d.x;
-          })
-          .attr('cy', function (d) {
-            return d.y;
-          });
+        bubbles.each(moveToCategories(e.alpha, centers, category)).each(collide(.11)).attr('cx', function (d) {
+          return d.x;
+        }).attr('cy', function (d) {
+          return d.y;
+        });
       });
 
       force.start();
@@ -325,49 +293,48 @@ const BubbleChart = {
      */
     function moveToCategories(alpha, centers, category) {
       return function (d) {
-        let x = null;
-        let y = null;
+        var x = null;
+        var y = null;
         centers.forEach(function (c) {
           if (c.title === d[category] || category === 'all') {
             x = c.x;
             y = c.y;
             // special rule for splitting by thema_1. it's possible, that themenbereich is not the same as categoryFilter
             // (in this case, themenbereich thema 2 would be the same). Then place the bubble by thema_2
-          } else if (BubbleChart.themenbereichFilter !== 'all' && d.themenbereich !== BubbleChart.themenbereichFilter &&
-          c.title === d.thema_2) {
+          } else if (BubbleChart.themenbereichFilter !== 'all' && d.themenbereich !== BubbleChart.themenbereichFilter && c.title === d.thema_2) {
             x = c.x;
             y = c.y;
           }
         });
 
-        const target = {x: x, y: y};
+        var target = { x: x, y: y };
         d.x = d.x + (target.x - d.x) * damper * alpha * 1.1;
         d.y = d.y + (target.y - d.y) * damper * alpha * 1.1;
         // just to debug. we have to remove this
-        if (counter < 200)
-          d3.select('#vis').select('svg').append('circle').attr('class', 'centerMarker').attr('r', 5).attr('cx', x).attr('cy', y);
+        if (counter < 200) d3.select('#vis').select('svg').append('circle').attr('class', 'centerMarker').attr('r', 5).attr('cx', x).attr('cy', y);
         counter++;
       };
     }
 
     // Resolves collisions between d and all other circles.
     function collide(alpha) {
-      const maxRadius = 15, padding = 4;
-      const quadtree = d3.geom.quadtree(nodes);
+      var maxRadius = 15,
+          padding = 4;
+      var quadtree = d3.geom.quadtree(nodes);
       return function (d) {
-        const r = d.radius + maxRadius + padding,
-          nx1 = d.x - r,
-          nx2 = d.x + r,
-          ny1 = d.y - r,
-          ny2 = d.y + r;
+        var r = d.radius + maxRadius + padding,
+            nx1 = d.x - r,
+            nx2 = d.x + r,
+            ny1 = d.y - r,
+            ny2 = d.y + r;
         quadtree.visit(function (quad, x1, y1, x2, y2) {
-          if (quad.point && (quad.point !== d)) {
-            let x = d.x - quad.point.x,
-              y = d.y - quad.point.y,
-              l = Math.sqrt(x * x + y * y);
-            const r = d.radius + quad.point.radius + padding;
-            if (l < r) {
-              l = (l - r) / l * alpha;
+          if (quad.point && quad.point !== d) {
+            var x = d.x - quad.point.x,
+                y = d.y - quad.point.y,
+                l = Math.sqrt(x * x + y * y);
+            var _r = d.radius + quad.point.radius + padding;
+            if (l < _r) {
+              l = (l - _r) / l * alpha;
               d.x -= x *= l;
               d.y -= y *= l;
               quad.point.x += x;
@@ -386,90 +353,72 @@ const BubbleChart = {
       svg.selectAll('.categoryLabels').remove();
     }
 
-    let infoTooltip = d3.select("body").append("div")
-      .attr("class", "infoTooltip")
-      .style("opacity", 0);
+    var infoTooltip = d3.select("body").append("div").attr("class", "infoTooltip").style("opacity", 0);
 
     /*
      * Shows Year title displays.
      */
     function showTitles(centers) {
-      const categoryLabels = svg.selectAll('.categoryLabels')
-        .data(centers);
+      var _this = this;
 
-      categoryLabels
-        .attr('x', function (d) {
-          return d.x;
-        })
-        .attr('y', function (d) {
-          if (d.secondRow) {
-            return height - 40;
-          } else {
-            return 40;
-          }
-        })
-        .text(function (d) {
-          return d.title;
-          })
+      var categoryLabels = svg.selectAll('.categoryLabels').data(centers);
 
-        .on("mouseover", (d) => onMouseOver(d, this, infoTooltip))
-        .on("mouseout", (d) => onMouseOut(infoTooltip));
+      categoryLabels.attr('x', function (d) {
+        return d.x;
+      }).attr('y', function (d) {
+        if (d.secondRow) {
+          return height - 40;
+        } else {
+          return 40;
+        }
+      }).text(function (d) {
+        return d.title;
+      }).on("mouseover", function (d) {
+        return onMouseOver(d, _this, infoTooltip);
+      }).on("mouseout", function (d) {
+        return onMouseOut(infoTooltip);
+      });
 
-
-      onMouseOver = (d, scope, infoTooltip) => {
-        let info = null;
+      onMouseOver = function onMouseOver(d, scope, infoTooltip) {
+        var info = null;
 
         infoTooltip.transition()
-          // .delay(500)
-          .duration(2000)
-          .style("opacity", 1);
+        // .delay(500)
+        .duration(2000).style("opacity", 1);
 
-        if (d.title === 'Petition')
-          info = infotext.petition;
-        if (d.title === 'Anzug')
-          info = infotext.anzug;
-        if (d.title === 'Motion')
-          info = infotext.motion;
-        if (d.title === 'Initiative')
-          info = infotext.initiative;
+        if (d.title === 'Petition') info = infotext.petition;
+        if (d.title === 'Anzug') info = infotext.anzug;
+        if (d.title === 'Motion') info = infotext.motion;
+        if (d.title === 'Initiative') info = infotext.initiative;
 
-        infoTooltip.html(info)
-          .style("left", (d.x - 80) + "px")
-          .style("top", (d.y + - 20) + "px");
+        infoTooltip.html(info).style("left", d.x - 80 + "px").style("top", d.y + -20 + "px");
       };
 
-      onMouseOut = (infoTooltip) => {
+      onMouseOut = function onMouseOut(infoTooltip) {
         infoTooltip.transition().duration(500).style("opacity", 0);
       };
 
-      categoryLabels.enter()
-        .append('text')
-        .attr('class', 'categoryLabels')
-        .attr('x', function (d) {
-          return d.x;
-        })
-        .attr('y', function (d) {
-          if (d.secondRow) {
-            return height - 40;
-          } else {
-            return 40;
-          }
-        })
-        .attr('text-anchor', 'middle')
-        .text(function (d) {
-          return d.title;
-        });
+      categoryLabels.enter().append('text').attr('class', 'categoryLabels').attr('x', function (d) {
+        return d.x;
+      }).attr('y', function (d) {
+        if (d.secondRow) {
+          return height - 40;
+        } else {
+          return 40;
+        }
+      }).attr('text-anchor', 'middle').text(function (d) {
+        return d.title;
+      });
 
       categoryLabels.exit().remove();
 
-
       // this function moves some lables up/down if there is not enough space to show all title on same line
       function checkIfMoveNecessary(labels, i) {
-        const margin = 15;
-        const leftI = parseInt(categoryLabels[0][i].getAttribute("x")) - categoryLabels[0][i].getBBox().width / 2;
+        var margin = 15;
+        var leftI = parseInt(categoryLabels[0][i].getAttribute("x")) - categoryLabels[0][i].getBBox().width / 2;
         // PREVIOUS LABEL
-        const rightIMinus1 = parseInt(categoryLabels[0][i - 1].getAttribute("x")) + categoryLabels[0][i - 1].getBBox().width / 2;
-        const leftIMinus1 = parseInt(categoryLabels[0][i - 1].getAttribute("x")) - categoryLabels[0][i - 1].getBBox().width / 2;
+        var rightIMinus1 = parseInt(categoryLabels[0][i - 1].getAttribute("x")) + categoryLabels[0][i - 1].getBBox().width / 2;
+        var leftIMinus1 = parseInt(categoryLabels[0][i - 1].getAttribute("x")) - categoryLabels[0][i - 1].getBBox().width / 2;
         // if x of this element is smaller than x of previous element, this is the first element of the second row
         if (leftI < leftIMinus1) {
           return false;
@@ -479,18 +428,16 @@ const BubbleChart = {
       }
 
       // fix category labels
-      let move = false;
-      for (let i = 1; i < categoryLabels[0].length - 1; i ++) {
-          move = move || checkIfMoveNecessary(categoryLabels[0], i);
+      var move = false;
+      for (var i = 1; i < categoryLabels[0].length - 1; i++) {
+        move = move || checkIfMoveNecessary(categoryLabels[0], i);
       }
       if (move) {
-        for (let i = 1; i < categoryLabels[0].length; i += 2) {
-          d3.select(categoryLabels[0][i]).attr("y", parseInt(categoryLabels[0][i].getAttribute("y")) + 30);
+        for (var _i = 1; _i < categoryLabels[0].length; _i += 2) {
+          d3.select(categoryLabels[0][_i]).attr("y", parseInt(categoryLabels[0][_i].getAttribute("y")) + 30);
         }
       }
-
     }
-
 
     /*
      * Function called on mouseover to display the
@@ -500,28 +447,10 @@ const BubbleChart = {
       // change outline to indicate hover state.
       d3.select(self).attr('stroke', 'black');
 
-      let content = '<span class="name">Geschäftsnummer: </span><span class="value"><a target="_blank" href="' + d.link + '">' +
-        d.geschaefts_nr.toFixed(4) +
-        '</a> ('+d.jahr +')</span><br/>' +
-        '<span class="name">Titel: </span><span class="value">' +
-        d.titel +
-        '</span><br/>' +
-        '<span class="name">Partei: </span><span class="value">' +
-        d.parteien +
-        '</span><br/>' +
-        '<span class="name">Status: </span><span class="value">' +
-        d.status +
-        '</span><br/>' +
-        '<span class="name">Themenbereich: </span><span class="value">' +
-        d.themenbereich +
-        '</span><br/>' +
-        '<span class="name">Thema 1: </span><span class="value">' +
-        d.thema_1 +
-        '</span><br/>';
+      var content = '<span class="name">Geschäftsnummer: </span><span class="value"><a target="_blank" href="' + d.link + '">' + d.geschaefts_nr.toFixed(4) + '</a> (' + d.jahr + ')</span><br/>' + '<span class="name">Titel: </span><span class="value">' + d.titel + '</span><br/>' + '<span class="name">Partei: </span><span class="value">' + d.parteien + '</span><br/>' + '<span class="name">Status: </span><span class="value">' + d.status + '</span><br/>' + '<span class="name">Themenbereich: </span><span class="value">' + d.themenbereich + '</span><br/>' + '<span class="name">Thema 1: </span><span class="value">' + d.thema_1 + '</span><br/>';
       if (d.thema_2.length !== 0) {
 
-        content += '<span class="name">Thema 2: </span><span class="value">' +
-        d.thema_2 + '</span>';
+        content += '<span class="name">Thema 2: </span><span class="value">' + d.thema_2 + '</span>';
       }
 
       tooltip.showTooltip(content, d3.event, fixed);
@@ -530,7 +459,7 @@ const BubbleChart = {
       $('.custom_tooltip').on('mouseleave', function () {
         tooltipFixed = false;
         hideDetail(self, d);
-      })
+      });
     }
 
     /*
@@ -538,8 +467,7 @@ const BubbleChart = {
      */
     function hideDetail(self, d) {
       // reset outline
-      d3.select(self)
-        .attr('stroke', BubbleChart.fillColorCalculator.calculateColor(d.themenbereich, d.thema_1, true));
+      d3.select(self).attr('stroke', BubbleChart.fillColorCalculator.calculateColor(d.themenbereich, d.thema_1, true));
       tooltip.hideTooltip();
     }
 
@@ -552,10 +480,9 @@ const BubbleChart = {
      */
     chart.toggleDisplay = function (category) {
       // store category
-        BubbleChart.category = category;
-        splitBubbles(category);
+      BubbleChart.category = category;
+      splitBubbles(category);
     };
-
 
     // return the chart function from closure.
     return chart;
@@ -570,44 +497,42 @@ const BubbleChart = {
    * Function called once data is loaded from CSV.
    * Calls bubble chart function to display inside #vis div.
    */
-  display: function (data) {
+  display: function display(data) {
     BubbleChart.myBubbleChart('#vis', data);
   },
 
   /*
    * Sets up the layout buttons to allow for toggling between view modes.
    */
-  setupButtons: function () {
-    d3.select('#toolbar')
-      .selectAll('.btn')
-      .on('click', function () {
-        // Remove active class from all buttons
-        d3.selectAll('.btn').classed('active', false);
-        // Find the button just clicked
-        const button = d3.select(this);
+  setupButtons: function setupButtons() {
+    d3.select('#toolbar').selectAll('.btn').on('click', function () {
+      // Remove active class from all buttons
+      d3.selectAll('.btn').classed('active', false);
+      // Find the button just clicked
+      var button = d3.select(this);
 
-        // Set it as the active button
-        button.classed('active', true);
+      // Set it as the active button
+      button.classed('active', true);
 
-        // Get the id of the button
-        const buttonId = button.attr('id');
+      // Get the id of the button
+      var buttonId = button.attr('id');
 
-        // Toggle the bubble chart based on
-        // the currently clicked button.
-        BubbleChart.myBubbleChart.toggleDisplay(buttonId);
-      });
+      // Toggle the bubble chart based on
+      // the currently clicked button.
+      BubbleChart.myBubbleChart.toggleDisplay(buttonId);
+    });
   },
 
   /*
    * Helper function to convert a number into a string
    * and add commas to it to improve presentation.
    */
-  addCommas: function (nStr) {
+  addCommas: function addCommas(nStr) {
     nStr += '';
-    const x = nStr.split('.');
-    let x1 = x[0];
-    const x2 = x.length > 1 ? '.' + x[1] : '';
-    const rgx = /(\d+)(\d{3})/;
+    var x = nStr.split('.');
+    var x1 = x[0];
+    var x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
     while (rgx.test(x1)) {
       x1 = x1.replace(rgx, '$1' + ',' + '$2');
     }
@@ -616,17 +541,16 @@ const BubbleChart = {
   },
 
   // Create a SVG element inside the provided selector
-initialize: function (data, themenbereichFilter) {
+  initialize: function initialize(data, themenbereichFilter) {
     BubbleChart.themenbereichFilter = themenbereichFilter;
     // remove old svg element
     BubbleChart.svg = d3.select('#vis').select('svg').remove();
-  // with desired size.
-    BubbleChart.svg = d3.select('#vis')
-      .append('svg');
+    // with desired size.
+    BubbleChart.svg = d3.select('#vis').append('svg');
     BubbleChart.update(data);
   },
 
-  update: function (data) {
+  update: function update(data) {
     BubbleChart.fillColorCalculator = new FillColorCalculator($('#toolbar').find('#thema_1').length === 1);
     BubbleChart.myBubbleChart = BubbleChart.bubbleChart();
     // Show the data
@@ -634,7 +558,6 @@ initialize: function (data, themenbereichFilter) {
 
     // setup the buttons.
     BubbleChart.setupButtons();
-  },
-
+  }
 
 };
