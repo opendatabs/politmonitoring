@@ -1,32 +1,49 @@
 class CenterCalculator {
-  calculateCenters(nodes, category, width, height, margin, innerWidth) {
+  constructor(category, width, height, margin, innerWidth, themenbereichFilter) {
+    this.category = category;
+    this.width = width;
+    this.height = height;
+    this.margin = margin;
+    this.innerWidth = innerWidth;
+    this.themenbereichFilter = themenbereichFilter;
+  }
+  calculateCenters(nodes) {
     // check if user defined centers in CENTERS variable in config
-    if (typeof CENTERS[category] !== "undefined") {
-      return this.fixedCenters(nodes, category, width, height)
+    if (typeof CENTERS[this.category] !== "undefined") {
+      return this.fixedCenters(nodes)
     } else {
-      let centers = this.calculateNumberOfCirclesInCluster(nodes, category);
-      centers = this.sort(centers, category);
-      centers = this.calculateCoordinates(centers, category, width, height, margin, innerWidth);
+      let centers = this.calculateNumberOfCirclesInCluster(nodes);
+      centers = this.sort(centers);
+      centers = this.calculateCoordinates(centers);
       return centers;
     }
   };
 
   // if centers are fixed in config, this function calculates coordinates
-  fixedCenters(nodes, category, width, height) {
-    const centers = CENTERS[category];
+  fixedCenters(nodes) {
+    const centers = CENTERS[this.category];
     centers.forEach((d,i) => {
       d.index = i;
-      d.x = d.center * width;
-      d.y = height / 2;
+      d.x = d.center * this.width;
+      d.y = this.height / 2;
     });
     return centers;
   }
 
-  calculateNumberOfCirclesInCluster(nodes, category) {
+  calculateNumberOfCirclesInCluster(nodes) {
     // get unique values of category and calculate size of expected area
     let centers = [];
+    const self = this;
     nodes.forEach(function (d, i) {
       let found = false;
+      // if we split bubbles by Thema_1, we only want to have centers and labels for Thema_1 that has correct Themenbereich.
+      // because filter filters Thema_1 and Thema_2, there exist also nodes with other Themenbereich
+      // (in this case "Themenbereich Thema 2" is same as categoryFilter
+      let category;
+      (self.themenbereichFilter !== 'all' && self.themenbereichFilter !== d.themenbereich
+        && self.themenbereichFilter === d.themenbereich_thema_2)
+        ? category = 'thema_2'
+        : category = self.category;
       centers.forEach(function (c) {
         if (c.title === d[category]) {
           c.size++;
@@ -41,9 +58,9 @@ class CenterCalculator {
   }
 
   // sort ascending or descending, based on given category and cluster size
-  sort(centers, category) {
+  sort(centers) {
 
-    if (category === 'jahr') {
+    if (this.category === 'jahr') {
       centers.sort((a,b) => a.title - b.title)
     } else {
       centers.sort((a, b) => {
@@ -61,7 +78,8 @@ class CenterCalculator {
   }
 
   // calculates coordinates for centers based on sort order
-  calculateCoordinates(centers, category, width, height, margin, innerWidth) {
+  calculateCoordinates(centers) {
+    const self = this;
     if (centers.length === 1) {
       centers[0].x = width / 2;
       centers[0].y = height / 2;
@@ -79,17 +97,17 @@ class CenterCalculator {
         if (centers.length > 6) {
           // first row
           if (i < Math.ceil(centers.length / 2)) {
-            y = height / 3;
-            x = margin.left + i / Math.ceil((centers.length) / 2-1) * innerWidth;
+            y = self.height / 3;
+            x = self.margin.left + i / Math.ceil((centers.length) / 2-1) * self.innerWidth;
             // second row
           } else {
             centers[i].secondRow = true;
-            y = height * 2 / 3;
-            x = margin.left + (i - Math.ceil((centers.length) / 2)) / Math.ceil((centers.length-1) / 2) * innerWidth;
+            y = self.height * 2 / 3;
+            x = self.margin.left + (i - Math.ceil((centers.length) / 2)) / Math.ceil((centers.length-1) / 2) * self.innerWidth;
           }
         } else {
-          x = margin.left + i * innerWidth / (centers.length-1);
-          y = height / 2;
+          x = self.margin.left + i * self.innerWidth / (centers.length-1);
+          y = self.height / 2;
         }
         centers[i].x = x;
         centers[i].y = y;

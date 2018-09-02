@@ -13,6 +13,7 @@ const BubbleChart = {
   myBubbleChart: null,
   svg: null,
   fillColorCalculator: null,
+  categoryFilter: null,
   // defines size of bubbles
   AMOUNT_INSTRUMENTS: {
     Initiative: 8,
@@ -107,6 +108,7 @@ const BubbleChart = {
           status: d.Status,
           letzte_uebersweisung: d.Jahr,
           themenbereich: d.Themenbereich,
+          themenbereich_thema_2: d["Themenbereich Thema 2"],
           thema_1: d["Thema 1 (gleiche Nr wie Themenbereich)"],
           thema_2: d["Thema 2 (andere Nr)"],
           schwerpunktthema: d["Schwerpunktthema (bei Bedarf)"],
@@ -263,8 +265,8 @@ const BubbleChart = {
           y: height / 2
         }];
       } else {
-        const centerCalculator = new CenterCalculator();
-        centers = centerCalculator.calculateCenters(nodes, category, width, height, margin, innerWidth);
+        const centerCalculator = new CenterCalculator(category, width, height, margin, innerWidth, BubbleChart.themenbereichFilter);
+        centers = centerCalculator.calculateCenters(nodes);
       }
 
       showTitles(centers);
@@ -327,6 +329,12 @@ const BubbleChart = {
         let y = null;
         centers.forEach(function (c) {
           if (c.title === d[category] || category === 'all') {
+            x = c.x;
+            y = c.y;
+            // special rule for splitting by thema_1. it's possible, that themenbereich is not the same as categoryFilter
+            // (in this case, themenbereich thema 2 would be the same). Then place the bubble by thema_2
+          } else if (BubbleChart.themenbereichFilter !== 'all' && d.themenbereich !== BubbleChart.themenbereichFilter &&
+          c.title === d.thema_2) {
             x = c.x;
             y = c.y;
           }
@@ -606,7 +614,8 @@ const BubbleChart = {
   },
 
   // Create a SVG element inside the provided selector
-initialize: function (data) {
+initialize: function (data, themenbereichFilter) {
+    BubbleChart.themenbereichFilter = themenbereichFilter;
     // remove old svg element
     BubbleChart.svg = d3.select('#vis').select('svg').remove();
   // with desired size.

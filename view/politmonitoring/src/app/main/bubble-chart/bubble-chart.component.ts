@@ -24,9 +24,9 @@ export class BubbleChartComponent implements OnInit, OnChanges {
   ngOnChanges(changes: any): void {
     if (changes.data && changes.data.currentValue) {
       // we have to set a small timeout. otherwise, the id of the buttons aren't correctly set until d3 needs them
-      setTimeout(function () {
+      setTimeout(() => {
         this.lastDataLoaded = changes.data.currentValue;
-        BubbleChart.initialize(changes.data.currentValue);
+        BubbleChart.initialize(changes.data.currentValue, this.categoryFilter);
       }, 50);
     }
   }
@@ -42,7 +42,7 @@ export class BubbleChartComponent implements OnInit, OnChanges {
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     setTimeout(function () {
-      BubbleChart.initialize(this.lastDataLoaded);
+      BubbleChart.initialize(this.lastDataLoaded, this.categoryFilter);
     }, 900);
   }
 
