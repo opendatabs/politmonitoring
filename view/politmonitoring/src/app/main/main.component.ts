@@ -32,6 +32,7 @@ export class MainComponent implements OnInit {
 
             // remove number
             d.Themenbereich = d.Themenbereich.substring(0, d.Themenbereich.indexOf('(')).trim();
+            d["Themenbereich Thema 2"] = d["Themenbereich Thema 2"].substring(0, d["Themenbereich Thema 2"].indexOf('(')).trim();
             // TODO dangerous. Maybe we should simplify the property name
             d['Thema 1 (gleiche Nr wie Themenbereich)'] = d['Thema 1 (gleiche Nr wie Themenbereich)']
               .substring(0, d['Thema 1 (gleiche Nr wie Themenbereich)'].indexOf('(')).trim();

@@ -113,7 +113,7 @@ export class DownloadComponent implements OnInit {
 
     let fontSize = 8;
     let titleColumnWidth = 60;
-    const columnStyles = {
+    const columnStyles = {  
       'Geschäfts-nr': { columnWidth: 18 },
       'Instrument': { columnWidth: 18 },
       'UrheberIn': { columnWidth: 25 },

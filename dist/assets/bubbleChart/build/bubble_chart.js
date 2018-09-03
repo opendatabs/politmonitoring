@@ -15,6 +15,7 @@ var BubbleChart = {
   myBubbleChart: null,
   svg: null,
   fillColorCalculator: null,
+  themenbereichFilter: null,
   // defines size of bubbles
   AMOUNT_INSTRUMENTS: {
     Initiative: 8,
@@ -102,6 +103,7 @@ var BubbleChart = {
           status: d.Status,
           letzte_uebersweisung: d.Jahr,
           themenbereich: d.Themenbereich,
+          themenbereich_thema_2: d["Themenbereich Thema 2"],
           thema_1: d["Thema 1 (gleiche Nr wie Themenbereich)"],
           thema_2: d["Thema 2 (andere Nr)"],
           schwerpunktthema: d["Schwerpunktthema (bei Bedarf)"],
@@ -244,8 +246,8 @@ var BubbleChart = {
           y: height / 2
         }];
       } else {
-        var centerCalculator = new CenterCalculator();
-        centers = centerCalculator.calculateCenters(nodes, category, width, height, margin, innerWidth);
+        var centerCalculator = new CenterCalculator(category, width, height, margin, innerWidth, BubbleChart.themenbereichFilter);
+        centers = centerCalculator.calculateCenters(nodes);
       }
 
       showTitles(centers);
@@ -297,6 +299,11 @@ var BubbleChart = {
           if (c.title === d[category] || category === 'all') {
             x = c.x;
             y = c.y;
+            // special rule for splitting by thema_1. it's possible, that themenbereich is not the same as themenbereichFilter
+            // (in this case, themenbereich thema 2 would be the same). Then place the bubble by thema_2
+          } else if (BubbleChart.themenbereichFilter !== 'all' && d.themenbereich !== BubbleChart.themenbereichFilter && c.title === d.thema_2) {
+            x = c.x;
+            y = c.y;
           }
         });
 
@@ -312,19 +319,19 @@ var BubbleChart = {
     // Resolves collisions between d and all other circles.
     function collide(alpha) {
       var maxRadius = 15,
-        padding = 4;
+          padding = 4;
       var quadtree = d3.geom.quadtree(nodes);
       return function (d) {
         var r = d.radius + maxRadius + padding,
-          nx1 = d.x - r,
-          nx2 = d.x + r,
-          ny1 = d.y - r,
-          ny2 = d.y + r;
+            nx1 = d.x - r,
+            nx2 = d.x + r,
+            ny1 = d.y - r,
+            ny2 = d.y + r;
         quadtree.visit(function (quad, x1, y1, x2, y2) {
           if (quad.point && quad.point !== d) {
             var x = d.x - quad.point.x,
-              y = d.y - quad.point.y,
-              l = Math.sqrt(x * x + y * y);
+                y = d.y - quad.point.y,
+                l = Math.sqrt(x * x + y * y);
             var _r = d.radius + quad.point.radius + padding;
             if (l < _r) {
               l = (l - _r) / l * alpha;
@@ -366,12 +373,7 @@ var BubbleChart = {
         }
       }).text(function (d) {
         return d.title;
-      }).style('text-decoration', 'overline')
-      // .style('fill', function(d){
-      // TODO: let function return black as default
-      // })
-
-      .on("mouseover", function (d) {
+      }).on("mouseover", function (d) {
         return onMouseOver(d, _this, infoTooltip);
       }).on("mouseout", function (d) {
         return onMouseOut(infoTooltip);
@@ -382,7 +384,7 @@ var BubbleChart = {
 
         infoTooltip.transition()
         // .delay(500)
-          .duration(2000).style("opacity", 1);
+        .duration(2000).style("opacity", 1);
 
         if (d.title === 'Petition') info = infotext.petition;
         if (d.title === 'Anzug') info = infotext.anzug;
@@ -400,20 +402,67 @@ var BubbleChart = {
         return d.x;
       }).attr('y', function (d) {
         if (d.secondRow) {
-          return height - 40;
+          return height - 45;
         } else {
           return 40;
         }
       }).attr('text-anchor', 'middle').text(function (d) {
         return d.title;
-      })
-      // TODO: Fill color underline
-      // .style('text-decoration', 'underline')
-      // .style('text-decoration-color', function(d){
-      //     return BubbleChart.fillColorCalculator.calculateColor(d.title, d.thema_1);
-      //   });
+      });
 
       categoryLabels.exit().remove();
+
+      var labelColorLines = svg.selectAll('.labelColorLine').data(centers);
+
+      labelColorLines.enter().append('line').attr('class', 'labelColorLine').attr('x1', function (d) {
+        return d.x - 12 + "px";
+      }).attr('x2', function (d) {
+        return d.x + 12 + "px";
+      }).attr('y1', function (d) {
+        if (d.secondRow) {
+          return height - 35;
+        } else {
+          return 50;
+        }
+      }).attr('y2', function (d) {
+        if (d.secondRow) {
+          return height - 35;
+        } else {
+          return 50;
+        }
+      }).attr('stroke', function (d) {
+        if (BubbleChart.themenbereichFilter === 'all') {
+          return BubbleChart.fillColorCalculator.calculateColor(d.title, null);
+        } else {
+          return BubbleChart.fillColorCalculator.calculateColor(BubbleChart.themenbereichFilter, d.title);
+        }
+      }).attr('stroke-width', 2);
+
+      labelColorLines.attr('x1', function (d) {
+        return d.x - 12 + "px";
+      }).attr('x2', function (d) {
+        return d.x + 12 + "px";
+      }).attr('y1', function (d) {
+        if (d.secondRow) {
+          return height - 35;
+        } else {
+          return 50;
+        }
+      }).attr('y2', function (d) {
+        if (d.secondRow) {
+          return height - 35;
+        } else {
+          return 50;
+        }
+      }).attr('stroke', function (d) {
+        if (BubbleChart.themenbereichFilter === 'all') {
+          return BubbleChart.fillColorCalculator.calculateColor(d.title, null);
+        } else {
+          return BubbleChart.fillColorCalculator.calculateColor(BubbleChart.themenbereichFilter, d.title);
+        }
+      });
+
+      labelColorLines.exit().remove();
 
       // this function moves some lables up/down if there is not enough space to show all title on same line
       function checkIfMoveNecessary(labels, i) {
@@ -437,7 +486,10 @@ var BubbleChart = {
       }
       if (move) {
         for (var _i = 1; _i < categoryLabels[0].length; _i += 2) {
+          // move labels and colorLines
           d3.select(categoryLabels[0][_i]).attr("y", parseInt(categoryLabels[0][_i].getAttribute("y")) + 30);
+          d3.select(labelColorLines[0][_i]).attr("y1", parseInt(labelColorLines[0][_i].getAttribute("y1")) + 30);
+          d3.select(labelColorLines[0][_i]).attr("y2", parseInt(labelColorLines[0][_i].getAttribute("y2")) + 30);
         }
       }
     }
@@ -544,7 +596,8 @@ var BubbleChart = {
   },
 
   // Create a SVG element inside the provided selector
-  initialize: function initialize(data) {
+  initialize: function initialize(data, themenbereichFilter) {
+    BubbleChart.themenbereichFilter = themenbereichFilter;
     // remove old svg element
     BubbleChart.svg = d3.select('#vis').select('svg').remove();
     // with desired size.
