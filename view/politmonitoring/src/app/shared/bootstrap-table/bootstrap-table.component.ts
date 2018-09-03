@@ -36,7 +36,7 @@ export class BootstrapTableComponent implements OnInit, OnChanges {
     }
 
     ngOnInit() {
-      this.authService.currentAdminState.subscribe(admin => {this.admin = admin; console.log(this.admin)});
+      this.authService.currentAdminState.subscribe(admin => {this.admin = admin; });
       this.pagination.end = this.pagination.start + this.pagination.numberOfEntries;
       this.pagination.numberPages = Math.ceil(this.data.length / this.pagination.numberOfEntries);
       this.sort.sortBy = this.initialSortBy;

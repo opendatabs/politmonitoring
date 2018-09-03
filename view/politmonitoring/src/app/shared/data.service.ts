@@ -12,8 +12,12 @@ export class DataService {
 
   private dataSrc = new BehaviorSubject([]);
   data = this.dataSrc.asObservable();
+
   private orgDataSrc = new BehaviorSubject([]);
   originalData = this.orgDataSrc.asObservable();
+
+  private svgSrc = new BehaviorSubject([]);
+  svg = this.svgSrc.asObservable();
 
   constructor(private http: HttpClient) {
   }
@@ -63,7 +67,7 @@ export class DataService {
     return data.filter((d) => {
       debugger;
       if (d['Thema 2 (andere Nr)'] === subCategoryFilter) {
-        console.log('hier');
+        // console.log('hier');
         debugger;
       }
       return d['Thema 1 (gleiche Nr wie Themenbereich)'] === subCategoryFilter ||
@@ -129,6 +133,10 @@ export class DataService {
 
   sendOriginalJSON(originalData: object[]): void {
     this.orgDataSrc.next(JSON.parse(JSON.stringify(originalData)));
+  }
+
+  sendSvgData(svg: [object]) {
+    this.svgSrc.next(svg);
   }
 
   static extractNumber(content: string): number {

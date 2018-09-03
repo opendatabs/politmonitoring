@@ -34,7 +34,8 @@
         "assets/bubbleChart/src/fillColorCalculator.js",
         "assets/bubbleChart/src/bubble_chartES5.js",
         "../node_modules/jspdf/dist/jspdf.min.js",
-        "../node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js"
+        "../node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js",
+        "../node_modules/save-svg-as-png/lib/saveSvgAsPng.js"
 
       ],
       "environmentSource": "environments/environment.ts",

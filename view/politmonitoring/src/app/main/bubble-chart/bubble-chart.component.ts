@@ -1,21 +1,25 @@
-import {AfterViewChecked, AfterViewInit, Component, Input, OnChanges, OnInit, HostListener} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, Component, Input, OnChanges, OnInit, HostListener, ViewChild, ElementRef} from '@angular/core';
 declare var BubbleChart;
 import * as $ from 'jquery';
+import { DataService } from '../../shared/data.service';
 
 @Component({
   selector: 'app-bubble-chart',
   templateUrl: './bubble-chart.component.html',
   styleUrls: ['./bubble-chart.component.css']
 })
-export class BubbleChartComponent implements OnInit, OnChanges {
+export class BubbleChartComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() data;
   @Input() categoryFilter;
+
+  @ViewChild('vis') vis: ElementRef;
 
   bubblesInitialized = false;
   lastDataLoaded: object;
 
-  constructor() {
-  }
+  constructor(
+    private dataService: DataService,
+  ) { }
 
 
   ngOnInit() {
@@ -44,6 +48,14 @@ export class BubbleChartComponent implements OnInit, OnChanges {
     setTimeout(function () {
       BubbleChart.initialize(this.lastDataLoaded);
     }, 900);
+  }
+
+  ngAfterViewInit() {
+    this.sendSvgData();
+  }
+
+  private sendSvgData(): void {
+    this.dataService.sendSvgData(this.vis.nativeElement);
   }
 
 }

@@ -5,6 +5,8 @@ import { trigger, state, animate, transition, style } from '@angular/animations'
 import { AuthService } from '../shared/auth.service';
 import * as moment from 'moment';
 import * as XLSX from 'xlsx';
+import * as saveSvgApi from 'save-svg-as-png';
+import * as canvg from 'canvg';
 
 declare var jsPDF: any;
 
@@ -27,6 +29,8 @@ export class DownloadComponent implements OnInit {
   originalData: object[];
   showDownloadMenu = false;
   admin: boolean;
+  svg: any;
+  paused = false;
 
   constructor(
     private dataService: DataService,
@@ -37,6 +41,7 @@ export class DownloadComponent implements OnInit {
   ngOnInit() {
     this.dataService.data.subscribe(data => this.data = data);
     this.dataService.originalData.subscribe(originalData => this.originalData = originalData);
+    this.dataService.svg.subscribe(svg => this.svg = svg);
     this.authService.currentAdminState.subscribe(admin => this.admin = admin);
   }
 
@@ -71,88 +76,95 @@ export class DownloadComponent implements OnInit {
   }
 
   onDownloadPdf(): void {
-    const columns: Array<{ title: string; dataKey: string; }> = [
-      { title: "Geschäft", dataKey: "Geschäfts-nr" },
-      { title: "Instrument", dataKey: "Instrument" },
-      { title: "Urherber", dataKey: "UrheberIn" },
-      { title: "Titel", dataKey: "Titel" },
-      { title: "Status", dataKey: "Status" },
-      { title: "Jahr", dataKey: "Jahr" },
-      { title: "Partei", dataKey: "Partei" },
-      { title: "Themen-\nereich", dataKey: "Themenbereich" },
-      { title: "Thema 1", dataKey: "Thema 1 (gleiche Nr wie Themenbereich)" },
-      { title: "Thema 2", dataKey: "Thema 2 (andere Nr)" },
-      // { title: "Schwer-\npunkt", dataKey: "Schwerpunktthema (bei Bedarf)" }
-    ];
+    // const xml = new XMLSerializer().serializeToString(this.svg.childNodes[0]);
+    // const b64Start = 'data:image/svg + xml; base64,' + btoa(xml);
 
-    const doc = new jsPDF({ orientation: 'landscape' });
-    doc.text(7, 15, "Grossratsgeschäfte Basel Stadt");
-    doc.autoTable(columns, this.clearData(this.data), {
-      startY: 20,
-      margin: { horizontal: 7 },
-      bodyStyles: { valign: 'top' },
-      styles: {
-        overflow: 'linebreak',
-        fontSize: 8,
-       },
-      columnStyles: {
-        "Geschäfts-nr": { columnWidth: 18 },
-        "Instrument": { columnWidth: 20 },
-        "UrheberIn": { columnWidth: 25 },
-        "Titel": { columnWidth: 80 },
-        "Status": { columnWidth: 25 },
-        "Jahr": { columnWidth: 10 },
-        "Partei": { columnWidth: 20 },
-        "Themenbereich": { columnWidth: 30 },
-        "Thema 1 (gleiche Nr wie Themenbereich)": { columnWidth: 30 },
-        "Thema 2 (andere Nr)": { columnWidth: 30 },
-      //  "Schwerpunktthema (bei Bedarf)": { columnWidth: 20 }
-      },
+    // pause any user input, until downlaod has started
+    this.paused = true;
+    // add canvg option so the the png string conversion works with IE11
+    // https://github.com/exupero/saveSvgAsPng
+    saveSvgApi.svgAsPngUri(this.svg.childNodes[0], { canvg: canvg }, uri => {
+      this.drawPdf(this.data, uri, this.nameFile(true));
+      this.paused = false;
     });
-    doc.save(this.nameFile(true) + '.pdf');
   }
 
   onDownloadFullPdf(): void {
-    // TODO: Write redundent stuff as method
+    this.paused = true;
+    saveSvgApi.svgAsPngUri(this.svg.childNodes[0], { canvg: canvg }, uri => {
+      this.drawPdf(this.originalData, uri, this.nameFile());
+      this.paused = false;
+    });
+  }
+
+  drawPdf(data: object[], graphUri: string, fileName: string) {
     const columns: Array<{ title: string; dataKey: string; }> = [
-      { title: "Geschäft", dataKey: "Geschäfts-nr" },
-      { title: "Instrument", dataKey: "Instrument" },
-      { title: "Urherber", dataKey: "UrheberIn" },
-      { title: "Titel", dataKey: "Titel" },
-      { title: "Status", dataKey: "Status" },
-      { title: "Jahr", dataKey: "Jahr" },
-      { title: "Partei", dataKey: "Partei" },
-      { title: "Themen-\nereich", dataKey: "Themenbereich" },
-      { title: "Thema 1", dataKey: "Thema 1 (gleiche Nr wie Themenbereich)" },
-      { title: "Thema 2", dataKey: "Thema 2 (andere Nr)" },
-      { title: "Schwer-\npunkt", dataKey: "Schwerpunktthema (bei Bedarf)" }
+      { title: 'Geschäft', dataKey: 'Geschäfts-nr' },
+      { title: 'Instrument', dataKey: 'Instrument' },
+      { title: 'Urherber', dataKey: 'UrheberIn' },
+      { title: 'Titel', dataKey: 'Titel' },
+      { title: 'Status', dataKey: 'Status' },
+      { title: 'Jahr', dataKey: 'Jahr' },
+      { title: 'Partei', dataKey: 'Partei' },
+      { title: 'Themen-\nereich', dataKey: 'Themenbereich' },
+      { title: 'Thema 1', dataKey: 'Thema 1 (gleiche Nr wie Themenbereich)' },
+      { title: 'Thema 2', dataKey: 'Thema 2 (andere Nr)' },
     ];
 
+    let fontSize = 8;
+    let titleColumnWidth = 60;
+    const columnStyles = {
+      'Geschäfts-nr': { columnWidth: 18 },
+      'Instrument': { columnWidth: 18 },
+      'UrheberIn': { columnWidth: 25 },
+      'Titel': { columnWidth: titleColumnWidth },
+      'Status': { columnWidth: 25 },
+      'Jahr': { columnWidth: 10 },
+      'Partei': { columnWidth: 18 },
+      'Themenbereich': { columnWidth: 30 },
+      'Thema 1 (gleiche Nr wie Themenbereich)': { columnWidth: 31 },
+      'Thema 2 (andere Nr)': { columnWidth: 31 },
+    };
+
+    // smaller table properties with more columns if the user has admin privileges
+    if (this.admin) {
+      fontSize = 7;
+      titleColumnWidth = 80;
+      columns.push({ title: 'Schwer-\npunkt', dataKey: 'Schwerpunktthema (bei Bedarf)' });
+      columnStyles['Schwerpunktthema(bei Bedarf)'] = { columnWidth: 20 };
+    }
+
     const doc = new jsPDF({ orientation: 'landscape' });
-    doc.text(7, 15, "Grossratsgeschäfte Basel Stadt");
-    doc.autoTable(columns, this.clearData(this.originalData), {
-      startY: 20,
-      margin: { horizontal: 7 },
+    // add header
+    doc.text(7, 15, 'Grossratsgeschäfte Basel Stadt');
+    // add the graph produced from a base64 png string. Add position and size
+    doc.addImage(graphUri, 'PNG', 5, 15, this.calcWidth(), 150);
+    // generate a table from cleared data
+    doc.autoTable(columns, this.clearData(data), {
+      startY: 800,
+      margin: { horizontal: 7 },  
       bodyStyles: { valign: 'top' },
       styles: {
         overflow: 'linebreak',
-        fontSize: 7,
+        fontSize: fontSize,
       },
-      columnStyles: {
-        "Geschäfts-nr": { columnWidth: 18 },
-        "Instrument": { columnWidth: 18 },
-        "UrheberIn": { columnWidth: 25 },
-        "Titel": { columnWidth: 60 },
-        "Status": { columnWidth: 25 },
-        "Jahr": { columnWidth: 10 },
-        "Partei": { columnWidth: 18 },
-        "Themenbereich": { columnWidth: 30 },
-        "Thema 1 (gleiche Nr wie Themenbereich)": { columnWidth: 30 },
-        "Thema 2 (andere Nr)": { columnWidth: 30 },
-        "Schwerpunktthema (bei Bedarf)": { columnWidth: 20 }
-      },
+      columnStyles: columnStyles
     });
-    doc.save(this.nameFile() + '.pdf');
+    doc.save(fileName + '.pdf');
+  }
+
+  private calcWidth(): number {
+    const w = this.svg.childNodes[0].clientWidth;
+    if (w && w > 0) {
+      const ratio = 600 / w;
+      if (ratio <= 0.5) {
+        return 300;
+      } else {
+        return 150 / ratio;
+      }
+    } else {
+      return 300;
+    }
   }
 
   /*

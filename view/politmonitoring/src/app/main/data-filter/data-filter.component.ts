@@ -101,7 +101,6 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
       || this.statusFilter !== 'all' || this.yearFilterSet || this.partyFilter !== 'all' || this.instrumentFilter !== 'all';
     // do this async (not in same angular digest). Otherwise, it will throw expressionChangedAfterItHasBeenCheckedError
     setTimeout(() => {
-      console.log(this.data);
       this.onFiltered.emit({data: this.data, categoryFilter: this.categoryFilter.description});
       this.getDownloadData();
     }, 0);
@@ -234,13 +233,13 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   // gets the original values for years
   // check only last 5 years (if year bigger than 2018)
   private getInitYears() {
-    let years = this.dataService.unique(this.originalData.map(d => d.Jahr));
+    const years = this.dataService.unique(this.originalData.map(d => d.Jahr));
     // sort descending
     years.sort((a, b) => {
       return b - a;
     });
     return years.map((d, i) => {
-      let checked = (i < 5 && d > 2014);
+      const checked = (i < 5 && d > 2014);
       return {
         year: d, checked: checked
       };
