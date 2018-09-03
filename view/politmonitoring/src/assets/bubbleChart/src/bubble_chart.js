@@ -13,7 +13,7 @@ const BubbleChart = {
   myBubbleChart: null,
   svg: null,
   fillColorCalculator: null,
-  categoryFilter: null,
+  themenbereichFilter: null,
   // defines size of bubbles
   AMOUNT_INSTRUMENTS: {
     Initiative: 8,
@@ -331,7 +331,7 @@ const BubbleChart = {
           if (c.title === d[category] || category === 'all') {
             x = c.x;
             y = c.y;
-            // special rule for splitting by thema_1. it's possible, that themenbereich is not the same as categoryFilter
+            // special rule for splitting by thema_1. it's possible, that themenbereich is not the same as themenbereichFilter
             // (in this case, themenbereich thema 2 would be the same). Then place the bubble by thema_2
           } else if (BubbleChart.themenbereichFilter !== 'all' && d.themenbereich !== BubbleChart.themenbereichFilter &&
           c.title === d.thema_2) {
@@ -450,7 +450,7 @@ const BubbleChart = {
         })
         .attr('y', function (d) {
           if (d.secondRow) {
-            return height - 40;
+            return height - 45;
           } else {
             return 40;
           }
@@ -461,6 +461,72 @@ const BubbleChart = {
         });
 
       categoryLabels.exit().remove();
+
+      const labelColorLines = svg.selectAll('.labelColorLine')
+        .data(centers);
+
+      labelColorLines.enter()
+        .append('line')
+        .attr('class', 'labelColorLine')
+        .attr('x1', d => {
+          return d.x - 12 + "px";
+        })
+        .attr('x2', d => {
+          return d.x + 12 + "px";
+        })
+        .attr('y1', d => {
+          if (d.secondRow) {
+            return height - 35;
+          } else {
+            return 50;
+          }
+        })
+        .attr('y2', d => {
+          if (d.secondRow) {
+            return height - 35;
+          } else {
+            return 50;
+          }
+        })
+        .attr('stroke', d => {
+          if (BubbleChart.themenbereichFilter === 'all') {
+            return BubbleChart.fillColorCalculator.calculateColor(d.title, null);
+          } else {
+            return BubbleChart.fillColorCalculator.calculateColor(BubbleChart.themenbereichFilter, d.title);
+          }
+        })
+        .attr('stroke-width', 2);
+
+      labelColorLines
+        .attr('x1', d => {
+          return d.x - 12 + "px";
+        })
+        .attr('x2', d => {
+          return d.x + 12 + "px";
+        })
+        .attr('y1', d => {
+          if (d.secondRow) {
+            return height - 35;
+          } else {
+            return 50;
+          }
+        })
+        .attr('y2', d => {
+          if (d.secondRow) {
+            return height - 35;
+          } else {
+            return 50;
+          }
+        })
+        .attr('stroke', d => {
+          if (BubbleChart.themenbereichFilter === 'all') {
+            return BubbleChart.fillColorCalculator.calculateColor(d.title, null);
+          } else {
+            return BubbleChart.fillColorCalculator.calculateColor(BubbleChart.themenbereichFilter, d.title);
+          }
+        });
+
+      labelColorLines.exit().remove();
 
 
       // this function moves some lables up/down if there is not enough space to show all title on same line
@@ -485,7 +551,10 @@ const BubbleChart = {
       }
       if (move) {
         for (let i = 1; i < categoryLabels[0].length; i += 2) {
+          // move labels and colorLines
           d3.select(categoryLabels[0][i]).attr("y", parseInt(categoryLabels[0][i].getAttribute("y")) + 30);
+          d3.select(labelColorLines[0][i]).attr("y1", parseInt(labelColorLines[0][i].getAttribute("y1")) + 30);
+          d3.select(labelColorLines[0][i]).attr("y2", parseInt(labelColorLines[0][i].getAttribute("y2")) + 30);
         }
       }
 
