@@ -35,23 +35,41 @@ class CenterCalculator {
     let centers = [];
     const self = this;
     nodes.forEach(function (d, i) {
+      /*
+      * If bubbles are split by thema_1 we only want to see those centers and labels for thema_1 with correct Themenbereich.
+      * Becaus the filter consideres thema_1 AND thema_2, we also receive nodes with a different Themenbereich. (In the case
+      * (of "Themenbereich Thema 2", this is same as categoryFilter)
+      */
       let found = false;
-      // if we split bubbles by Thema_1, we only want to have centers and labels for Thema_1 that has correct Themenbereich.
-      // because filter filters Thema_1 and Thema_2, there exist also nodes with other Themenbereich
-      // (in this case "Themenbereich Thema 2" is same as categoryFilter
       let category;
-      (self.themenbereichFilter !== 'all' && self.themenbereichFilter !== d.themenbereich
-        && self.themenbereichFilter === d.themenbereich_thema_2)
-        ? category = 'thema_2'
-        : category = self.category;
-      centers.forEach(function (c) {
-        if (c.title === d[category]) {
-          c.size++;
-          found = true;
+      // if grouped by thema_1, allow the creation of new centers from matching thema_2
+      if (self.category === 'thema_1') {
+        (self.themenbereichFilter !== 'all' && self.themenbereichFilter !== d.themenbereich
+          && self.themenbereichFilter === d.themenbereich_thema_2)
+          ? category = 'thema_2'
+          : category = self.category;
+        centers.forEach(function (c) {
+          if (c.title === d[category]) {
+            c.size++;
+            found = true;
+          }
+        });
+        if (!found) {
+          centers.push({title: d[category], size: 1});
         }
-      });
-      if (!found) {
-        centers.push({title: d[category], size: 1});
+      } 
+      // if grouped by something different than thema_1 let the center always be self.category
+      else {
+        category = self.category;
+        centers.forEach(function (c) {
+          if (c.title === d[category]) {
+            c.size++;
+            found = true;
+          }
+        });
+        if (!found) {
+          centers.push({ title: d[category], size: 1 });
+        }
       }
     });
     return centers;
