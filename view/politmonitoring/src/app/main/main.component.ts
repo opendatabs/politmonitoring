@@ -9,7 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./main.component.css']
 })
 
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, AfterViewInit {
   data: any[];
   originalData: any[];
   categoryFilter: String;
@@ -48,12 +48,13 @@ export class MainComponent implements OnInit {
           console.log(err); // TODO Add error handling
         });
   }
-  // ngAfterViewInit(): void {
-  //   if (this.firstDisplay) {
-  //     this.modalService.open(this.content, {size: 'lg'});
-  //     this.firstDisplay = false;
-  //   }
-  // }
+
+  ngAfterViewInit(): void {
+    if (this.firstDisplay) {
+      this.modalService.open(this.content, {size: 'lg'});
+      this.firstDisplay = false;
+    }
+  }
 
   /*
   * Retruns true if used browser is of type IE 11, 10 or older
