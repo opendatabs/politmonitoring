@@ -106,14 +106,14 @@ export class DownloadComponent implements OnInit {
       { title: 'Status', dataKey: 'Status' },
       { title: 'Jahr', dataKey: 'Jahr' },
       { title: 'Partei', dataKey: 'Partei' },
-      { title: 'Themen-\nereich', dataKey: 'Themenbereich' },
+      { title: 'Themen-\nbereich', dataKey: 'Themenbereich' },
       { title: 'Thema 1', dataKey: 'Thema 1 (gleiche Nr wie Themenbereich)' },
       { title: 'Thema 2', dataKey: 'Thema 2 (andere Nr)' },
     ];
 
     let fontSize = 8;
     let titleColumnWidth = 60;
-    const columnStyles = {  
+    const columnStyles = {
       'Geschäfts-nr': { columnWidth: 18 },
       'Instrument': { columnWidth: 18 },
       'UrheberIn': { columnWidth: 25 },
@@ -142,7 +142,7 @@ export class DownloadComponent implements OnInit {
     // generate a table from cleared data
     doc.autoTable(columns, this.clearData(data), {
       startY: 800,
-      margin: { horizontal: 7 },  
+      margin: { horizontal: 7 },
       bodyStyles: { valign: 'top' },
       styles: {
         overflow: 'linebreak',

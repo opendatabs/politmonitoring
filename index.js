@@ -56,7 +56,7 @@ app.get('/auth', auth, (req, res) => {
 const storage = multer.diskStorage({
     destination: './uploads/',
     filename: (req, file, cb) => {
-        cb(null, 'politdaten' + path.extname(file.originalname)) // TODO change to good name with timestamp
+        cb(null, 'politdatenneu' + path.extname(file.originalname)) // TODO change to good name with timestamp
     }
 });
 
@@ -86,7 +86,7 @@ app.post('/upload', (req, res) => {
 
 const convertData = () => {
     // TODO Check if err handling needed
-    const src = './uploads/politdaten.xlsx';
+    const src = './uploads/politdatenneu.xlsx';
     const dst = './data/data.json';
     if (fs.existsSync(src)) {
         convertExcel(src, dst, {sheet: '2'} );// Default worksheet is 1, if no options provided

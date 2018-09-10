@@ -1,3 +1,4 @@
+// TODO: create new username (secure) and pw
 var prodConfig = {
     cors: false,
     username: process.env.AUTH_USERNAME,
