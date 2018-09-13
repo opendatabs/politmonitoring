@@ -89,7 +89,7 @@ const convertData = () => {
     const src = './uploads/politdatenneu.xlsx';
     const dst = './data/data.json';
     if (fs.existsSync(src)) {
-        convertExcel(src, dst, {sheet: '2'} );// Default worksheet is 1, if no options provided
+        convertExcel(src, dst, { sheet: '2' } );// Default worksheet is 1, if no options provided
     }
 };
 

@@ -14,6 +14,7 @@ export class BubbleChartComponent implements OnInit, OnChanges, AfterViewInit {
 
   @ViewChild('vis') vis: ElementRef;
 
+  innerWidth: number;
   bubblesInitialized = false;
   lastDataLoaded: object;
 
@@ -23,6 +24,8 @@ export class BubbleChartComponent implements OnInit, OnChanges, AfterViewInit {
 
 
   ngOnInit() {
+    // capture window with to detect size changes
+    this.innerWidth = window.innerWidth;
   }
 
   ngOnChanges(changes: any): void {
@@ -30,6 +33,7 @@ export class BubbleChartComponent implements OnInit, OnChanges, AfterViewInit {
       // we have to set a small timeout. otherwise, the id of the buttons aren't correctly set until d3 needs them
       setTimeout(() => {
         this.lastDataLoaded = changes.data.currentValue;
+        this.bubblesInitialized = true;
         BubbleChart.initialize(changes.data.currentValue, this.categoryFilter);
       }, 50);
     }
@@ -42,12 +46,15 @@ export class BubbleChartComponent implements OnInit, OnChanges, AfterViewInit {
       return 'thema_1';
   }
 
-  // Reload the graph on window resize
+  // Reload the graph on horizontal window resize
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    setTimeout(function () {
-      BubbleChart.initialize(this.lastDataLoaded, this.categoryFilter);
-    }, 900);
+    if (this.innerWidth !== window.innerWidth && this.bubblesInitialized) {
+      setTimeout(() => {
+        BubbleChart.initialize(this.lastDataLoaded, this.categoryFilter);
+      }, 900);
+      this.innerWidth = window.innerWidth;
+    }
   }
 
   ngAfterViewInit() {

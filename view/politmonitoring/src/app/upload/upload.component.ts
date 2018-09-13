@@ -45,7 +45,7 @@ export class UploadComponent implements OnInit {
       if (status === 422)
         this.toastr.error('Daten müssen das Dateiformat .xlsx haben', 'Uploadfehler');
       if (status !== 200 && status !== 422)
-        this.toastr.error('Beim Upload is ein Fehler aufgetreten', 'Uploadfehler'); // TODO Osci Filesize anpassen
+        this.toastr.error('Beim Upload is ein Fehler aufgetreten', 'Uploadfehler');
     };
   }
   changePathValue(event) {

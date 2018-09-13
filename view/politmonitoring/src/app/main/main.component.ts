@@ -33,8 +33,11 @@ export class MainComponent implements OnInit, AfterViewInit {
             // remove number
             d.Themenbereich = d.Themenbereich.substring(0, d.Themenbereich.indexOf('(')).trim();
             // TODO: Removed the line temporary till further investigation
-            // d["Themenbereich Thema 2"] = d["Themenbereich Thema 2"].substring(0, d["Themenbereich Thema 2"].indexOf('(')).trim();
-            // TODO dangerous. Maybe we should simplify the property name
+            debugger;
+            if (d["Themenbereich Thema 2"]) {
+              d["Themenbereich Thema 2"] = d["Themenbereich Thema 2"].substring(0, d["Themenbereich Thema 2"].indexOf('(')).trim();
+            }
+            // TODO: simplify the property name
             d['Thema 1 (gleiche Nr wie Themenbereich)'] = d['Thema 1 (gleiche Nr wie Themenbereich)']
               .substring(0, d['Thema 1 (gleiche Nr wie Themenbereich)'].indexOf('(')).trim();
             d['Thema 2 (andere Nr)'] = d['Thema 2 (andere Nr)'].substring(0, d['Thema 2 (andere Nr)'].indexOf('(')).trim();
