@@ -29,28 +29,34 @@ export class MainComponent implements OnInit, AfterViewInit {
              * Fix the flawful paring, keeping lenght at 7
              */
             if (d['Geschäfts-nr'].length > 7) {
-              if (d['Geschäfts-nr'].substring(6, 7) === '9') {
-                // TODO: Get string to next highest number (replace line blow)
-                d['Geschäfts-nr'] = d['Geschäfts-nr'].substring(0, 6);
+              if (d['Geschäfts-nr'].substring(7, 8) === '9') {
+                debugger;
+                if (Number(d['Geschäfts-nr']) !== NaN) {
+                  let tmp = parseFloat(d['Geschäfts-nr']).toFixed(4).toString();
+                  if (tmp.length < 7) {
+                    tmp = '0' + tmp;
+                  }
+                  d['Geschäfts-nr'] = tmp;
+                } else {
+                  d['Geschäfts-nr'] = d['Geschäfts-nr'].substring(0, 7);
+                }
               } else {
-                d['Geschäfts-nr'] = d['Geschäfts-nr'].substring(0, 6);
+                d['Geschäfts-nr'] = d['Geschäfts-nr'].substring(0, 7);
               }
             }
 
             // extract numbers of categories
-            d.Themenbereich_Number = DataService.extractNumber(d.Themenbereich);
-            d.Thema2_Number = DataService.extractNumber(d['Thema 2 (andere Nr)']);
+            d.Themenbereich_Number = DataService.extractNumber(d['Themenbereich 1']);
+            d.Thema2_Number = DataService.extractNumber(d['Thema 2']);
 
             // remove number
-            d.Themenbereich = d.Themenbereich.substring(0, d.Themenbereich.indexOf('(')).trim();
-            // TODO: Removed the line temporary till further investigation
-            if (d['Themenbereich Thema 2']) {
-              d['Themenbereich Thema 2'] = d['Themenbereich Thema 2'].substring(0, d['Themenbereich Thema 2'].indexOf('(')).trim();
+            d['Themenbereich 1'] = d['Themenbereich 1'].substring(0, d['Themenbereich 1'].indexOf('(')).trim();
+            if (d['Themenbereich 2']) {
+              d['Themenbereich 2'] = d['Themenbereich 2'].substring(0, d['Themenbereich 2'].indexOf('(')).trim();
             }
-            // TODO: simplify the property name
-            d['Thema 1 (gleiche Nr wie Themenbereich)'] = d['Thema 1 (gleiche Nr wie Themenbereich)']
-              .substring(0, d['Thema 1 (gleiche Nr wie Themenbereich)'].indexOf('(')).trim();
-            d['Thema 2 (andere Nr)'] = d['Thema 2 (andere Nr)'].substring(0, d['Thema 2 (andere Nr)'].indexOf('(')).trim();
+            d['Thema 1'] = d['Thema 1']
+              .substring(0, d['Thema 1'].indexOf('(')).trim();
+            d['Thema 2'] = d['Thema 2'].substring(0, d['Thema 2'].indexOf('(')).trim();
           });
           // Remove empty elements from array
           const filteredData = data.filter( el => el['Geschäfts-nr'] > 0);

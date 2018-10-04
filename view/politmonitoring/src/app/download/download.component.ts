@@ -115,9 +115,9 @@ export class DownloadComponent implements OnInit {
       { title: 'Status', dataKey: 'Status' },
       { title: 'Jahr', dataKey: 'Jahr' },
       { title: 'Partei', dataKey: 'Partei' },
-      { title: 'Themen-\nbereich', dataKey: 'Themenbereich' },
-      { title: 'Thema 1', dataKey: 'Thema 1 (gleiche Nr wie Themenbereich)' },
-      { title: 'Thema 2', dataKey: 'Thema 2 (andere Nr)' },
+      { title: 'Themen-\nbereich 1', dataKey: 'Themenbereich 1' },
+      { title: 'Thema 1', dataKey: 'Thema 1' },
+      { title: 'Thema 2', dataKey: 'Thema 2' },
     ];
 
     let fontSize = 8;
@@ -130,9 +130,9 @@ export class DownloadComponent implements OnInit {
       'Status': { columnWidth: 25 },
       'Jahr': { columnWidth: 10 },
       'Partei': { columnWidth: 18 },
-      'Themenbereich': { columnWidth: 30 },
-      'Thema 1 (gleiche Nr wie Themenbereich)': { columnWidth: 31 },
-      'Thema 2 (andere Nr)': { columnWidth: 31 },
+      'Themenbereich 1': { columnWidth: 30 },
+      'Thema 1': { columnWidth: 31 },
+      'Thema 2': { columnWidth: 31 },
     };
 
     // smaller table properties with more columns if the user has admin privileges

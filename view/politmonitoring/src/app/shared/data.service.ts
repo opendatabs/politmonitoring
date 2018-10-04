@@ -65,11 +65,11 @@ export class DataService {
 
   filterBySubCategory(data: any[], subCategoryFilter: string) {
     return data.filter((d) => {
-      if (d['Thema 2 (andere Nr)'] === subCategoryFilter) {
+      if (d['Thema 2'] === subCategoryFilter) {
         // console.log('hier');
       }
-      return d['Thema 1 (gleiche Nr wie Themenbereich)'] === subCategoryFilter ||
-        d['Thema 2 (andere Nr)'] === subCategoryFilter;
+      return d['Thema 1'] === subCategoryFilter ||
+        d['Thema 2'] === subCategoryFilter;
     });
   }
 

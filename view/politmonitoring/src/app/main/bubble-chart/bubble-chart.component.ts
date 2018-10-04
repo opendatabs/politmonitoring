@@ -40,10 +40,11 @@ export class BubbleChartComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   setId() {
-    if (!this.categoryFilter || this.categoryFilter === 'all')
-      return 'themenbereich';
-    else
+    if (!this.categoryFilter || this.categoryFilter === 'all') {
+      return 'themenbereich_1';
+    } else {
       return 'thema_1';
+    }
   }
 
   // Reload the graph on horizontal window resize

@@ -139,7 +139,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     }
     this.filterData();
     // prepare sub category dropdown
-    let allCategories = this.data.map(d => d["Thema 1 (gleiche Nr wie Themenbereich)"]);
+    let allCategories = this.data.map(d => d['Thema 1']);
     this.subCategoryDropdown = this.dataService.unique(allCategories);
     this.subCategoryDropdown.sort();
     this.subCategoryFilter = 'all';
@@ -217,7 +217,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
 
   private initDropdowns() {
     this.categoryDropdown = this.dataService.uniqueCategories(this.originalData.map(d => {
-      return {description: d.Themenbereich, number: d.Themenbereich_Number}
+      return { description: d['Themenbereich 1'], number: d.Themenbereich_Number };
     }));
     this.categoryDropdown.sort((a, b) => a.description.localeCompare(b.description));
     this.keyTopicDropdown = this.dataService

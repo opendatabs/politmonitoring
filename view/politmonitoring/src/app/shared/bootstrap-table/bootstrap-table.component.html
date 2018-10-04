@@ -70,24 +70,24 @@
                       <i *ngIf="'Jahr' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
                     </p>
                   </th>
-                  <th class="titleCol" (click)="changeSortBy('Themenbereich')">
+                  <th class="titleCol" (click)="changeSortBy('Themenbereich 1')">
                     <p>
                       <span *ngIf="!admin">Themenbereich</span>
                       <span *ngIf="admin">Themen- <br>bereich</span>
-                      <i *ngIf="'Themenbereich' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'Themenbereich' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      <i *ngIf="'Themenbereich 1' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
+                      <i *ngIf="'Themenbereich 1' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
                     </p>
                   </th>
-                  <th class="titleCol" (click)="changeSortBy('Thema 1 (gleiche Nr wie Themenbereich)')">
+                  <th class="titleCol" (click)="changeSortBy('Thema 1')">
                     <p>Thema 1
-                      <i *ngIf="'Thema 1 (gleiche Nr wie Themenbereich)' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'Thema 1 (gleiche Nr wie Themenbereich)' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      <i *ngIf="'Thema 1' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
+                      <i *ngIf="'Thema 1' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
                     </p>
                   </th>
-                  <th class="titleCol" (click)="changeSortBy('Thema 2 (andere Nr)')">
+                  <th class="titleCol" (click)="changeSortBy('Thema 2')">
                     <p>Thema 2
-                      <i *ngIf="'Thema 2 (andere Nr)' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'Thema 2 (andere Nr)' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      <i *ngIf="'Thema 2' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
+                      <i *ngIf="'Thema 2' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
                     </p>
                   </th>
                   <th *ngIf="admin" class="titleCol" (click)="changeSortBy('Schwerpunktthema (bei Bedarf)')">
@@ -137,16 +137,16 @@
                     <span *ngIf="!entry['Jahr']"></span>
                   </td>
                   <td>
-                    <span *ngIf="entry['Themenbereich']" [innerHTML]="entry['Themenbereich'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['Themenbereich']"></span>
+                    <span *ngIf="entry['Themenbereich 1']" [innerHTML]="entry['Themenbereich 1'].toString() | highlight:searchString"></span>
+                    <span *ngIf="!entry['Themenbereich 1']"></span>
                   </td>
                   <td>
-                    <span *ngIf="entry['Thema 1 (gleiche Nr wie Themenbereich)']" [innerHTML]="entry['Thema 1 (gleiche Nr wie Themenbereich)'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['Thema 1 (gleiche Nr wie Themenbereich)']"></span>
+                    <span *ngIf="entry['Thema 1']" [innerHTML]="entry['Thema 1'].toString() | highlight:searchString"></span>
+                    <span *ngIf="!entry['Thema 1']"></span>
                   </td>
                   <td>
-                    <span *ngIf="entry['Thema 2 (andere Nr)']" [innerHTML]="entry['Thema 2 (andere Nr)'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['Thema 2 (andere Nr)']"></span>
+                    <span *ngIf="entry['Thema 2']" [innerHTML]="entry['Thema 2'].toString() | highlight:searchString"></span>
+                    <span *ngIf="!entry['Thema 2']"></span>
                   </td>
                   <td *ngIf="admin">
                     <span *ngIf="entry['Schwerpunktthema (bei Bedarf)']" [innerHTML]="entry['Schwerpunktthema (bei Bedarf)'].toString() | highlight:searchString"></span>
