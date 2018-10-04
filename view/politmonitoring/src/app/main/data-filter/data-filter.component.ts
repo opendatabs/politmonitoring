@@ -122,7 +122,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
 
   // checks if filter of year is set
   checkFilterYearsSet() {
-    this.yearFilterSet = JSON.stringify(this.yearDropdown) !== JSON.stringify(this.getInitYears())
+    this.yearFilterSet = JSON.stringify(this.yearDropdown) !== JSON.stringify(this.getInitYears());
   }
 
   filterStatus(status: string) {

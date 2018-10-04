@@ -1,7 +1,7 @@
-import { Component, ViewEncapsulation, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './shared/auth.service';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -9,17 +9,14 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent {
   admin: boolean;
   @ViewChild('content') content: ElementRef;
-  firstDisplay: boolean = false; // TODO: only false during development
-
 
   constructor(
     private router: Router,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private modalService: NgbModal
   ) {
       router.events.subscribe(() => {
           if (this.router.url.indexOf('admin') > -1) {
@@ -34,23 +31,4 @@ export class AppComponent implements AfterViewInit {
           }
       });
     }
-    ngAfterViewInit(): void {
-      if (this.firstDisplay && !this.admin) {
-        // do this async (not in same digest). Otherwise it will throw expressionChangedAfterItHasBeenCheckedError
-        setTimeout(()=> {
-          this.modalService.open(this.content, {size: 'lg'});
-          this.firstDisplay = false;
-        }, 0);
-      }
-    }
-  //   this.route.url.subscribe(
-  //     (url) => {
-  //       if (url.length >= 1)
-  //         if (url[url.length - 1].path === 'admin')
-  //           this.authService.requestLogin().subscribe(
-  //             event => {this.admin = event
-  //             console.log('triggered')},
-  //             error => console.log(error)
-  //           );
-  //     });
 }

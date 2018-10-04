@@ -14,7 +14,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   originalData: any[];
   categoryFilter: String;
   @ViewChild('content') content: ElementRef;
-  firstDisplay: boolean = true;
+  firstDisplay = true;
 
   constructor(
       private dataService: DataService,
@@ -25,6 +25,17 @@ export class MainComponent implements OnInit, AfterViewInit {
     this.dataService.getData().subscribe(
         (data) => {
           data.forEach(d => {
+            /* When the .xlsx file is parsed to JSON, some numbers can be converted with a tail of 000000 or 99999
+             * Fix the flawful paring, keeping lenght at 7
+             */
+            if (d['Geschäfts-nr'].length > 7) {
+              if (d['Geschäfts-nr'].substring(6, 7) === '9') {
+                // TODO: Get string to next highest number (replace line blow)
+                d['Geschäfts-nr'] = d['Geschäfts-nr'].substring(0, 6);
+              } else {
+                d['Geschäfts-nr'] = d['Geschäfts-nr'].substring(0, 6);
+              }
+            }
 
             // extract numbers of categories
             d.Themenbereich_Number = DataService.extractNumber(d.Themenbereich);
@@ -33,9 +44,8 @@ export class MainComponent implements OnInit, AfterViewInit {
             // remove number
             d.Themenbereich = d.Themenbereich.substring(0, d.Themenbereich.indexOf('(')).trim();
             // TODO: Removed the line temporary till further investigation
-            debugger;
-            if (d["Themenbereich Thema 2"]) {
-              d["Themenbereich Thema 2"] = d["Themenbereich Thema 2"].substring(0, d["Themenbereich Thema 2"].indexOf('(')).trim();
+            if (d['Themenbereich Thema 2']) {
+              d['Themenbereich Thema 2'] = d['Themenbereich Thema 2'].substring(0, d['Themenbereich Thema 2'].indexOf('(')).trim();
             }
             // TODO: simplify the property name
             d['Thema 1 (gleiche Nr wie Themenbereich)'] = d['Thema 1 (gleiche Nr wie Themenbereich)']
@@ -49,14 +59,17 @@ export class MainComponent implements OnInit, AfterViewInit {
         },
         (err) => {
           alert('An error occurred. See console for details.');
-          console.log(err); // TODO Add error handling
+          console.log(err); // TODO: Add error handling
         });
   }
 
   ngAfterViewInit(): void {
     if (this.firstDisplay) {
-      this.modalService.open(this.content, {size: 'lg'});
-      this.firstDisplay = false;
+      // do this async (not in same digest). Otherwise it will throw expressionChangedAfterItHasBeenCheckedError
+      setTimeout(() => {
+        this.modalService.open(this.content, { size: 'lg' });
+        this.firstDisplay = false;
+      }, 0);
     }
   }
 

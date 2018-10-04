@@ -39,7 +39,15 @@ export class DownloadComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.dataService.data.subscribe(data => this.data = data);
+    this.dataService.data.subscribe(data => {
+      // if (data.length && data[0]['Jahr']) {
+      //   debugger
+      //   this.data = data.map( e => {
+      //     let eo = {};
+      //     eo[e['Jahr']] = e.Jahr;
+      // }
+      this.data = data;
+    });
     this.dataService.originalData.subscribe(originalData => this.originalData = originalData);
     this.dataService.svg.subscribe(svg => this.svg = svg);
     this.authService.currentAdminState.subscribe(admin => this.admin = admin);
@@ -54,6 +62,7 @@ export class DownloadComponent implements OnInit {
   }
 
   onDownloadCsv(): void {
+    debugger;
     const csv: { downloadData: object[], options: object } = this.prepareCsv(this.data);
     new Angular5Csv(csv.downloadData, this.nameFile(true), csv.options);
   }
@@ -136,7 +145,7 @@ export class DownloadComponent implements OnInit {
 
     const doc = new jsPDF({ orientation: 'landscape' });
     // add header
-    doc.text(7, 15, 'Grossratsgeschäfte Basel Stadt');
+    doc.text(7, 15, 'Politmonitor Basel-Stadt');
     // add the graph produced from a base64 png string. Add position and size
     doc.addImage(graphUri, 'PNG', 5, 15, this.calcWidth(), 150);
     // generate a table from cleared data
@@ -177,7 +186,7 @@ export class DownloadComponent implements OnInit {
   private nameFile(filtered: boolean = false): string {
     const filterStatus: string = (!filtered ? '' : '_(gefiltert)');
     const timestamp: string = moment().format('DD/MM/YYYY');
-    return `Grossratsgeschäfte_Basel_Stadt_${timestamp}${filterStatus}`;
+    return `Politmonitor_Basel_Stadt_${timestamp}${filterStatus}`;
   }
 
   /*

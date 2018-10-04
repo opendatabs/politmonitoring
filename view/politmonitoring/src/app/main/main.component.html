@@ -3,12 +3,15 @@
 <div class="alert alert-warning my-2 d-lg-none" role="alert">
   <b>Hinweis:</b> Die Visualisierung ist nicht für Mobilegeräte und Anzeigegrössen unter 990 Pixel optimiert.
 </div>
-<div class="alert alert-warning my-2" role="alert" *ngIf="detectIE()">
+<div class="alert alert-warning my-2 alert-dismissible fade show" role="alert" *ngIf="detectIE()">
   <b>Hinweis:</b> Sie verwenden einen veralteten Browser, der von vielen modernen Webseiten nicht mehr länger unterstützt wird.
   Für mehr Sicherheit im Internet und ein besseres Nutzungserlebnis empfehlen wir Ihnen auf einen modernen Browser umzusteigen: 
   <a href="https://www.mozilla.org/de/" target="_blank">Firefox</a>, <a href="https://www.google.com/chrome/" target="_blank">Chrome</a>, 
   <a href="https://support.apple.com/downloads/safari-for-windows" target="_blank">Safari</a>,
   <a href="https://www.opera.com/de" target="_blank">Opera</a> oder <a href="https://brave.com/" target="_blank">Brave</a>.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
 </div>
 
 <app-bubble-chart [data]="data" [categoryFilter]="categoryFilter"></app-bubble-chart>
@@ -19,48 +22,23 @@
 </app-bootstrap-table>
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title">Informationen zum Politmonitoring</h4>
+    <h4 class="modal-title">Informationen zum Politmonitor Basel-Stadt</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <p>Das Politmonitoring ist ein Arbeitsinstrument der basel-städtischen Kantons- und Stadtentwicklung.
-      Damit beobachtet die Kantons- und Stadtentwicklung systematisch das politische Geschehen und analysiert
-      die Themen sowie die Entwicklung des Stadt-Kantons. <br><br>
-      In der Visualisierung abgebildet werden politische Geschäfte in Form von Punkten. Die  <b>Farbe eines
-      Punktes</b> ist durch die Themenzuordnung der Kantons- und Stadtentwicklung bestimmt. Die <b>Grösse
-      der Punkte</b> basiert auf dem Instrument und dessen Wirkungskraft (Initiative > Motion > Anzug > Petition).
-      Abgebildet werden Motionen, Anzüge und Petitionen, die vom Grossen Rat mit einem Mehrheitsbeschluss an den
-      Regierungsrat überwiesen werden, sowie Volksinitiativen. <br><br> Die Daten wurden im Rahmen eines Open Government 
-      Data Pilotprojektes von der
-    <a href="http://www.digitale-nachhaltigkeit.unibe.ch/" target="_blank">Forschungsstelle Digitale Nachhaltigkeit</a>
-    der Universität Bern visualisiert.</p>
-    <!--<br><br>-->
-    <!--<h5>Begriffserklärungen</h5>-->
-    <!--<p>Die <b>Motion</b> ist das parlamentarische Instrument mit dem stärksten verpflichtenden Charakter.-->
-      <!--Mit ihr kann jedes Ratsmitglied oder eine ständige Kommission vom Regierungsrat verbindlich fordern,-->
-      <!--dem Grossen Rat ein neues Gesetz, eine Verfassungs- oder Gesetzesänderung oder eine Massnahme zu unterbreiten.-->
-      <!--Nur die an den Regierungsrat überwiesenen Motionen werden in der Visualisierung abgebildet.-->
-      <!--<br><br>-->
-      <!--Der <b>Anzug</b> ist das am häufigsten gewählte parlamentarische Instrument und entspricht dem Postulat beim Bund bzw.-->
-      <!--den meisten Kantonen. Per Anzug kann jedes Ratsmitglied oder eine ständige Kommission dem Regierungsrat oder dem-->
-      <!--Grossen Rat Anregungen zur Änderung der Verfassung, zu Gesetzen oder Beschlüssen oder zu Massnahmen der Verwaltung-->
-      <!--vorlegen. Nur die an den Regierungsrat überwiesenen Anzüge werden in der Visualisierung erfasst.-->
-      <!--<br><br>-->
-      <!--Die <b>Petition</b> ist ein Grundrecht, das allen Menschen unabhängig von Nationalität oder Alter zur Verfügung steht.-->
-      <!--Auch Ausländerinnen und Ausländer, Bewohner anderer Kantone und Kinder haben also das Recht, schriftlich Bitten,-->
-      <!--Anregungen oder Beschwerden an jede Behörde zu richten. Petitionen werden von der Petitionskommission bearbeitet-->
-      <!--und benötigen keine Mindestzahl an Unterschriften. Nur die durch den Grossen Rat an den Regierungsrat überwiesenen-->
-      <!--Petitionen werden in der Visualisierung erfasst.-->
-      <!--<br><br>-->
-      <!--3'000 Stimmberechtigte können innert 18 Monaten eine <b>Initiative</b> einreichen, um eine Verfassungs- oder-->
-      <!--eine Gesetzesänderung einzubringen. Sofern der Grosse Rat die Volksinitiative als rechtlich zulässig erachtet,-->
-      <!--muss er sie behandeln. Er kann die Initiative unterstützen, zur Ablehnung empfehlen oder einen Gegenvorschlag-->
-      <!--beschliessen und ausarbeiten lassen. Auch der Regierungsrat kann beim Grossen Rat einen Gegenvorschlag beantragen.-->
-      <!--In der Visualisierung werden alle zustande gekommenen Initiativen erfasst. Im Anschluss an eine Abstimmung gelten-->
-      <!--sie als erledigt.-->
-    <!--</p>-->
+    <p>Der Politmonitor Basel-Stadt ist ein Arbeitsinstrument der Kantons- und Stadtentwicklung, welches sie der
+      Öffentlichkeit zur Verfügung stellt. Die Kantons- und Stadtentwicklung beobachtet mit dem Politmonitor die mittel- 
+      und längerfristige Entwicklung der politischen Themen in Basel-Stadt.<br><br>
+      Erfasst werden die wirkungsstärksten Geschäfte des Grossen Rates und der Bevölkerung: Volksinitiativen sowie
+      Motionen, Anzüge und Petitionen, welche vom Grossen Rat mit Mehrheitsbeschluss an die Regierung überwiesen werden.
+      Der Datensatz ist ab dem Jahr 2015 vollständig, davor sind nur die Geschäfte erfasst, die noch in Bearbeitung sind.<br><br>
+      Die Daten wurden im Rahmen eines Open Government Data Pilotprojektes von der
+      <a href="http://www.digitale-nachhaltigkeit.unibe.ch/" target="_blank">Forschungsstelle Digitale Nachhaltigkeit</a>
+      der Universität Bern visualisiert.<br><br>
+      Fragen, Rückmeldungen und letzte Aktualisierung:
+      <a href="http://www.entwicklung.bs.ch/politmonitor">Kantons- und Stadtentwicklung Basel-Stadt</a></p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-light" (click)="c('Close click')">Schliessen</button>

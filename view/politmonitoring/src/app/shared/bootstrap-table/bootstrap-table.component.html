@@ -107,7 +107,8 @@
                     (click)="selectEntry(entry)">
                   <td>
                     <a href="{{entry['Link'].toString()}}" target="_blank">
-                      <span *ngIf="entry['Geschäfts-nr']" [innerHTML]="entry['Geschäfts-nr'].toFixed(4) | highlight:searchString"></span>
+                      <!-- <span *ngIf="entry['Geschäfts-nr']" [innerHTML]="entry['Geschäfts-nr'].toFixed(4) | highlight:searchString"></span> -->
+                      <span *ngIf="entry['Geschäfts-nr']" [innerHTML]="entry['Geschäfts-nr'] | highlight:searchString"></span>
                       <span *ngIf="!entry['Geschäfts-nr']"></span>
                     </a>
                   </td>

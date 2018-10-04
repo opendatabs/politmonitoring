@@ -77,9 +77,10 @@ class CenterCalculator {
 
   // sort ascending or descending, based on given category and cluster size
   sort(centers) {
-
     if (this.category === 'jahr') {
-      centers.sort((a,b) => a.title - b.title)
+      centers.sort((a,b) => a.title - b.title);
+      // Sort descending on category "jahr"
+      return centers.reverse();
     } else {
       centers.sort((a, b) => {
         let deltaSize = b.size - a.size;
@@ -91,8 +92,8 @@ class CenterCalculator {
           return a.title.localeCompare(b.title);
         }
       });
+      return centers;
     }
-    return centers;
   }
 
   // calculates coordinates for centers based on sort order

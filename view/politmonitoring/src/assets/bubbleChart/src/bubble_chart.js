@@ -1,3 +1,7 @@
+/* This file has to be transpiled to < ES6 to properly function in older Browsers.
+ * Run "npm run babel" in the ~/view/politmonitoring folder to transpile with Babel
+ * 
+ */
 const $ = jQuery;
 
 /* bubbleChart creation function. Returns a function that will
@@ -17,8 +21,8 @@ const BubbleChart = {
   // defines size of bubbles
   AMOUNT_INSTRUMENTS: {
     Initiative: 8,
-    Anzug: 4,
-    Motion: 2,
+    Anzug: 2,
+    Motion: 4,
     Petition: 1
   },
 
@@ -79,7 +83,7 @@ const BubbleChart = {
 
     let infotext = {
       motion: 'Die Motion ist das parlamentarische Instrument mit dem stärksten verpflichtenden Charakter. Mit ihr kann jedes Ratsmitglied oder eine ständige Kommission vom Regierungsrat verbindlich fordern, dem Grossen Rat ein neues Gesetz, eine Verfassungs- oder Gesetzesänderung oder eine Massnahme zu unterbreiten. Nur die an den Regierungsrat überwiesenen Motionen werden in der Visualisierung abgebildet.',
-      petition: 'Die Petition ist ein Grundrecht, das allen Menschen unabhängig von Nationalität oder Alter zur Verfügung steht. Auch Ausländerinnen und Ausländer, Bewohner anderer Kantone und Kinder haben also das Recht, schriftlich Bitten, Anregungen oder Beschwerden an jede Behörde zu richten. Petitionen werden von der Petitionskommission bearbeitet und benötigen keine Mindestzahl an Unterschriften. Nur die durch den Grossen Rat an den Regierungsrat überwiesenen Petitionen werden in der Visualisierung erfasst.',
+      petition: 'Die Petition ist ein Grundrecht, das allen Menschen unabhängig von Nationalität oder Alter zur Verfügung steht. Auch Ausländerinnen und Ausländer, Bewohnerinnen und Bewohner anderer Kantone sowie Kinder haben das Recht, schriftlich Bitten, Anregungen oder Beschwerden an jede Behörde zu richten. Petitionen werden von der Petitionskommission bearbeitet und benötigen keine Mindestzahl an Unterschriften. Nur die durch den Grossen Rat an den Regierungsrat überwiesenen Petitionen werden in der Visualisierung erfasst.',
       anzug: 'Der Anzug ist das am häufigsten gewählte parlamentarische Instrument und entspricht dem Postulat beim Bund bzw. den meisten Kantonen. Per Anzug kann jedes Ratsmitglied oder eine ständige Kommission dem Regierungsrat oder dem Grossen Rat Anregungen zur Änderung der Verfassung, zu Gesetzen oder Beschlüssen oder zu Massnahmen der Verwaltung vorlegen. Nur die an den Regierungsrat überwiesenen Anzüge werden in der Visualisierung erfasst.',
       initiative: '3\'000 Stimmberechtigte können innert 18 Monaten eine Initiative einreichen, um eine Verfassungs- oder eine Gesetzesänderung einzubringen. Sofern der Grosse Rat die Volksinitiative als rechtlich zulässig erachtet, muss er sie behandeln. Er kann die Initiative unterstützen, zur Ablehnung empfehlen oder einen Gegenvorschlag beschliessen und ausarbeiten lassen. Auch der Regierungsrat kann beim Grossen Rat einen Gegenvorschlag beantragen. In der Visualisierung werden alle zustande gekommenen Initiativen erfasst. Im Anschluss an eine Abstimmung gelten sie als erledigt.'
     };
@@ -419,19 +423,21 @@ const BubbleChart = {
       onMouseOver = (d, scope, infoTooltip) => {
         let info = null;
 
-        infoTooltip.transition()
-          // .delay(500)
-          .duration(2000)
-          .style("opacity", 1);
-
+        
         if (d.title === 'Petition')
-          info = infotext.petition;
+        info = infotext.petition;
         if (d.title === 'Anzug')
-          info = infotext.anzug;
+        info = infotext.anzug;
         if (d.title === 'Motion')
-          info = infotext.motion;
+        info = infotext.motion;
         if (d.title === 'Initiative')
-          info = infotext.initiative;
+        info = infotext.initiative;
+        
+        if (info !== null) {
+          infoTooltip.transition()
+            .duration(2000)
+            .style("opacity", 1);
+        }
 
         infoTooltip.html(info)
           .style("left", (d.x - 80) + "px")
@@ -528,6 +534,10 @@ const BubbleChart = {
 
       labelColorLines.exit().remove();
 
+      // Bug fix to remove remaining labelColorLines
+      if (BubbleChart.category !== 'themenbereich' && BubbleChart.category !== 'thema_1') {
+        d3.selectAll(".labelColorLine").remove();
+      }
 
       // this function moves some lables up/down if there is not enough space to show all title on same line
       function checkIfMoveNecessary(labels, i) {
@@ -570,7 +580,7 @@ const BubbleChart = {
       d3.select(self).attr('stroke', 'black');
 
       let content = '<span class="name">Geschäftsnummer: </span><span class="value"><a target="_blank" href="' + d.link + '">' +
-        d.geschaefts_nr.toFixed(4) +
+        d.geschaefts_nr +
         '</a> ('+d.jahr +')</span><br/>' +
         '<span class="name">Titel: </span><span class="value">' +
         d.titel +

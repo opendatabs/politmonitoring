@@ -94,11 +94,12 @@ var CenterCalculator = function () {
   }, {
     key: 'sort',
     value: function sort(centers) {
-
       if (this.category === 'jahr') {
         centers.sort(function (a, b) {
           return a.title - b.title;
         });
+        // Sort descending on category "jahr"
+        return centers.reverse();
       } else {
         centers.sort(function (a, b) {
           var deltaSize = b.size - a.size;
@@ -110,8 +111,8 @@ var CenterCalculator = function () {
             return a.title.localeCompare(b.title);
           }
         });
+        return centers;
       }
-      return centers;
     }
 
     // calculates coordinates for centers based on sort order

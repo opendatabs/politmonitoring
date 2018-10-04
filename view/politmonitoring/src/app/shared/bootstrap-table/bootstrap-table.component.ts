@@ -72,10 +72,12 @@ export class BootstrapTableComponent implements OnInit, OnChanges {
         // change direction if second click on same col
         if (this.sort.sortBy === col) {
             this.sort.asc = !this.sort.asc;
+            console.log(this.sort);
         // change filter
         } else {
             this.sort.sortBy = col;
             this.sort.asc = false;
+            console.log(this.sort);
         }
     }
 

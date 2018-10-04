@@ -56,7 +56,7 @@ app.get('/auth', auth, (req, res) => {
 const storage = multer.diskStorage({
     destination: './uploads/',
     filename: (req, file, cb) => {
-        cb(null, 'politdatenneu' + path.extname(file.originalname)) // TODO change to good name with timestamp
+        cb(null, 'politdaten' + path.extname(file.originalname)) // TODO change to good name with timestamp
     }
 });
 
@@ -78,18 +78,21 @@ app.post('/upload', (req, res) => {
             return res.status(422).send("an Error occured")
         }
         convertData();
-        // TODO file validation
+        // TODO: file validation
         path = req.file.path;
         return res.status(200).send("Upload Completed for "+path);
     });
 });
 
 const convertData = () => {
-    // TODO Check if err handling needed
-    const src = './uploads/politdatenneu.xlsx';
+    // TODO: Check if err handling needed
+    const src = './uploads/politdaten.xlsx';
     const dst = './data/data.json';
     if (fs.existsSync(src)) {
-        convertExcel(src, dst, { sheet: '2' } );// Default worksheet is 1, if no options provided
+        convertExcel(src, dst, { 
+            sheet: '2', // Default worksheet is 1, if no options provided
+            convertTextToNumber: false // No information loss on Geschäftsnummern like 07.110
+        } );
     }
 };
 
@@ -99,5 +102,5 @@ app.get('/*', function (req, res) {
 });
 
 app.listen(5000, function () {
-    console.log('Example app listening on port 5000')
+    console.log('App listening on port 5000')
 });
