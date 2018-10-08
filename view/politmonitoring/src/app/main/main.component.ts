@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, AfterViewInit} from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { DataService } from '../shared/data.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -13,8 +13,8 @@ export class MainComponent implements OnInit, AfterViewInit {
   data: any[];
   originalData: any[];
   categoryFilter: String;
-  @ViewChild('content') content: ElementRef;
-  firstDisplay = true;
+  @ViewChild('infoBtnContent') infoBtnContent: ElementRef;
+  firstDisplay = false; // TODO: Change to true in production
 
   constructor(
       private dataService: DataService,
@@ -30,7 +30,6 @@ export class MainComponent implements OnInit, AfterViewInit {
              */
             if (d['Geschäfts-nr'].length > 7) {
               if (d['Geschäfts-nr'].substring(7, 8) === '9') {
-                debugger;
                 if (Number(d['Geschäfts-nr']) !== NaN) {
                   let tmp = parseFloat(d['Geschäfts-nr']).toFixed(4).toString();
                   if (tmp.length < 7) {
@@ -73,7 +72,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     if (this.firstDisplay) {
       // do this async (not in same digest). Otherwise it will throw expressionChangedAfterItHasBeenCheckedError
       setTimeout(() => {
-        this.modalService.open(this.content, { size: 'lg' });
+        this.modalService.open(this.infoBtnContent, { size: 'lg' });
         this.firstDisplay = false;
       }, 0);
     }
@@ -95,7 +94,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   * Triggers the modal to apear. Modaloption can be passed as arguments
   * See: https://ng-bootstrap.github.io/#/components/modal/examples
   */
-  openLg(content) {
-    this.modalService.open(content, { size: 'lg' , windowClass: 'animated slideInUp' });
+  openLg(infoBtnContent) {
+    this.modalService.open(infoBtnContent, { size: 'lg' , windowClass: 'animated slideInUp' });
   }
 }

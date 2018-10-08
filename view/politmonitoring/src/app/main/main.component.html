@@ -20,7 +20,7 @@
                        [title]="'Grossratsgeschäfte'"
                        [initialSortBy]="'Geschäfts-nr'">
 </app-bootstrap-table>
-<ng-template #content let-c="close" let-d="dismiss">
+<ng-template #infoBtnContent let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title">Informationen zum Politmonitor Basel-Stadt</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
@@ -44,4 +44,4 @@
     <button type="button" class="btn btn-light" (click)="c('Close click')">Schliessen</button>
   </div>
 </ng-template>
-<button class="btn btn-primary m-2 p-2 px-3 infoBtn" id="openModal" (click)="openLg(content)">i</button>
+<button class="btn btn-primary m-2 p-2 px-3 infoBtn" id="openModal" (click)="openLg(infoBtnContent)">i</button>

@@ -1,8 +1,9 @@
-import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { DataService } from '../shared/data.service';
 import { Angular5Csv } from 'angular5-csv/Angular5-csv';
-import { trigger, state, animate, transition, style } from '@angular/animations';
+// import { trigger, state, animate, transition, style } from '@angular/animations';
 import { AuthService } from '../shared/auth.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import * as XLSX from 'xlsx';
 import * as saveSvgApi from 'save-svg-as-png';
@@ -14,38 +15,34 @@ declare var jsPDF: any;
   selector: 'app-download',
   templateUrl: './download.component.html',
   styleUrls: ['./download.component.css'],
-  animations: [
-    trigger('visibilityChanged', [
-      state('true' , style({ opacity: 1, transform: 'scale(1.0)' })),
-      state('false', style({ opacity: 0, transform: 'scale(0.0)' })),
-      transition('1 => 0', animate('200ms')),
-      transition('0 => 1', animate('400ms'))
-    ]),
-  ],
+  // animations: [
+  //   trigger('visibilityChanged', [
+  //     state('true' , style({ opacity: 1, transform: 'scale(1.0)' })),
+  //     state('false', style({ opacity: 0, transform: 'scale(0.0)' })),
+  //     transition('1 => 0', animate('200ms')),
+  //     transition('0 => 1', animate('400ms'))
+  //   ]),
+  // ],
 })
 export class DownloadComponent implements OnInit {
 
+  @ViewChild('downlaodBtnContent') downloadBtnContent: ElementRef;
   data: object[];
   originalData: object[];
-  showDownloadMenu = false;
+  // showDownloadMenu = false;
   admin: boolean;
   svg: any;
   paused = false;
 
   constructor(
     private dataService: DataService,
-    private elRef: ElementRef,
-    private authService: AuthService
+    // private elRef: ElementRef,
+    private authService: AuthService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit() {
     this.dataService.data.subscribe(data => {
-      // if (data.length && data[0]['Jahr']) {
-      //   debugger
-      //   this.data = data.map( e => {
-      //     let eo = {};
-      //     eo[e['Jahr']] = e.Jahr;
-      // }
       this.data = data;
     });
     this.dataService.originalData.subscribe(originalData => this.originalData = originalData);
@@ -53,16 +50,15 @@ export class DownloadComponent implements OnInit {
     this.authService.currentAdminState.subscribe(admin => this.admin = admin);
   }
 
-  @HostListener('document:click', ['$event'])
-  @HostListener('document:touchstart', ['$event'])
-  checkForNoneDropdownClick(event) {
-    if (!this.elRef.nativeElement.contains(event.target)) {
-      this.showDownloadMenu = false;
-    }
-  }
+  // @HostListener('document:click', ['$event'])
+  // @HostListener('document:touchstart', ['$event'])
+  // checkForNoneDropdownClick(event) {
+  //   if (!this.elRef.nativeElement.contains(event.target)) {
+  //     this.showDownloadMenu = false;
+  //   }
+  // }
 
   onDownloadCsv(): void {
-    debugger;
     const csv: { downloadData: object[], options: object } = this.prepareCsv(this.data);
     new Angular5Csv(csv.downloadData, this.nameFile(true), csv.options);
   }
@@ -253,5 +249,12 @@ export class DownloadComponent implements OnInit {
       headers: headers
     };
     return { downloadData, options };
+  }
+  /*
+* Triggers the modal to apear. Modaloption can be passed as arguments
+* See: https://ng-bootstrap.github.io/#/components/modal/examples
+*/
+  openLg(downloadBtnContent) {
+    this.modalService.open(downloadBtnContent, { windowClass: 'customModal' });
   }
 }

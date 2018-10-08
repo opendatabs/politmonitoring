@@ -1,41 +1,60 @@
-<button class="btn btn-primary m-2 downloadMenuBtn" (click)="showDownloadMenu = !showDownloadMenu">
+<button class="btn btn-primary m-2 downloadMenuBtn" (click)="openLg(downloadBtnContent)">
   <fa name="download"></fa>
 </button>
-<div class="downloadMenu pb-5" [@visibilityChanged]="showDownloadMenu">
-  <div class="row mb-1" id="row1">
-    <div class="col">
-      <button class="btn btn-primary btn-sm downloadBtn" (click)="onDownloadFullCsv()" >
-        <fa name="file-text-o"></fa>&nbsp;CSV vollständig&nbsp;&nbsp;
-      </button>
-    </div>
-    <div class="col">
-      <button class="btn btn-primary btn-sm downloadBtn" (click)="onDownloadCsv()" >
-        <fa name="file-text-o"></fa>&nbsp;CSV gefiltert&nbsp;&nbsp;
-      </button>
-    </div>
+<ng-template #downloadBtnContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Download Datensatz Politmonitor</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
-  <div class="row mb-1" id="row2">
-    <div class="col">
-        <button class="btn btn-primary btn-sm downloadBtn" (click)="onDownloadFullXlsx()" >
-          <fa name="file-excel-o"></fa>&nbsp;XLSX vollständig
+  <div class="modal-body">
+    <div class="row mb-2" id="row0">
+      <div class="col">
+        <h5>Vollständig</h5>
+      </div>
+      <div class="col">
+        <h5>Gefiltert</h5>
+      </div>
+    </div>
+    <div class="row mb-2" id="row1">
+      <div class="col">
+        <button [disabled]="paused" class="btn btn-primary" (click)="onDownloadFullCsv()">
+          <fa name="file-text-o"></fa>&nbsp;.CSV&nbsp;&nbsp;
         </button>
       </div>
       <div class="col">
-        <button class="btn btn-primary btn-sm downloadBtn" (click)="onDownloadXlsx()" >
-          <fa name="file-excel-o"></fa>&nbsp;XLSX gefiltert
+        <button [disabled]="paused" class="btn btn-primary" (click)="onDownloadCsv()">
+          <fa name="file-text-o"></fa>&nbsp;.CSV&nbsp;&nbsp;
         </button>
       </div>
     </div>
-    <div class="row mb-1" id="row3">
-        <div class="col">
-          <button [disabled]="paused" class="btn btn-primary btn-sm downloadBtn" (click)="onDownloadFullPdf()" >
-            <fa name="file-pdf-o"></fa>&nbsp;PDF vollständig&nbsp;&nbsp;
-          </button>
-        </div>
-        <div class="col">
-          <button [disabled]="paused" class="btn btn-primary btn-sm downloadBtn" (click)="onDownloadPdf()" >
-            <fa name="file-pdf-o"></fa>&nbsp;PDF gefiltert&nbsp;&nbsp;
-          </button>
-        </div>
+    <div class="row mb-2" id="row2">
+      <div class="col">
+        <button [disabled]="paused" class="btn btn-primary" (click)="onDownloadFullXlsx()">
+          <fa name="file-excel-o"></fa>&nbsp;.XLSX
+        </button>
       </div>
-</div>
+      <div class="col">
+        <button [disabled]="paused" class="btn btn-primary" (click)="onDownloadXlsx()">
+          <fa name="file-excel-o"></fa>&nbsp;.XLSX
+        </button>
+      </div>
+    </div>
+    <div class="row mb-2" id="row3">
+      <div class="col">
+        <button [disabled]="paused" class="btn btn-primary" (click)="onDownloadFullPdf()">
+          <fa name="file-pdf-o"></fa>&nbsp;.PDF&nbsp;&nbsp;
+        </button>
+      </div>
+      <div class="col">
+        <button [disabled]="paused" class="btn btn-primary" (click)="onDownloadPdf()">
+          <fa name="file-pdf-o"></fa>&nbsp;.PDF&nbsp;&nbsp;
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="c('Close click')">Schliessen</button>
+  </div>
+</ng-template>
