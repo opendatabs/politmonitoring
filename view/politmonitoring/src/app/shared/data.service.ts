@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable, BehaviorSubject} from 'rxjs';
-import {environment} from '../../environments/environment';
-import {Category} from "./category";
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { Category } from './category';
 declare const $: any;
 declare var jQuery: any;
 
@@ -19,7 +19,26 @@ export class DataService {
   private svgSrc = new BehaviorSubject([]);
   svg = this.svgSrc.asObservable();
 
-  constructor(private http: HttpClient) {
+  private sortScr = new BehaviorSubject([{ sortBy: 'Geschäfts-Nr', asc: false }]);
+  sort = this.sortScr.asObservable();
+
+  constructor(
+    private http: HttpClient
+    ) {}
+
+  static extractNumber(content: string): number {
+    const start = content.indexOf('(') + 1;
+    const end = content.indexOf(')');
+    let number: number;
+    if (content.length > 0) {
+      number = parseInt(content.substring(start, end));
+    } else {
+      number = -1;
+    }
+    if (isNaN(number)) {
+      console.error('Could not find number');
+    }
+    return number;
   }
 
   getData(): Observable<any[]> {
@@ -59,7 +78,7 @@ export class DataService {
 
   filterByKeyTopic(data: any[], keyTopicFilter: string) {
     return data.filter((d) => {
-      return d["Schwerpunktthema (bei Bedarf)"] === keyTopicFilter;
+      return d['Schwerpunktthema (bei Bedarf)'] === keyTopicFilter;
     });
   }
 
@@ -103,14 +122,20 @@ export class DataService {
     });
   }
 
+  /*
+   *
+   */
   unique(array): any[] {
     return $.grep(array, function(el, index) {
       return index == $.inArray(el, array);
     });
   }
 
+  /*
+   *
+   */
   uniqueCategories(categories: Category[]) {
-    let unique: Category[] = [];
+    const unique: Category[] = [];
     categories.forEach(d => {
       let found = false;
       unique.forEach(u => {
@@ -133,22 +158,11 @@ export class DataService {
     this.orgDataSrc.next(JSON.parse(JSON.stringify(originalData)));
   }
 
-  sendSvgData(svg: [object]) {
+  sendSvgData(svg: [object]): void {
     this.svgSrc.next(svg);
   }
 
-  static extractNumber(content: string): number {
-    let start = content.indexOf('(') + 1;
-    let end = content.indexOf(')');
-    let number;
-    if (content.length > 0) {
-      number = parseInt(content.substring(start, end));
-    } else {
-      number = -1;
-    }
-    if (isNaN(number)) {
-      console.error('Could not find number');
-    }
-    return number;
+  sendCurrentSort(sort: { sortBy: string, asc: boolean }): void {
+    this.sortScr.next([sort]);
   }
 }

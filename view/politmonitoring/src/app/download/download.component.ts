@@ -1,62 +1,47 @@
-import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { DataService } from '../shared/data.service';
 import { Angular5Csv } from 'angular5-csv/Angular5-csv';
-// import { trigger, state, animate, transition, style } from '@angular/animations';
 import { AuthService } from '../shared/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import * as XLSX from 'xlsx';
 import * as saveSvgApi from 'save-svg-as-png';
 import * as canvg from 'canvg';
-
+import * as jsPDF from 'jspdf';
 declare var jsPDF: any;
+
+// TODO: commenting this file
 
 @Component({
   selector: 'app-download',
   templateUrl: './download.component.html',
   styleUrls: ['./download.component.css'],
-  // animations: [
-  //   trigger('visibilityChanged', [
-  //     state('true' , style({ opacity: 1, transform: 'scale(1.0)' })),
-  //     state('false', style({ opacity: 0, transform: 'scale(0.0)' })),
-  //     transition('1 => 0', animate('200ms')),
-  //     transition('0 => 1', animate('400ms'))
-  //   ]),
-  // ],
 })
 export class DownloadComponent implements OnInit {
 
   @ViewChild('downlaodBtnContent') downloadBtnContent: ElementRef;
   data: object[];
   originalData: object[];
-  // showDownloadMenu = false;
   admin: boolean;
   svg: any;
   paused = false;
+  sortBy: any;
 
   constructor(
     private dataService: DataService,
-    // private elRef: ElementRef,
     private authService: AuthService,
     private modalService: NgbModal
   ) { }
 
   ngOnInit() {
-    this.dataService.data.subscribe(data => {
-      this.data = data;
-    });
+    // Use various services to fetch information from different components
+    this.authService.currentAdminState.subscribe(admin => this.admin = admin);
+    this.dataService.data.subscribe(data => this.data = data);
     this.dataService.originalData.subscribe(originalData => this.originalData = originalData);
     this.dataService.svg.subscribe(svg => this.svg = svg);
-    this.authService.currentAdminState.subscribe(admin => this.admin = admin);
-  }
+    this.dataService.sort.subscribe(sort => this.sortBy = sort);
 
-  // @HostListener('document:click', ['$event'])
-  // @HostListener('document:touchstart', ['$event'])
-  // checkForNoneDropdownClick(event) {
-  //   if (!this.elRef.nativeElement.contains(event.target)) {
-  //     this.showDownloadMenu = false;
-  //   }
-  // }
+  }
 
   onDownloadCsv(): void {
     const csv: { downloadData: object[], options: object } = this.prepareCsv(this.data);
@@ -81,15 +66,15 @@ export class DownloadComponent implements OnInit {
   }
 
   onDownloadPdf(): void {
-    // const xml = new XMLSerializer().serializeToString(this.svg.childNodes[0]);
-    // const b64Start = 'data:image/svg + xml; base64,' + btoa(xml);
-
-    // pause any user input, until downlaod has started
+    // Use sorting order of bootstrap-table
+    const d = this.reorder(JSON.parse(JSON.stringify(this.data)), this.sortBy[0].sortBy, this.sortBy[0].asc);
+    // Stop further downloads while file creation in progress
     this.paused = true;
+    console.log(d);
     // add canvg option so the the png string conversion works with IE11
     // https://github.com/exupero/saveSvgAsPng
     saveSvgApi.svgAsPngUri(this.svg.childNodes[0], { canvg: canvg }, uri => {
-      this.drawPdf(this.data, uri, this.nameFile(true));
+      this.drawPdf(d, uri, this.nameFile(true));
       this.paused = false;
     });
   }
@@ -97,12 +82,20 @@ export class DownloadComponent implements OnInit {
   onDownloadFullPdf(): void {
     this.paused = true;
     saveSvgApi.svgAsPngUri(this.svg.childNodes[0], { canvg: canvg }, uri => {
-      this.drawPdf(this.originalData, uri, this.nameFile());
+      this.drawPdf(JSON.parse(JSON.stringify(this.originalData)), uri, this.nameFile());
       this.paused = false;
     });
   }
 
-  drawPdf(data: object[], graphUri: string, fileName: string) {
+/**
+ *
+ *
+ * @param {string[]} data
+ * @param {string} graphUri
+ * @param {string} fileName
+ * @memberof DownloadComponent
+ */
+drawPdf(data: string[], graphUri: string, fileName: string): void {
     const columns: Array<{ title: string; dataKey: string; }> = [
       { title: 'Geschäft', dataKey: 'Geschäfts-nr' },
       { title: 'Instrument', dataKey: 'Instrument' },
@@ -118,6 +111,7 @@ export class DownloadComponent implements OnInit {
 
     let fontSize = 8;
     let titleColumnWidth = 60;
+    // All columnwiths have to be defined corresponding to their content width
     const columnStyles = {
       'Geschäfts-nr': { columnWidth: 18 },
       'Instrument': { columnWidth: 18 },
@@ -153,11 +147,21 @@ export class DownloadComponent implements OnInit {
         overflow: 'linebreak',
         fontSize: fontSize,
       },
-      columnStyles: columnStyles
+      columnStyles: columnStyles,
     });
+    // download the file
     doc.save(fileName + '.pdf');
   }
+  /* Triggers the modal to apear. Modaloption can be passed as arguments
+   * See: https://ng-bootstrap.github.io/#/components/modal/examples
+   */
+  openLg(downloadBtnContent) {
+    this.modalService.open(downloadBtnContent, { windowClass: 'customModal' });
+  }
 
+  /*
+   *
+   */
   private calcWidth(): number {
     const w = this.svg.childNodes[0].clientWidth;
     if (w && w > 0) {
@@ -172,25 +176,23 @@ export class DownloadComponent implements OnInit {
     }
   }
 
-  /*
-   * Names a file as construction of a convention and adds the current date and wether the
+  /* Names a file as construction of a convention and adds the current date and wether the
    * data was perviously filterd
    * @param filtered is a boolean value of wether the user requests the entire dataset
    * or the filtered version
    * @return the file title as string containing date and filter status
-  */
+   */
   private nameFile(filtered: boolean = false): string {
     const filterStatus: string = (!filtered ? '' : '_(gefiltert)');
     const timestamp: string = moment().format('DD/MM/YYYY');
     return `Politmonitor_Basel_Stadt_${timestamp}${filterStatus}`;
   }
 
-  /*
-   * Prepare a file of type .xlsx by creating a workbook and appending
+  /* Prepare a file of type .xlsx by creating a workbook and appending
    * the data as worksheet
    * @param data is the complete data.json or a subset thereof. Data is of type collection
    * @return the full or filtered data as workbook
-  */
+   */
   private createXlsx(data: object[]): XLSX.WorkBook {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
@@ -199,13 +201,12 @@ export class DownloadComponent implements OnInit {
     return wb;
   }
 
-  /*
-   * Clears the data before the download of any properties that are only useful
+  /* Clears the data before the download of any properties that are only useful
    * to the admin user or that have no information character
    * @param data the data that is supposed to be cleared
    * @return a filtered deep-copy of the data param
-  */
-  clearData(data: object[]): object[] {
+   */
+  private clearData(data: any[]): object[] {
     const tmp: object[] = JSON.parse(JSON.stringify(data));
     tmp.forEach(e => {
       if (e.hasOwnProperty('Themenbereich_Number')) {
@@ -227,11 +228,10 @@ export class DownloadComponent implements OnInit {
     }
   }
 
-  /*
-   * Sets the options for the CSV file and clears the data intended for CSV-downlaod
+  /* Sets the options for the CSV file and clears the data intended for CSV-downlaod
    * @param data is the uncleared data, about to be downloaded
    * @return an object containing the cleared data and the CSV-options
-  */
+   */
   private prepareCsv(data: object[]): { downloadData: object[], options: object } {
     let headers: Array<string> = [];
     const downloadData: object[] = this.clearData(data);
@@ -250,11 +250,29 @@ export class DownloadComponent implements OnInit {
     };
     return { downloadData, options };
   }
-  /*
-* Triggers the modal to apear. Modaloption can be passed as arguments
-* See: https://ng-bootstrap.github.io/#/components/modal/examples
-*/
-  openLg(downloadBtnContent) {
-    this.modalService.open(downloadBtnContent, { windowClass: 'customModal' });
+
+  /* Sort the handed collection by the given column header
+   * @param arr is the dataset to be ordered
+   * @param sortBy is the column header that the column is supposed to be ordered by
+   * @param asc arranged ascending or descending sorting
+   * @return the ordered collection
+   */
+  private reorder(arr: Array <string>, sortBy: string, asc: boolean): Array <string> {
+    arr.sort((a: any, b: any) => {
+      let returnValue: number;
+      if (a[sortBy] < b[sortBy]) {
+        returnValue = -1;
+      } else if (a[sortBy] > b[sortBy]) {
+        returnValue = 1;
+      } else {
+        returnValue = 0;
+      }
+      if (asc) {
+        return returnValue;
+      } else {
+        return returnValue * (-1);
+      }
+    });
+    return arr;
   }
 }

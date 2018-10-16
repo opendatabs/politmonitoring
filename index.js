@@ -32,6 +32,7 @@ app.get('/data', function (req, res) {
     })
 });
 
+// Basic authenticate user based on server side stored credentials
 const auth = (req, res, next) => {
     const user = basicAuth(req);
     if (!user || !user.name || !user.pass) {
@@ -56,36 +57,34 @@ app.get('/auth', auth, (req, res) => {
 const storage = multer.diskStorage({
     destination: './uploads/',
     filename: (req, file, cb) => {
-        cb(null, 'politdaten' + path.extname(file.originalname)) // TODO change to good name with timestamp
+        cb(null, 'politdaten' + path.extname(file.originalname))
     }
 });
 
 const upload = multer({
     fileFilter: (req, file, cb) => {
-        let filetype = /xlsx/; // TODO handle wrong filetype
+        let filetype = /xlsx/; // TODO: handle wrong filetype
         if (filetype.test(path.extname(file.originalname).toLowerCase()))
             return cb(null, true);
         cb("Error: File upload only supports the following filetype: " + filetype);
     },
-    storage: storage})
-    .single('file');
+    storage: storage}).single('file');
 
 app.post('/upload', (req, res) => {
     let path = '';
     upload(req, res, (err) => {
         if (err) {
-            console.log(err); // TODO Give the user feedback right here
+            console.log(err); // TODO: Give the user feedback right here
             return res.status(422).send("an Error occured")
         }
         convertData();
-        // TODO: file validation
         path = req.file.path;
         return res.status(200).send("Upload Completed for "+path);
     });
 });
 
+// convert data from .xlsx to .json
 const convertData = () => {
-    // TODO: Check if err handling needed
     const src = './uploads/politdaten.xlsx';
     const dst = './data/data.json';
     if (fs.existsSync(src)) {

@@ -1,4 +1,4 @@
-import {AfterViewChecked, AfterViewInit, Component, Input, OnChanges, OnInit, HostListener, ViewChild, ElementRef} from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, OnInit, HostListener, ViewChild, ElementRef} from '@angular/core';
 declare var BubbleChart;
 import * as $ from 'jquery';
 import { DataService } from '../../shared/data.service';
@@ -30,7 +30,7 @@ export class BubbleChartComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngOnChanges(changes: any): void {
     if (changes.data && changes.data.currentValue) {
-      // we have to set a small timeout. otherwise, the id of the buttons aren't correctly set until d3 needs them
+      // Small timeout, otherwise the id of the buttons aren't correctly set until d3.js needs them
       setTimeout(() => {
         this.lastDataLoaded = changes.data.currentValue;
         this.bubblesInitialized = true;
@@ -49,7 +49,7 @@ export class BubbleChartComponent implements OnInit, OnChanges, AfterViewInit {
 
   // Reload the graph on horizontal window resize
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize() {
     if (this.innerWidth !== window.innerWidth && this.bubblesInitialized) {
       setTimeout(() => {
         BubbleChart.initialize(this.lastDataLoaded, this.categoryFilter);
@@ -59,6 +59,7 @@ export class BubbleChartComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    // send SVG to other component in case needed for PDF creation
     this.sendSvgData();
   }
 

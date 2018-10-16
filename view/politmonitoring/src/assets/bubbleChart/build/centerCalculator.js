@@ -199,7 +199,6 @@ var CenterCalculator = function () {
           return centers;
         }
     
-    // TODO handle: arr has to be greater than 0. Test case if length === 1
         function sortBySize(arr) {
           const ordered = [];
           const head = arr.filter(function (current, i) {

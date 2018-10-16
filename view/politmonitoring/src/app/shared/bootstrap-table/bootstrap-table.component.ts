@@ -1,5 +1,6 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChildren} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChildren } from '@angular/core';
 import { AuthService } from '../auth.service';
+import { DataService } from '../data.service';
 
 @Component({
     selector: 'app-bootstrap-table',
@@ -26,8 +27,10 @@ export class BootstrapTableComponent implements OnInit, OnChanges {
         asc: false
     };
 
-    constructor(private authService: AuthService) {
-    }
+    constructor(
+        private authService: AuthService,
+        private dataService: DataService
+        ) { }
 
     ngOnChanges(changes: any) {
       if (changes.data && changes.data.currentValue) {
@@ -40,6 +43,7 @@ export class BootstrapTableComponent implements OnInit, OnChanges {
       this.pagination.end = this.pagination.start + this.pagination.numberOfEntries;
       this.pagination.numberPages = Math.ceil(this.data.length / this.pagination.numberOfEntries);
       this.sort.sortBy = this.initialSortBy;
+    //   this.sendSortPreferences();
     }
 
     // sets pagination to start. calculates number of pages and end
@@ -72,16 +76,19 @@ export class BootstrapTableComponent implements OnInit, OnChanges {
         // change direction if second click on same col
         if (this.sort.sortBy === col) {
             this.sort.asc = !this.sort.asc;
-            console.log(this.sort);
         // change filter
         } else {
             this.sort.sortBy = col;
             this.sort.asc = false;
-            console.log(this.sort);
         }
+        this.sendSortPreferences();
     }
 
     selectEntry(entry) {
       this.selectEntryEvent.emit(entry);
+    }
+
+    private sendSortPreferences(): void {
+        this.dataService.sendCurrentSort(this.sort);
     }
 }

@@ -14,7 +14,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   originalData: any[];
   categoryFilter: String;
   @ViewChild('infoBtnContent') infoBtnContent: ElementRef;
-  firstDisplay = false; // TODO: Change to true in production
+  firstDisplay = false; // display modal on first page load
 
   constructor(
       private dataService: DataService,
@@ -23,10 +23,10 @@ export class MainComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.dataService.getData().subscribe(
-        (data) => {
+        data => {
           data.forEach(d => {
-            /* When the .xlsx file is parsed to JSON, some numbers can be converted with a tail of 000000 or 99999
-             * Fix the flawful paring, keeping lenght at 7
+            /* When the .xlsx file is parsed to JSON, some numbers can be converted with a tail of 000000 or 99999.
+             * Fix the flawful parsing by rounding up or down and keeping the lenght at 7
              */
             if (d['Geschäfts-nr'].length > 7) {
               if (d['Geschäfts-nr'].substring(7, 8) === '9') {
@@ -62,7 +62,7 @@ export class MainComponent implements OnInit, AfterViewInit {
           this.data = filteredData;
           this.originalData = filteredData;
         },
-        (err) => {
+        err => {
           alert('An error occurred. See console for details.');
           console.log(err); // TODO: Add error handling
         });
@@ -70,17 +70,20 @@ export class MainComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.firstDisplay) {
-      // do this async (not in same digest). Otherwise it will throw expressionChangedAfterItHasBeenCheckedError
+      // Has to be done async (not in same digest) to avoid expressionChangedAfterItHasBeenCheckedError
       setTimeout(() => {
         this.modalService.open(this.infoBtnContent, { size: 'lg' });
-        this.firstDisplay = false;
+        this.firstDisplay = false; // Only display modal on first load
       }, 0);
     }
   }
 
-  /*
-  * Retruns true if used browser is of type IE 11, 10 or older
-  */
+  /**
+   * Check if the user is using Internet Explorer
+   *
+   * @returns {boolean} used browser is of type IE 11, 10 or older
+   * @memberof MainComponent
+   */
   detectIE(): boolean {
     const ua = window.navigator.userAgent;
     return ua.indexOf('Trident/') > 0 || ua.indexOf('MSIE ') > 0;

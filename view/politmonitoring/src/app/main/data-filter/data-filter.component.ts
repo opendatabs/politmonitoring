@@ -1,14 +1,16 @@
-import {AfterViewChecked, Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {DataService} from '../../shared/data.service';
+import { AfterViewChecked, Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { DataService} from '../../shared/data.service';
 import * as moment from 'moment';
-import {AuthService} from "../../shared/auth.service";
-import {Category} from "../../shared/category";
+import { AuthService } from '../../shared/auth.service';
+import { Category } from '../../shared/category';
 declare const $: any;
 declare var jQuery: any;
 
 interface jQuery {
   tooltip(options?: any): any;
 }
+
+// TODO: comment this file
 
 @Component({
   selector: 'app-data-filter',
@@ -17,27 +19,28 @@ interface jQuery {
 })
 export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges {
 
-  @Input() data: any[]; //TODO: get via service
+  @Input() data: any[];
   @Output() onFiltered: EventEmitter<any> = new EventEmitter();
 
-  searchText: string = '';
-  originalData: any[] = []; //TODO: get via service
+  searchText = '';
+  originalData: any[] = [];
   categoryDropdown: Category[];
   keyTopicDropdown: string[];
   partyDropdown: string[];
   instrumentDropdown: string[];
   yearDropdown = [];
   categoryFilter: Category = {description: 'all', number: -1}; // if categoryFilter is -1, no filter is set
-  keyTopicFilter: string = 'all';
-  partyFilter: string = 'all';
-  instrumentFilter: string = 'all';
-  statusFilter: string = 'all';
-  filtered: boolean = false;
-  yearFilterSet: boolean = false;
-  subCategoryFilter: string = 'all';
+  keyTopicFilter = 'all';
+  partyFilter = 'all';
+  instrumentFilter = 'all';
+  statusFilter = 'all';
+  filtered = false;
+  yearFilterSet = false;
+  subCategoryFilter = 'all';
   subCategoryDropdown: string[];
   admin: boolean;
 
+  // Keep filter/searchbar visible on scrolling
   static scroll() {
     const navHeight = $('.navbar').outerHeight();
     const scrollTop = navHeight - $(window).scrollTop();
@@ -99,7 +102,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     this.checkFilterYearsSet();
     this.filtered = this.categoryFilter.description !== 'all' || this.keyTopicFilter !== 'all' || this.searchText.length > 0
       || this.statusFilter !== 'all' || this.yearFilterSet || this.partyFilter !== 'all' || this.instrumentFilter !== 'all';
-    // do this async (not in same angular digest). Otherwise, it will throw expressionChangedAfterItHasBeenCheckedError
+    // Has to be done async (not in same digest) to avoid expressionChangedAfterItHasBeenCheckedError
     setTimeout(() => {
       this.onFiltered.emit({data: this.data, categoryFilter: this.categoryFilter.description});
       this.getDownloadData();
@@ -115,6 +118,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     this.yearDropdown.forEach(d => d.checked = true);
     this.filterData();
   }
+
   uncheckAllYears() {
     this.yearDropdown.forEach(d => d.checked = false);
     this.filterData();
@@ -139,7 +143,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     }
     this.filterData();
     // prepare sub category dropdown
-    let allCategories = this.data.map(d => d['Thema 1']);
+    const allCategories = this.data.map(d => d['Thema 1']);
     this.subCategoryDropdown = this.dataService.unique(allCategories);
     this.subCategoryDropdown.sort();
     this.subCategoryFilter = 'all';
@@ -167,7 +171,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
 
   resetFilters() {
     this.searchText = '';
-    this.categoryFilter = {description: 'all', number: -1};
+    this.categoryFilter = { description: 'all', number: -1 };
     this.keyTopicFilter = 'all';
     this.yearDropdown = this.getInitYears();
     this.statusFilter = 'all';
@@ -182,7 +186,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   }
 
   resetCategoryFilter() {
-    this.categoryFilter = {description: 'all', number: -1};
+    this.categoryFilter = { description: 'all', number: - 1};
     this.filterData();
   }
 
@@ -221,17 +225,17 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     }));
     this.categoryDropdown.sort((a, b) => a.description.localeCompare(b.description));
     this.keyTopicDropdown = this.dataService
-      .unique(this.originalData.map(d => d["Schwerpunktthema (bei Bedarf)"]))
+      .unique(this.originalData.map(d => d['Schwerpunktthema (bei Bedarf)']))
       .filter(d => d !== '');
     this.keyTopicDropdown.sort((a, b) => a.localeCompare(b));
-    this.partyDropdown = ["BastA!", "CVP", "EVP", "FDP", "GLP", "Grüne", "LDP", "SP", "SVP", "Parteilos", "Kommission", "Bevölkerung"];
-    this.instrumentDropdown = ["Petition", "Anzug", "Motion", "Initiative"];
+    this.partyDropdown = ['BastA!', 'CVP', 'EVP', 'FDP', 'GLP', 'Grüne', 'LDP', 'SP', 'SVP', 'Parteilos', 'Kommission', 'Bevölkerung'];
+    this.instrumentDropdown = ['Petition', 'Anzug', 'Motion', 'Initiative'];
     this.yearDropdown = this.getInitYears();
     this.filterData();
   }
 
-  // gets the original values for years
-  // check only last 5 years (if year bigger than 2018)
+  // get the original values for years
+  // tick only last 5 years (if year bigger than 2018)
   private getInitYears() {
     const years = this.dataService.unique(this.originalData.map(d => d.Jahr));
     // sort descending

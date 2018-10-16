@@ -236,7 +236,7 @@ var BubbleChart = {
      * yearCenter of their data's year.
      */
 
-    // todo: remove counter
+    // TODO: remove counter
     var counter = void 0;
 
     function splitBubbles(category) {
