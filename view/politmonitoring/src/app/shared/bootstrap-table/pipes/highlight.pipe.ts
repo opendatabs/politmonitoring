@@ -12,10 +12,11 @@ export class HighlightPipe implements PipeTransform {
         }).join('|');
         var regex = new RegExp(pattern, 'gi');
 
-        if (typeof text !== 'undefined' && text.length > 0)
+        if (typeof text !== 'undefined' && text.length > 0) {
             return search ? text.replace(regex, (match) => `<span class="highlight_search_text">${match}</span>`) : text;
-        else
-          return text;
+        } else {
+            return text;
+        }
     }
 
 }

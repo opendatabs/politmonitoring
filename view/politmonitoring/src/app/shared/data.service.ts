@@ -6,6 +6,8 @@ import { Category } from './category';
 declare const $: any;
 declare var jQuery: any;
 
+// TODO: Comment this file
+
 @Injectable()
 export class DataService {
   private headers = new HttpHeaders({'Content-Type': 'application/json'});

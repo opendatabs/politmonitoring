@@ -46,7 +46,6 @@ const BubbleChart = {
     // moving around nodes
     const damper = 0.102;
 
-    // These will be set in create_nodes and create_vis
     const svg = BubbleChart.svg
       .attr('width', width)
       .attr('height', height);

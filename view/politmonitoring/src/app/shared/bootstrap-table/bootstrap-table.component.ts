@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChildren } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { DataService } from '../data.service';
 
@@ -43,7 +43,6 @@ export class BootstrapTableComponent implements OnInit, OnChanges {
       this.pagination.end = this.pagination.start + this.pagination.numberOfEntries;
       this.pagination.numberPages = Math.ceil(this.data.length / this.pagination.numberOfEntries);
       this.sort.sortBy = this.initialSortBy;
-    //   this.sendSortPreferences();
     }
 
     // sets pagination to start. calculates number of pages and end
