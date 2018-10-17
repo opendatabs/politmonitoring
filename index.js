@@ -63,7 +63,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     fileFilter: (req, file, cb) => {
-        let filetype = /xlsx/; // TODO: handle wrong filetype
+        let filetype = /xlsx/;
         if (filetype.test(path.extname(file.originalname).toLowerCase()))
             return cb(null, true);
         cb("Error: File upload only supports the following filetype: " + filetype);
@@ -74,7 +74,6 @@ app.post('/upload', (req, res) => {
     let path = '';
     upload(req, res, (err) => {
         if (err) {
-            console.log(err); // TODO: Give the user feedback right here
             return res.status(422).send("an Error occured")
         }
         convertData();

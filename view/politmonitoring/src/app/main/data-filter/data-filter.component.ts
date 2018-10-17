@@ -10,8 +10,6 @@ interface jQuery {
   tooltip(options?: any): any;
 }
 
-// TODO: comment this file
-
 @Component({
   selector: 'app-data-filter',
   templateUrl: './data-filter.component.html',
@@ -70,6 +68,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     }
   }
 
+  // filter on Enter key
   keyDownFunction(event) {
     if (event.keyCode === 13) {
       this.filterData();

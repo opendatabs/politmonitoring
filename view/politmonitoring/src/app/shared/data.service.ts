@@ -6,7 +6,6 @@ import { Category } from './category';
 declare const $: any;
 declare var jQuery: any;
 
-// TODO: Comment this file
 
 @Injectable()
 export class DataService {
@@ -26,7 +25,7 @@ export class DataService {
 
   constructor(
     private http: HttpClient
-    ) {}
+    ) { }
 
   static extractNumber(content: string): number {
     const start = content.indexOf('(') + 1;
@@ -37,9 +36,9 @@ export class DataService {
     } else {
       number = -1;
     }
-    if (isNaN(number)) {
-      console.error('Could not find number');
-    }
+    // if (isNaN(number)) {
+    //   console.error('Could not find number');
+    // }
     return number;
   }
 
@@ -54,7 +53,6 @@ export class DataService {
     if (typeof list === 'undefined' || typeof searchText === 'undefined' || searchText === '') {
       return data;
     }
-
     let found: boolean;
     for (const entry of list) {
       found = false;
@@ -73,19 +71,19 @@ export class DataService {
   }
 
   filterByCategory(data: any[], category: number): any[] {
-    return data.filter((d) => {
+    return data.filter(d => {
       return d.Themenbereich_Number === category || d.Thema2_Number === category;
     });
   }
 
   filterByKeyTopic(data: any[], keyTopicFilter: string) {
-    return data.filter((d) => {
+    return data.filter(d => {
       return d['Schwerpunktthema (bei Bedarf)'] === keyTopicFilter;
     });
   }
 
   filterBySubCategory(data: any[], subCategoryFilter: string) {
-    return data.filter((d) => {
+    return data.filter(d => {
       if (d['Thema 2'] === subCategoryFilter) {
         // console.log('hier');
       }
@@ -95,7 +93,7 @@ export class DataService {
   }
 
   filterYears(data: any[], years: any[]) {
-    return data.filter((d) => {
+    return data.filter(d => {
       let found = false;
       years.forEach(y => {
         if (y.checked && y.year === d.Jahr) {
@@ -107,35 +105,29 @@ export class DataService {
   }
 
   filterByStatus(data: any[], statusFilter: String) {
-    return data.filter((d) => {
+    return data.filter(d => {
       return d.Status.toLowerCase() === statusFilter.toLowerCase();
     });
   }
 
   filterByParty(data: any[], partyFilter: string) {
-    return data.filter((d) => {
+    return data.filter(d => {
       return d.Partei.toLowerCase() === partyFilter.toLowerCase();
     });
   }
 
   filterByInstrument(data: any[], instrumentFilter: string) {
-    return data.filter((d) => {
+    return data.filter(d => {
       return d.Instrument.toLowerCase() === instrumentFilter.toLowerCase();
     });
   }
 
-  /*
-   *
-   */
   unique(array): any[] {
     return $.grep(array, function(el, index) {
       return index == $.inArray(el, array);
     });
   }
 
-  /*
-   *
-   */
   uniqueCategories(categories: Category[]) {
     const unique: Category[] = [];
     categories.forEach(d => {

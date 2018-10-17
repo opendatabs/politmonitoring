@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { DataService } from '../shared/data.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-main',
@@ -17,8 +18,9 @@ export class MainComponent implements OnInit, AfterViewInit {
   firstDisplay = false; // display modal on first page load
 
   constructor(
-      private dataService: DataService,
-      private modalService: NgbModal
+    private dataService: DataService,
+    private modalService: NgbModal,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -63,9 +65,12 @@ export class MainComponent implements OnInit, AfterViewInit {
           this.originalData = filteredData;
         },
         err => {
-          alert('An error occurred. See console for details.');
-          console.log(err); // TODO: Add error handling
-        });
+          this.toastr.error('Beim Laden der Daten ist ein Fehler aufgetreten: ' + err.message, err.name, {
+            closeButton: true,
+            timeOut: 0
+          });
+        }
+    );
   }
 
   ngAfterViewInit(): void {
@@ -93,10 +98,10 @@ export class MainComponent implements OnInit, AfterViewInit {
     this.data = value.data;
     this.categoryFilter = value.categoryFilter;
   }
-  /*
-  * Triggers the modal to apear. Modaloption can be passed as arguments
-  * See: https://ng-bootstrap.github.io/#/components/modal/examples
-  */
+  /**
+   * Triggers the modal to apear. Modaloption can be passed as arguments
+   * See: https://ng-bootstrap.github.io/#/components/modal/examples
+   */
   openLg(infoBtnContent) {
     this.modalService.open(infoBtnContent, { size: 'lg' , windowClass: 'animated slideInUp' });
   }

@@ -234,10 +234,6 @@ var BubbleChart = {
      * tick function is set to move nodes to the
      * yearCenter of their data's year.
      */
-
-    // TODO: remove counter
-    var counter = void 0;
-
     function splitBubbles(category) {
       var centers = void 0;
 
@@ -313,9 +309,6 @@ var BubbleChart = {
         var target = { x: x, y: y };
         d.x = d.x + (target.x - d.x) * damper * alpha * 1.1;
         d.y = d.y + (target.y - d.y) * damper * alpha * 1.1;
-        // just to debug. we have to remove this
-        if (counter < 200) d3.select('#vis').select('svg').append('circle').attr('class', 'centerMarker').attr('r', 5).attr('cx', x).attr('cy', y);
-        counter++;
       };
     }
 

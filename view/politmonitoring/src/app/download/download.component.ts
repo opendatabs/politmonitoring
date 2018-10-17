@@ -10,8 +10,6 @@ import * as canvg from 'canvg';
 import * as jsPDF from 'jspdf';
 declare var jsPDF: any;
 
-// TODO: commenting this file
-
 @Component({
   selector: 'app-download',
   templateUrl: './download.component.html',
@@ -88,11 +86,11 @@ export class DownloadComponent implements OnInit {
   }
 
 /**
+ * Creates the PDF by extracting including the SVG graph and generating a table out of the data
  *
- *
- * @param {string[]} data
- * @param {string} graphUri
- * @param {string} fileName
+ * @param {string[]} data that is chosen by the user. Either filtered or the full default dataset
+ * @param {string} graphUri data of the SVG graph
+ * @param {string} fileName name under which the file is saved
  * @memberof DownloadComponent
  */
 drawPdf(data: string[], graphUri: string, fileName: string): void {
@@ -159,10 +157,14 @@ drawPdf(data: string[], graphUri: string, fileName: string): void {
     this.modalService.open(downloadBtnContent, { windowClass: 'customModal' });
   }
 
-  /*
-   *
-   */
-  private calcWidth(): number {
+/**
+ * Calculate the appropritae width of the SVG graph when printed to PDF
+ *
+ * @private
+ * @returns {number} image with in px
+ * @memberof DownloadComponent
+ */
+private calcWidth(): number {
     const w = this.svg.childNodes[0].clientWidth;
     if (w && w > 0) {
       const ratio = 600 / w;

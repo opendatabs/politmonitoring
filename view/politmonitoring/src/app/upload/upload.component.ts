@@ -39,18 +39,25 @@ export class UploadComponent implements OnInit {
     this.uploader.onAfterAddingFile = file => { file.withCredentials = false; };
     // overide the onCompleteItem property of the uploader to deal with the server response.
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-      // console.log('ImageUpload:uploaded:', item, status, response);
       if (status === 200) {
-        this.toastr.success('Neue Daten wurden hochgeladen', 'Upload erfolgreich');
+        this.toastr.success('Neue Daten wurden hochgeladen', 'Upload erfolgreich', {
+          timeOut: 3000
+        });
       }
       if (status === 422) {
-        this.toastr.error('Daten müssen das Dateiformat .xlsx haben', 'Uploadfehler');
+        this.toastr.error('Daten müssen das Dateiformat .xlsx haben', 'Uploadfehler', {
+          timeOut: 10000,
+          closeButton: true
+        });
       }
       if (status !== 200 && status !== 422) {
-        this.toastr.error('Beim Upload is ein Fehler aufgetreten', 'Uploadfehler');
-      }
-    };
-  }
+        this.toastr.error('Beim Upload is ein Fehler aufgetreten', 'Uploadfehler', {
+          timeOut: 10000,
+          closeButton: true
+      });
+    }
+  };
+}
 
   // Change displayed path to file according to selected
   changePathValue(event) {

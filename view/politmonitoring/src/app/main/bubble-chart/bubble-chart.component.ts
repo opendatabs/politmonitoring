@@ -49,7 +49,7 @@ export class BubbleChartComponent implements OnInit, OnChanges, AfterViewInit {
 
   // Reload the graph on horizontal window resize
   @HostListener('window:resize', ['$event'])
-  onResize() {
+  onResize(event) {
     if (this.innerWidth !== window.innerWidth && this.bubblesInitialized) {
       setTimeout(() => {
         BubbleChart.initialize(this.lastDataLoaded, this.categoryFilter);
