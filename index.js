@@ -3,11 +3,13 @@ const app = express();
 const fs = require('fs');
 const cors = require('cors');
 const config = require('./config/config');
-var path = require('path');
+const path = require('path');
 const basicAuth = require('basic-auth');
 const multer = require('multer');
-convertExcel = require('excel-as-json').processFile;
+const XLSX = require('xlsx');
+const convertExcel = require('excel-as-json').processFile;
 
+// TODO: Test if dependency changes brough problems to app
 
 // open cors in development mode
 if (config.cors) {
@@ -22,7 +24,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/data', function (req, res) {
-    fs.readFile('data/data.json', "utf8", function (err, data) {
+    fs.readFile('data/data.json', 'utf8', (err, data) => {
         // if there is no file, return empty array
         if (err)
             res.status(500).send(err);
@@ -30,6 +32,12 @@ app.get('/data', function (req, res) {
         // data is already json.stringified
             res.send(data);
     })
+});
+
+// TODO: Test download in production
+// TODO: Need for authentication?
+app.get('/getcsv', function (req, res) {
+    res.download(__dirname + '/uploads/politdaten.csv');
 });
 
 // Basic authenticate user based on server side stored credentials
@@ -66,7 +74,7 @@ const upload = multer({
         let filetype = /xlsx/;
         if (filetype.test(path.extname(file.originalname).toLowerCase()))
             return cb(null, true);
-        cb("Error: File upload only supports the following filetype: " + filetype);
+        cb('Error: File upload only supports the following filetype: ' + filetype);
     },
     storage: storage}).single('file');
 
@@ -74,15 +82,15 @@ app.post('/upload', (req, res) => {
     let path = '';
     upload(req, res, (err) => {
         if (err) {
-            return res.status(422).send("an Error occured")
+            return res.status(422).send('an Error occured')
         }
         convertData();
         path = req.file.path;
-        return res.status(200).send("Upload Completed for "+path);
+        return res.status(200).send('Upload Completed for ' + path);
     });
 });
 
-// convert data from .xlsx to .json
+// convert data from .xlsx to .json and .csv
 const convertData = () => {
     const src = './uploads/politdaten.xlsx';
     const dst = './data/data.json';
@@ -91,8 +99,21 @@ const convertData = () => {
             sheet: '2', // Default worksheet is 1, if no options provided
             convertTextToNumber: false // No information loss on Geschäftsnummern like 07.110
         } );
+        createCSV();
     }
 };
+
+const createCSV = () => {
+    try {
+        const csvFilename = 'politdaten.csv';
+        const wb = XLSX.readFile('./uploads/politdaten.xlsx');
+        const ws = wb.Sheets[wb.SheetNames[1]]
+        const stream = XLSX.stream.to_csv(ws);
+        stream.pipe(fs.createWriteStream('./uploads/'+ csvFilename));
+    } catch (err) {
+        return res.status(500).send('Data Parsing Error Occured: ' + err)
+    }
+}
 
 // send all requests back to index for client side routing
 app.get('/*', function (req, res) {
