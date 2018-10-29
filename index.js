@@ -9,8 +9,6 @@ const multer = require('multer');
 const XLSX = require('xlsx');
 const convertExcel = require('excel-as-json').processFile;
 
-// TODO: Test if dependency changes brough problems to app
-
 // open cors in development mode
 if (config.cors) {
     app.use(cors());
@@ -34,8 +32,6 @@ app.get('/data', function (req, res) {
     })
 });
 
-// TODO: Test download in production
-// TODO: Need for authentication?
 app.get('/getcsv', function (req, res) {
     res.download(__dirname + '/uploads/politdaten.csv');
 });

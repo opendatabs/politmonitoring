@@ -1,7 +1,7 @@
 {
   "name": "politmonitoring",
   "version": "1.0.0",
-  "description": "A visual display of the parliamentary proceedings of the Canton of Basel ",
+  "description": "A visual display of the parliamentary proceedings of the Canton of Basel",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
