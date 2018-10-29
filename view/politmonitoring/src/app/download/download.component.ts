@@ -117,7 +117,7 @@ drawPdf(data: string[], graphUri: string, fileName: string): void {
       'Titel': { columnWidth: titleColumnWidth },
       'Status': { columnWidth: 25 },
       'Jahr': { columnWidth: 10 },
-      'Partei': { columnWidth: 18 },
+      'Partei': { columnWidth: 19 },
       'Themenbereich 1': { columnWidth: 30 },
       'Thema 1': { columnWidth: 31 },
       'Thema 2': { columnWidth: 31 },
