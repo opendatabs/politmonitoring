@@ -17,11 +17,11 @@ app.use('/node_modules', express.static(__dirname + '/node_modules/'));
 app.use('/data', express.static(__dirname + '/data/'));
 app.use(express.static(path.join(__dirname, 'dist')));
 
-app.get('/', function (req, res) {
+app.get('/', (req, res) => {
     res.sendFile(__dirname + '/dist/index.html');
 });
 
-app.get('/data', function (req, res) {
+app.get('/data', (req, res) => {
     fs.readFile('data/data.json', 'utf8', (err, data) => {
         // if there is no file, return empty array
         if (err)
@@ -32,8 +32,14 @@ app.get('/data', function (req, res) {
     })
 });
 
-app.get('/getcsv', function (req, res) {
-    res.download(__dirname + '/uploads/politdaten.csv');
+app.get('/getcsv', async (req, res) => {
+    const src = __dirname + '/uploads/politdaten.csv'
+    if (fs.existsSync(src)) {
+        res.download(src);
+    } else {
+        await createCSV();
+        res.download(src)
+    }
 });
 
 // Basic authenticate user based on server side stored credentials
@@ -91,7 +97,7 @@ const convertData = () => {
     const src = './uploads/politdaten.xlsx';
     const dst = './data/data.json';
     if (fs.existsSync(src)) {
-        convertExcel(src, dst, { 
+        convertExcel(src, dst, {
             sheet: '2', // Default worksheet is 1, if no options provided
             convertTextToNumber: false // No information loss on Geschäftsnummern like 07.110
         } );
@@ -112,10 +118,10 @@ const createCSV = () => {
 }
 
 // send all requests back to index for client side routing
-app.get('/*', function (req, res) {
+app.get('/*', (req, res) => {
     res.sendFile(__dirname + '/dist/index.html');
 });
 
-app.listen(5000, function () {
+app.listen(5000, () => {
     console.log('App listening on port 5000')
 });

@@ -2,7 +2,7 @@
 
 #custom
 /config/devConfig.js
-/uploads
+/uploads/politdaten.csv
 
 # compiled output
 /dist-server
