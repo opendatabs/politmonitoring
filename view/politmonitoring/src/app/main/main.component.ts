@@ -15,7 +15,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   originalData: any[];
   categoryFilter: String;
   @ViewChild('infoBtnContent') infoBtnContent: ElementRef;
-  firstDisplay = false; // display modal on first page load
+  firstDisplay = true; // true: display modal on first page load
 
   constructor(
     private dataService: DataService,
