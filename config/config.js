@@ -1,9 +1,9 @@
 const prodConfig = {
-    cors: false,
+    cors: process.env.NODE_ENV !== 'production',
     username: process.env.AUTH_USERNAME,
     password: process.env.AUTH_PASSWORD,
 };
 
-console.log(process.env);
-module.exports = process.env.NODE_ENV === 'production' ? prodConfig : require('./devConfig');
+// module.exports = process.env.NODE_ENV === 'production' ? prodConfig : require('./devConfig');
+module.exports = prodConfig;
 
