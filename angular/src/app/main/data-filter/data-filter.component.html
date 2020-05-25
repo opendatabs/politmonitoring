@@ -61,7 +61,7 @@
       </div>
     </div>
     <div ngbDropdown class="mr-sm-2" autoClose="outside">
-      <button class="btn reset-filter" *ngIf="partyFilter !== 'all'" (click)="resetPartyFilter()"><span>X</span>
+      <button class="btn reset-filter" *ngIf="partyFilterSet" (click)="resetPartyFilter()"><span>X</span>
       </button>
       <button ngbDropdownToggle class="btn btn-secondary" type="button" id="partyDropdownButton"
               aria-haspopup="true" aria-expanded="false">
@@ -70,9 +70,9 @@
       </button>
       <div ngbDropdownMenu aria-labelledby="partyDropdownButton">
         <div class="dropdown-item">
-          <div (click)="filterByParty('all')">
-            <input type="radio" id="radio_all_party" name="radio-group-party" [checked]="partyFilter === 'all'">
-            <label for="radio_all_party">Alle</label>
+          <div class="dropdown-item">
+            <button class="btn ml-2 mb-2" type="button" (click)="checkAllParties()">Alle</button>
+            <button class="btn mb-2" type="button" (click)="uncheckAllParties()">Keine</button>
           </div>
         </div>
         <div class="dropdown-item" *ngFor="let entry of partyDropdown; let i = index">
@@ -85,7 +85,7 @@
       </div>
     </div>
     <div ngbDropdown class="mr-sm-2" autoClose="outside">
-      <button class="btn reset-filter" *ngIf="instrumentFilter !== 'all'" (click)="resetInstrumentFilter()">
+      <button class="btn reset-filter" *ngIf="instrumentFilterSet" (click)="resetInstrumentFilter()">
         <span>X</span></button>
       <button ngbDropdownToggle class="btn btn-secondary" type="button" id="instrumentDropdownButton"
               aria-haspopup="true" aria-expanded="false">
@@ -168,7 +168,39 @@
       </div>
       <div class="row">
         <div class="col-md-2 col-sm-12">
+          <b>Themenbereich:</b>
+        </div>
+        <div class="col-md-10 col-sm-12">
+          <div>blablasb, baslbd , bldbs</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 col-sm-12">
+          <b>Partei:</b>
+        </div>
+        <div class="col-md-10 col-sm-12">
+          <div>blablasb, baslbd , bldbs</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 col-sm-12">
+          <b>Instrument:</b>
+        </div>
+        <div class="col-md-10 col-sm-12">
+          <div>blablasb, baslbd , bldbs</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 col-sm-12">
           <b>Jahr:</b>
+        </div>
+        <div class="col-md-10 col-sm-12">
+          <div>blablasb, baslbd , bldbs</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 col-sm-12">
+          <b>Status:</b>
         </div>
         <div class="col-md-10 col-sm-12">
           <div>blablasb, baslbd , bldbs</div>

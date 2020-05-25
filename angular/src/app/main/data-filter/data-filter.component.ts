@@ -34,6 +34,8 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   statusFilter = 'all';
   filtered = false;
   yearFilterSet = false;
+  instrumentFilterSet = false;
+  partyFilterSet = false;
   subCategoryFilter = 'all';
   subCategoryDropdown: string[];
   admin: boolean;
@@ -100,7 +102,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     this.data = this.dataService.filterInstruments(this.data, this.instrumentDropdown);
     this.data = this.dataService.filterParties(this.data, this.partyDropdown);
     // check if any filter is set.
-    this.checkFilterYearsSet();
+    this.checkFiltersSet();
     this.filtered = this.categoryFilter.description !== 'all' || this.keyTopicFilter !== 'all' || this.searchText.length > 0
       || this.statusFilter !== 'all' || this.yearFilterSet || this.partyFilter !== 'all' || this.instrumentFilter !== 'all';
     // Has to be done async (not in same digest) to avoid expressionChangedAfterItHasBeenCheckedError
@@ -125,9 +127,31 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     this.filterData();
   }
 
+  checkAllParties() {
+    this.partyDropdown.forEach(d => d.checked = true);
+    this.filterData();
+  }
+
+  uncheckAllParties() {
+    this.partyDropdown.forEach(d => d.checked = false);
+    this.filterData();
+  }
+
+  checkAllInstruments() {
+    this.instrumentDropdown.forEach(d => d.checked = true);
+    this.filterData();
+  }
+
+  uncheckAllInstruments() {
+    this.instrumentDropdown.forEach(d => d.checked = false);
+    this.filterData();
+  }
+
   // checks if filter of year is set
-  checkFilterYearsSet() {
+  checkFiltersSet() {
     this.yearFilterSet = JSON.stringify(this.yearDropdown) !== JSON.stringify(this.getInitYears());
+    this.instrumentFilterSet = JSON.stringify(this.instrumentDropdown) !== JSON.stringify(this.getInitInstruments());
+    this.partyFilterSet = JSON.stringify(this.partyDropdown) !== JSON.stringify(this.getInitParties());
   }
 
   filterStatus(status: string) {
@@ -199,12 +223,12 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   }
 
   resetPartyFilter() {
-    this.partyFilter = 'all';
+    this.partyDropdown = this.getInitParties();
     this.filterData();
   }
 
   resetInstrumentFilter() {
-    this.instrumentFilter = 'all';
+    this.instrumentDropdown = this.getInitInstruments();
     this.filterData();
   }
 
