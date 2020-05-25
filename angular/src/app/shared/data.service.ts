@@ -104,6 +104,30 @@ export class DataService {
     });
   }
 
+  filterInstruments(data: any[], instruments: any[]) {
+    return data.filter(d => {
+      let found = false;
+      instruments.forEach(y => {
+        if (y.checked && y.name === d.Instrument) {
+          found = true;
+        }
+      });
+      return found;
+    });
+  }
+
+  filterParties(data: any[], parties: any[]) {
+    return data.filter(d => {
+      let found = false;
+      parties.forEach(y => {
+        if (y.checked && y.name === d.Partei) {
+          found = true;
+        }
+      });
+      return found;
+    });
+  }
+
   filterByStatus(data: any[], statusFilter: String) {
     return data.filter(d => {
       return d.Status.toLowerCase() === statusFilter.toLowerCase();

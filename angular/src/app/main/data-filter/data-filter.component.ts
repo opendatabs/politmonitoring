@@ -24,8 +24,8 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   originalData: any[] = [];
   categoryDropdown: Category[];
   keyTopicDropdown: string[];
-  partyDropdown: string[];
-  instrumentDropdown: string[];
+  partyDropdown = [];
+  instrumentDropdown = [];
   yearDropdown = [];
   categoryFilter: Category = {description: 'all', number: -1}; // if categoryFilter is -1, no filter is set
   keyTopicFilter = 'all';
@@ -89,14 +89,16 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     if (this.statusFilter !== 'all') {
       this.data = this.dataService.filterByStatus(this.data, this.statusFilter);
     }
-    if (this.partyFilter !== 'all') {
+    /*if (this.partyFilter !== 'all') {
       this.data = this.dataService.filterByParty(this.data, this.partyFilter);
-    }
-    if (this.instrumentFilter !== 'all') {
+    }*/
+    /*if (this.instrumentFilter !== 'all') {
       this.data = this.dataService.filterByInstrument(this.data, this.instrumentFilter);
-    }
+    }*/
     this.data = this.dataService.searchInArrayOfObjects(this.data, this.searchText);
     this.data = this.dataService.filterYears(this.data, this.yearDropdown);
+    this.data = this.dataService.filterInstruments(this.data, this.instrumentDropdown);
+    this.data = this.dataService.filterParties(this.data, this.partyDropdown);
     // check if any filter is set.
     this.checkFilterYearsSet();
     this.filtered = this.categoryFilter.description !== 'all' || this.keyTopicFilter !== 'all' || this.searchText.length > 0
@@ -153,13 +155,13 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     this.filterData();
   }
 
-  filterByParty(party: string) {
-    this.partyFilter = party;
+  filterByParty(entry: any) {
+    entry.checked = !entry.checked;
     this.filterData();
   }
 
-  filterByInstrument(instrument: string) {
-    this.instrumentFilter = instrument;
+  filterByInstrument(entry: any) {
+    entry.checked = !entry.checked;
     this.filterData();
   }
 
@@ -175,7 +177,9 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     this.yearDropdown = this.getInitYears();
     this.statusFilter = 'all';
     this.partyFilter = 'all';
+    this.partyDropdown = this.getInitParties();
     this.instrumentFilter = 'all';
+    this.instrumentDropdown = this.getInitInstruments();
     this.filterData();
   }
 
@@ -227,10 +231,26 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
       .unique(this.originalData.map(d => d['Schwerpunktthema (bei Bedarf)']))
       .filter(d => d !== '');
     this.keyTopicDropdown.sort((a, b) => a.localeCompare(b));
-    this.partyDropdown = ['BastA!', 'CVP', 'EVP', 'FDP', 'GLP', 'Grüne', 'LDP', 'SP', 'SVP', 'Parteilos', 'Kommission', 'Bevölkerung'];
-    this.instrumentDropdown = ['Petition', 'Anzug', 'Motion', 'Initiative'];
+    // this.partyDropdown = ['BastA!', 'CVP', 'EVP', 'FDP', 'GLP', 'Grüne', 'LDP', 'SP', 'SVP', 'Parteilos', 'Kommission', 'Bevölkerung'];
+    /* this.instrumentDropdown = [
+      'Initiative',
+      'Motion',
+      'Anzug',
+      'Petition',
+      'Budgetpostulat',
+      'vorgezogenes Budgetpostulat',
+      'Resolution',
+      'Standesinitiative',
+      'Standesreferendum',
+      'Planungsanzug',
+      'schriftliche Anfrage',
+      'Interpellation'
+    ] */
     this.yearDropdown = this.getInitYears();
+    this.partyDropdown = this.getInitParties();
+    this.instrumentDropdown = this.getInitInstruments();
     this.filterData();
+
   }
 
   // get the original values for years
@@ -241,10 +261,36 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     years.sort((a, b) => {
       return b - a;
     });
-    return years.map((d, i) => {
-      const checked = (i < 5 && d > 2014);
+    return years.map(d => {
+      const checked = (d >= (new Date().getFullYear()) - 1);
       return {
         year: d, checked: checked
+      };
+    });
+  }
+
+  private getInitInstruments() {
+    const instruments = this.dataService.unique(this.originalData.map(d => d.Instrument));
+
+    instruments.sort((a, b) => {
+      return a - b;
+    });
+    return instruments.map(d => {
+      return {
+        name: d, checked: true
+      };
+    });
+  }
+
+  private getInitParties() {
+    const parties = this.dataService.unique(this.originalData.map(d => d.Partei));
+
+    parties.sort((a, b) => {
+      return a - b;
+    });
+    return parties.map(d => {
+      return {
+        name: d, checked: true
       };
     });
   }

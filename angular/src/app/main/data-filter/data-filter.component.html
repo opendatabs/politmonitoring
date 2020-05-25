@@ -1,10 +1,11 @@
 <!--because navbar is static, we add this invisible placeholder to provide space for the navbar -->
 <div class="invisible-navbar-placeholder"></div>
 <div class="custom-fixed-navbar container navbar">
-  <div class="content">
+  <div class="row content">
     <div class="form-inline">
       <div class="input-group mr-sm-2" id='seachInput'>
-        <button class="btn reset-filter" *ngIf="searchText.length > 0" (click)="resetSearchText()"><span>X</span></button>
+        <button class="btn reset-filter" *ngIf="searchText.length > 0" (click)="resetSearchText()"><span>X</span>
+        </button>
         <input name='search' class="form-control" type="search" placeholder="Volltextsuche" aria-label="Suchen"
                (keydown)="keyDownFunction($event)" [(ngModel)]="searchText">
         <div class="input-group-append">
@@ -13,7 +14,8 @@
       </div>
     </div>
     <div ngbDropdown class="mr-sm-2">
-      <button class="btn reset-filter" *ngIf="categoryFilter.description !== 'all'" (click)="resetCategoryFilter()"><span>X</span></button>
+      <button class="btn reset-filter" *ngIf="categoryFilter.description !== 'all'" (click)="resetCategoryFilter()">
+        <span>X</span></button>
       <button ngbDropdownToggle class="btn btn-secondary" type="button" id="dropdownMenuButton"
               aria-haspopup="true" aria-expanded="false">
         <span *ngIf="categoryFilter.description === 'all'">Themenbereich</span>
@@ -35,7 +37,8 @@
       </div>
     </div>
     <div ngbDropdown class="mr-sm-2" *ngIf="admin">
-      <button class="btn reset-filter" *ngIf="keyTopicFilter !== 'all'" (click)="resetKeyTopicFilter()"><span>X</span></button>
+      <button class="btn reset-filter" *ngIf="keyTopicFilter !== 'all'" (click)="resetKeyTopicFilter()"><span>X</span>
+      </button>
       <button ngbDropdownToggle class="btn btn-secondary" type="button" id="keyTopicDropdownButton"
               aria-haspopup="true" aria-expanded="false">
         <span *ngIf="keyTopicFilter === 'all'">Schwerpunktthema</span>
@@ -44,7 +47,8 @@
       <div ngbDropdownMenu aria-labelledby="dropdownMenuButton">
         <div class="dropdown-item">
           <div (click)="filterByKeyTopic('all')">
-            <input type="radio" id="radio_all_key_topic" name="radio-group-key-topic" [checked]="keyTopicFilter === 'all'">
+            <input type="radio" id="radio_all_key_topic" name="radio-group-key-topic"
+                   [checked]="keyTopicFilter === 'all'">
             <label for="radio_all_key_topic">Alle</label>
           </div>
         </div>
@@ -56,8 +60,9 @@
         </div>
       </div>
     </div>
-    <div ngbDropdown class="mr-sm-2">
-      <button class="btn reset-filter" *ngIf="partyFilter !== 'all'" (click)="resetPartyFilter()"><span>X</span></button>
+    <div ngbDropdown class="mr-sm-2" autoClose="outside">
+      <button class="btn reset-filter" *ngIf="partyFilter !== 'all'" (click)="resetPartyFilter()"><span>X</span>
+      </button>
       <button ngbDropdownToggle class="btn btn-secondary" type="button" id="partyDropdownButton"
               aria-haspopup="true" aria-expanded="false">
         <span *ngIf="partyFilter === 'all'">Partei</span>
@@ -71,15 +76,17 @@
           </div>
         </div>
         <div class="dropdown-item" *ngFor="let entry of partyDropdown; let i = index">
-          <div (click)="filterByParty(entry)">
-            <input type="radio" id="radio_party_{{i}}" name="radio-group-party">
-            <label for="radio_party_{{i}}">{{entry}}</label>
+          <div>
+            <input type="checkbox" id="checkbox_party_{{i}}" [(checked)]="entry.checked"
+                   (change)="filterByParty(entry)">
+            <label for="checkbox_party_{{i}}">{{entry.name}}</label>
           </div>
         </div>
       </div>
     </div>
-    <div ngbDropdown class="mr-sm-2">
-      <button class="btn reset-filter" *ngIf="instrumentFilter !== 'all'" (click)="resetInstrumentFilter()"><span>X</span></button>
+    <div ngbDropdown class="mr-sm-2" autoClose="outside">
+      <button class="btn reset-filter" *ngIf="instrumentFilter !== 'all'" (click)="resetInstrumentFilter()">
+        <span>X</span></button>
       <button ngbDropdownToggle class="btn btn-secondary" type="button" id="instrumentDropdownButton"
               aria-haspopup="true" aria-expanded="false">
         <span *ngIf="instrumentFilter === 'all'">Instrument</span>
@@ -87,20 +94,19 @@
       </button>
       <div ngbDropdownMenu aria-labelledby="instrumentDropdownButton">
         <div class="dropdown-item">
-          <div (click)="filterByInstrument('all')">
-            <input type="radio" id="radio_all_instrument" name="radio-group-instrument" [checked]="instrumentFilter === 'all'">
-            <label for="radio_all_instrument">Alle</label>
-          </div>
+          <button class="btn ml-2 mb-2" type="button" (click)="checkAllInstruments()">Alle</button>
+          <button class="btn mb-2" type="button" (click)="uncheckAllInstruments()">Keine</button>
         </div>
         <div class="dropdown-item" *ngFor="let entry of instrumentDropdown; let i = index">
-          <div (click)="filterByInstrument(entry)">
-            <input type="radio" id="radio_instrument_{{i}}" name="radio-group-instrument">
-            <label for="radio_instrument_{{i}}">{{entry}}</label>
+          <div>
+            <input type="checkbox" id="checkbox_instrument_{{i}}" [(checked)]="entry.checked"
+                   (change)="filterByInstrument(entry)">
+            <label for="checkbox_instrument_{{i}}">{{entry.name}}</label>
           </div>
         </div>
       </div>
     </div>
-    <div ngbDropdown class="mr-sm-2" (click)="stopEventPropagation($event)">
+    <div ngbDropdown class="mr-sm-2" (click)="stopEventPropagation($event)" autoClose="outside">
       <button class="btn reset-filter" *ngIf="yearFilterSet" (click)="resetYearFilter()"><span>X</span></button>
       <button class="btn btn-secondary" type="button" id="dropdownMenuButton2" ngbDropdownToggle
               aria-haspopup="true" aria-expanded="false">
@@ -111,14 +117,16 @@
         <button class="btn mb-2" type="button" (click)="uncheckAllYears()">Keine</button>
         <div class="dropdown-item" *ngFor="let entry of yearDropdown; let i = index">
           <div>
-            <input type="checkbox" id="checkbox_{{entry.year}}" [(checked)]="entry.checked" (change)="filterYears(entry)">
+            <input type="checkbox" id="checkbox_{{entry.year}}" [(checked)]="entry.checked"
+                   (change)="filterYears(entry)">
             <label for="checkbox_{{entry.year}}">{{entry.year}}</label>
           </div>
         </div>
       </div>
     </div>
     <div ngbDropdown class="mr-sm-2">
-      <button class="btn reset-filter" *ngIf="statusFilter !== 'all'" (click)="resetStatusFilter()"><span>X</span></button>
+      <button class="btn reset-filter" *ngIf="statusFilter !== 'all'" (click)="resetStatusFilter()"><span>X</span>
+      </button>
       <button class="btn btn-secondary" type="button" id="dropdownMenuButton3" ngbDropdownToggle
               aria-haspopup="true" aria-expanded="false">
         <span *ngIf="statusFilter === 'all'">Status</span>
@@ -139,16 +147,33 @@
         </div>
         <div class="dropdown-item">
           <div (click)="filterStatus('In Bearbeitung')">
-            <input type="radio" id="radio_status_bearbeitung" name="radio-group2" [checked]="statusFilter === 'In Bearbeitung'">
+            <input type="radio" id="radio_status_bearbeitung" name="radio-group2"
+                   [checked]="statusFilter === 'In Bearbeitung'">
             <label for="radio_status_bearbeitung">In Bearbeitung</label>
           </div>
         </div>
       </div>
     </div>
     <div id="dateFilter" *ngIf="filtered">
-      <button class="btn btn-secondary" type="button" (click)="resetFilters()" placement="bottom" ngbTooltip="Alle&nbsp;Filter&nbsp;zurücksetzen">
+      <button class="btn btn-secondary" type="button" (click)="resetFilters()" placement="bottom"
+              ngbTooltip="Alle&nbsp;Filter&nbsp;zurücksetzen">
         X
       </button>
+    </div>
+  </div>
+  <div class="row content">
+    <div class="container">
+      <div class="row">
+        <h5>Filtereinstellungen:</h5>
+      </div>
+      <div class="row">
+        <div class="col-md-2 col-sm-12">
+          <b>Jahr:</b>
+        </div>
+        <div class="col-md-10 col-sm-12">
+          <div>blablasb, baslbd , bldbs</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
