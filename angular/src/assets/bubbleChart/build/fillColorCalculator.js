@@ -24,9 +24,10 @@ var FillColorCalculator = function () {
         if (color.themenbereich_1 === themenbereich_1) finalColor = color.color;
       });
 
+      /*
       if (this.useSubColors) {
         finalColor = this.calculateSubcolor(finalColor, themenbereich_1, thema_1);
-      }
+      }*/
 
       // make it darker if required
       if (darker) finalColor = d3.rgb(finalColor).darker();
