@@ -148,7 +148,7 @@ export class DataService {
 
   unique(array): any[] {
     return $.grep(array, function(el, index) {
-      return index == $.inArray(el, array);
+      return index == $.inArray(el, array) && el.length > 0;
     });
   }
 

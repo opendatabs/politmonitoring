@@ -1,4 +1,13 @@
-import { AfterViewChecked, Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  EventEmitter, HostListener,
+  Input,
+  OnChanges,
+  OnInit,
+  Output
+} from '@angular/core';
 import { DataService} from '../../shared/data.service';
 import * as moment from 'moment';
 import { AuthService } from '../../shared/auth.service';
@@ -15,7 +24,7 @@ interface jQuery {
   templateUrl: './data-filter.component.html',
   styleUrls: ['./data-filter.component.css']
 })
-export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges {
+export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges, AfterViewInit {
 
   @Input() data: any[];
   @Output() onFiltered: EventEmitter<any> = new EventEmitter();
@@ -52,6 +61,12 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     private authService: AuthService
   ) { }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    console.log("resize")
+    this.adjustHeight();
+  }
+
   ngOnInit() {
     window.addEventListener('scroll', DataFilterComponent.scroll, true);
     this.authService.currentAdminState.subscribe(admin => this.admin = admin);
@@ -59,6 +74,10 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
 
   ngAfterViewChecked(): void {
     DataFilterComponent.scroll();
+  }
+
+  ngAfterViewInit(): void {
+    this.adjustHeight();
   }
 
   ngOnChanges(changes: any) {
@@ -78,6 +97,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
   }
 
   filterData() {
+    this.adjustHeight();
     this.data = this.originalData;
     if (this.categoryFilter.description !== 'all') {
       this.data = this.dataService.filterByCategory(this.data, this.categoryFilter.number);
@@ -104,7 +124,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     // check if any filter is set.
     this.checkFiltersSet();
     this.filtered = this.categoryFilter.description !== 'all' || this.keyTopicFilter !== 'all' || this.searchText.length > 0
-      || this.statusFilter !== 'all' || this.yearFilterSet || this.partyFilter !== 'all' || this.instrumentFilter !== 'all';
+      || this.statusFilter !== 'all' || this.yearFilterSet || this.partyFilterSet || this.instrumentFilterSet;
     // Has to be done async (not in same digest) to avoid expressionChangedAfterItHasBeenCheckedError
     setTimeout(() => {
       this.onFiltered.emit({data: this.data, categoryFilter: this.categoryFilter.description});
@@ -149,9 +169,9 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
 
   // checks if filter of year is set
   checkFiltersSet() {
-    this.yearFilterSet = JSON.stringify(this.yearDropdown) !== JSON.stringify(this.getInitYears());
-    this.instrumentFilterSet = JSON.stringify(this.instrumentDropdown) !== JSON.stringify(this.getInitInstruments());
-    this.partyFilterSet = JSON.stringify(this.partyDropdown) !== JSON.stringify(this.getInitParties());
+    this.yearFilterSet = this.yearDropdown.filter(d => d.checked).length !== this.getInitYears().filter(d => d.checked).length;
+    this.instrumentFilterSet = this.instrumentDropdown.filter(d => d.checked).length !== this.getInitInstruments().filter(d => d.checked).length;
+    this.partyFilterSet = this.partyDropdown.filter(d => d.checked).length !== this.getInitParties().filter(d => d.checked).length;
   }
 
   filterStatus(status: string) {
@@ -246,6 +266,45 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
     event.stopPropagation();
   }
 
+  deleteInstrumentSelection(entry) {
+    this.instrumentDropdown.forEach(d => {
+      if (d.name === entry.name) {
+        d.checked = false;
+      }
+    });
+    this.filterData();
+  }
+
+  deletePartySelection(entry) {
+    this.partyDropdown.forEach(d => {
+      if (d.name === entry.name) {
+        d.checked = false;
+      }
+    });
+    this.filterData();
+  }
+
+  deleteYearSelection(entry) {
+    this.yearDropdown.forEach(d => {
+      if (d.name === entry.name) {
+        d.checked = false;
+      }
+    });
+    this.filterData();
+  }
+
+  allInstrumentsSelected() {
+    return this.instrumentDropdown.filter(d => d.checked).length === this.instrumentDropdown.length;
+  }
+
+  allYearsSelected() {
+    return this.yearDropdown.filter(d => d.checked).length === this.yearDropdown.length;
+  }
+
+  allPartiesSelected() {
+    return this.partyDropdown.filter(d => d.checked).length === this.partyDropdown.length;
+  }
+
   private initDropdowns() {
     this.categoryDropdown = this.dataService.uniqueCategories(this.originalData.map(d => {
       return { description: d['Themenbereich 1'], number: d.Themenbereich_Number };
@@ -325,6 +384,10 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges 
 
   private getOriginalDownloadData(): void {
     this.dataService.sendOriginalJSON(this.originalData);
+  }
+
+  private adjustHeight() {
+    $('.invisible-navbar-placeholder').css('height', $('.custom-fixed-navbar').outerHeight());
   }
 
 }
