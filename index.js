@@ -8,6 +8,7 @@ const basicAuth = require('basic-auth');
 const multer = require('multer');
 const XLSX = require('xlsx');
 const convertExcel = require('excel-as-json').processFile;
+const fetch = require('node-fetch');
 
 // open cors in development mode
 if (config.cors) {
@@ -40,6 +41,25 @@ app.get('/getcsv', async (req, res) => {
         await createCSV();
         res.download(src)
     }
+});
+
+// TODO: do we really need this in backend? data adaption needed?
+app.get('/get-data', async (req, res) => {
+    const apiUrl = 'http://grosserrat.bs.ch/de/?option=com_gribs&view=politmonitors&task=politmonitors.export_csv&format=raw'; // TODO: get right url
+
+    /*fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => res.status(500).send(err))*/
+
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => res.status(500).send(err))
 });
 
 // Basic authenticate user based on server side stored credentials
