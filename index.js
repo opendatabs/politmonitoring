@@ -43,17 +43,11 @@ app.get('/getcsv', async (req, res) => {
     }
 });
 
-// TODO: do we really need this in backend? data adaption needed?
 app.get('/get-data', async (req, res) => {
-    const apiUrl = 'http://grosserrat.bs.ch/de/?option=com_gribs&view=politmonitors&task=politmonitors.export_csv&format=raw'; // TODO: get right url
-
-    /*fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => res.status(500).send(err))*/
-
+    // TODO: MAKE POST REQUEST
+    res.set('Authorization', config.apiKey)
+    const apiUrl = `https://data.bs.ch/api/records/1.0/search/?apikey=${config.apiKey}&dataset=100086&q=&rows=1000&sort=-signatur&facet=signatur&facet=geschaftstyp&facet=gr_urheber&facet=urheber_name&facet=partei&facet=status&facet=beginn_datum&facet=ende&facet=endfrist&facet=thema_1&facet=thema_2&facet=schwerpunkt`;
+    // apikey=${config.apiKey}&
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {

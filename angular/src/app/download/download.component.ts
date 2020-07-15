@@ -3,7 +3,7 @@ import { DataService } from '../shared/data.service';
 import { Angular5Csv } from 'angular5-csv/Angular5-csv';
 import { AuthService } from '../shared/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import * as moment from 'moment';
+import moment from "moment"
 import * as XLSX from 'xlsx';
 import * as saveSvgApi from 'save-svg-as-png';
 import * as canvg from 'canvg';

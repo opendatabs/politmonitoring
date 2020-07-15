@@ -22,11 +22,20 @@ const BubbleChart = {
   AMOUNT_INSTRUMENTS: {
     Initiative: 8,
     Anzug: 2,
+    Planungsanzug: 2,
+    Budgetpostulat: 2,
+    'Vorgezogenes Budgetpostulat': 2,
     Motion: 4,
-    Petition: 1
+    Resolution: 4,
+    Standesinitiative: 4,
+    Standesreferendum: 4,
+    Petition: 1,
+    'Schriftliche Anfrage': 1,
+    Interpellation: 1
   },
 
-  bubbleChart: function () {
+
+bubbleChart: function () {
     // Constants for sizing
     const wrapper = document.getElementById('vis');
     const width = wrapper.clientWidth;
@@ -100,7 +109,6 @@ const BubbleChart = {
      * array for each element in the rawData input.
      */
     function createNodes(rawData) {
-
       const myNodes = rawData.map(function (d) {
         return {
           geschaefts_nr: d["Geschäfts-nr"],

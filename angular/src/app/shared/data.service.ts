@@ -5,6 +5,8 @@ import { environment } from '../../environments/environment';
 import { Category } from './category';
 declare const $: any;
 declare var jQuery: any;
+import themenbereiche from '../../assets/themenbereiche.json';
+
 
 
 @Injectable()
@@ -47,6 +49,22 @@ export class DataService {
     return this.http.get<any[]>(url);
   }
 
+  getDataNew(): Observable<any[]> {
+    const url = environment.apiUrl + 'get-data';
+    return this.http.get<any[]>(url);
+  }
+
+  getCategories() {
+    return themenbereiche;
+  }
+
+  getCategoryForSubCategory(subcategory: string) {
+    const category = themenbereiche.find(elem => {
+      return elem.children.includes(subcategory);
+    });
+    return category ?  category.name : undefined;
+  }
+
   searchInArrayOfObjects(data: any[], searchText: String): any[] {
     const list = data;
     const result = [];
@@ -70,9 +88,10 @@ export class DataService {
     return result;
   }
 
-  filterByCategory(data: any[], category: number): any[] {
+  filterByCategory(data: any[], category: string): any[] {
     return data.filter(d => {
-      return d.Themenbereich_Number === category || d.Thema2_Number === category;
+      return d['Themenbereich 1'] === category || d['Themenbereich 2'] === category;
+      //return d.Themenbereich_Number === category || d.Thema2_Number === category;
     });
   }
 
@@ -148,7 +167,7 @@ export class DataService {
 
   unique(array): any[] {
     return $.grep(array, function(el, index) {
-      return index == $.inArray(el, array) && el.length > 0;
+      return index == $.inArray(el, array) && el && el.length > 0;
     });
   }
 

@@ -30,6 +30,7 @@ export class BubbleChartComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngOnChanges(changes: any): void {
     if (changes.data && changes.data.currentValue) {
+      console.log(changes.data.currentValue)
       // Small timeout, otherwise the id of the buttons aren't correctly set until d3.js needs them
       setTimeout(() => {
         this.lastDataLoaded = changes.data.currentValue;

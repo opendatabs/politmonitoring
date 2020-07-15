@@ -100,7 +100,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
     this.adjustHeight();
     this.data = this.originalData;
     if (this.categoryFilter.description !== 'all') {
-      this.data = this.dataService.filterByCategory(this.data, this.categoryFilter.number);
+      this.data = this.dataService.filterByCategory(this.data, this.categoryFilter.description);
       if (this.subCategoryFilter !== 'all') {
         this.data = this.dataService.filterBySubCategory(this.data, this.subCategoryFilter);
       }
@@ -329,6 +329,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
       'schriftliche Anfrage',
       'Interpellation'
     ] */
+    this.categoryDropdown = this.getInitCategories();
     this.yearDropdown = this.getInitYears();
     this.partyDropdown = this.getInitParties();
     this.instrumentDropdown = this.getInitInstruments();
@@ -339,7 +340,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   // get the original values for years
   // tick only last 5 years (if year bigger than 2018)
   private getInitYears() {
-    const years = this.dataService.unique(this.originalData.map(d => d.Jahr));
+    const years = this.dataService.unique(this.originalData.map(d => d['Jahr'])); // Jahr
     // sort descending
     years.sort((a, b) => {
       return b - a;
@@ -353,7 +354,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   }
 
   private getInitInstruments() {
-    const instruments = this.dataService.unique(this.originalData.map(d => d.Instrument));
+    const instruments = this.dataService.unique(this.originalData.map(d => d['Instrument'])); // Instrument
 
     instruments.sort((a, b) => {
       return a - b;
@@ -366,7 +367,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   }
 
   private getInitParties() {
-    const parties = this.dataService.unique(this.originalData.map(d => d.Partei));
+    const parties = this.dataService.unique(this.originalData.map(d => d['Partei'])); // Partei
 
     parties.sort((a, b) => {
       return a - b;
@@ -376,6 +377,14 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
         name: d, checked: true
       };
     });
+  }
+
+  private getInitCategories(): Category[] {
+    const categories = this.dataService.getCategories();
+    const categoriesAsObj = categories.map((d, i) => {
+      return <Category>{description: d.name, number: i};
+    });
+    return categoriesAsObj;
   }
 
   private getDownloadData(): void {

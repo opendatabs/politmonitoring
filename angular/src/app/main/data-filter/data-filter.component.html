@@ -45,7 +45,6 @@
           </button>
           <button ngbDropdownToggle class="btn btn-secondary" type="button" id="keyTopicDropdownButton"
                   aria-haspopup="true" aria-expanded="false">
-            <span *ngIf="keyTopicFilter === 'all'">Schwerpunktthema</span>
             <span *ngIf="keyTopicFilter !== 'all'">{{keyTopicFilter}}</span>
           </button>
           <div ngbDropdownMenu aria-labelledby="dropdownMenuButton">
@@ -53,6 +52,7 @@
               <div (click)="filterByKeyTopic('all')">
                 <input type="radio" id="radio_all_key_topic" name="radio-group-key-topic"
                        [checked]="keyTopicFilter === 'all'">
+            <span *ngIf="keyTopicFilter === 'all'">Schwerpunktthema</span>
                 <label for="radio_all_key_topic">Alle</label>
               </div>
             </div>

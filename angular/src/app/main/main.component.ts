@@ -26,6 +26,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.dataService.getData().subscribe(
         data => {
+          console.log(data)
           data.forEach(d => {
             /* When the .xlsx file is parsed to JSON, some numbers can be converted with a tail of 000000 or 99999.
              * Fix the flawful parsing by rounding up or down and keeping the lenght at 7
@@ -61,8 +62,8 @@ export class MainComponent implements OnInit, AfterViewInit {
           });
           // Remove empty elements from array
           const filteredData = data.filter( el => el['Geschäfts-nr'] > 0);
-          this.data = filteredData;
-          this.originalData = filteredData;
+          //this.data = filteredData;
+          //this.originalData = filteredData;
         },
         err => {
           this.toastr.error('Beim Laden der Daten ist ein Fehler aufgetreten: ' + err.message, err.name, {
@@ -71,13 +72,40 @@ export class MainComponent implements OnInit, AfterViewInit {
           });
         }
     );
+    this.dataService.getDataNew().subscribe(
+      d => {
+        const data = d['records'].map(elem => elem.fields);
+        data.forEach(fields => {
+          fields['Instrument'] = fields['geschaftstyp'] ? fields['geschaftstyp'] : '';
+          fields['Partei'] = fields['partei'] ? fields['partei'] : '';
+          fields['Link'] = fields['geschaft'] ? fields['geschaft'] : '';
+          fields['Geschäfts-nr'] = fields['signatur'] ? fields['signatur'] : '';
+          fields['Status'] = fields['status'] ? fields['status'] : '';
+          fields['Thema 1'] = fields['thema_1'] ? fields['thema_1'] : '';
+          fields['Thema 2'] = fields['thema_2'] ? fields['thema_2'] : '';
+          fields['Titel'] = fields['titel'] ? fields['titel'] : '';
+          fields['Schwerpunktthema (bei Bedarf)'] = fields['schwerpunkt'] ? fields['schwerpunkt'] : '';
+          fields['Jahr'] = (new Date(fields['beginn_datum'])).getFullYear().toString();
+          fields['Themenbereich 1'] = this.dataService.getCategoryForSubCategory(fields['thema_1']) ?
+            this.dataService.getCategoryForSubCategory(fields['thema_1']) :
+            this.dataService.getCategoryForSubCategory(fields['thema_2']); // TODO: remove themenbereich 2 - why is that????
+          fields['Themenbereich 2'] = this.dataService.getCategoryForSubCategory(fields['thema_2']) ?
+            this.dataService.getCategoryForSubCategory(fields['thema_2']) :
+            '';
+        });
+        console.log(data);
+        this.data = data;
+        this.originalData = data;
+      }
+    )
+
   }
 
   ngAfterViewInit(): void {
     if (this.firstDisplay) {
       // Has to be done async (not in same digest) to avoid expressionChangedAfterItHasBeenCheckedError
       setTimeout(() => {
-        this.modalService.open(this.infoBtnContent, { size: 'lg' });
+       // this.modalService.open(this.infoBtnContent, { size: 'lg' }); TODO: uncomment this!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         this.firstDisplay = false; // Only display modal on first load
       }, 0);
     }
