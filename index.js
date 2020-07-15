@@ -44,9 +44,12 @@ app.get('/getcsv', async (req, res) => {
 });
 
 app.get('/get-data', async (req, res) => {
-    // TODO: MAKE POST REQUEST
-    res.set('Authorization', config.apiKey)
-    const apiUrl = `https://data.bs.ch/api/records/1.0/search/?apikey=${config.apiKey}&dataset=100086&q=&rows=1000&sort=-signatur&facet=signatur&facet=geschaftstyp&facet=gr_urheber&facet=urheber_name&facet=partei&facet=status&facet=beginn_datum&facet=ende&facet=endfrist&facet=thema_1&facet=thema_2&facet=schwerpunkt`;
+
+    const apiKey = config.apiKey ? config.apiKey : process.env.API_KEY;
+    res.set('Authorization', apiKey)
+    const apiUrl = `https://data.bs.ch/api/records/1.0/search/?apikey=${apiKey}&dataset=100086&q=&rows=1000&sort=-signatur&facet=signatur&facet=geschaftstyp&facet=gr_urheber&facet=urheber_name&facet=partei&facet=status&facet=beginn_datum&facet=ende&facet=endfrist&facet=thema_1&facet=thema_2&facet=schwerpunkt`;
+
+
     // apikey=${config.apiKey}&
     fetch(apiUrl)
         .then(response => response.json())
@@ -92,7 +95,8 @@ const upload = multer({
             return cb(null, true);
         cb('Error: File upload only supports the following filetype: ' + filetype);
     },
-    storage: storage}).single('file');
+    storage: storage
+}).single('file');
 
 app.post('/upload', (req, res) => {
     let path = '';
@@ -114,7 +118,7 @@ const convertData = () => {
         convertExcel(src, dst, {
             sheet: '2', // Default worksheet is 1, if no options provided
             convertTextToNumber: false // No information loss on Geschäftsnummern like 07.110
-        } );
+        });
         createCSV();
     }
 };
@@ -125,7 +129,7 @@ const createCSV = () => {
         const wb = XLSX.readFile('./uploads/politdaten.xlsx');
         const ws = wb.Sheets[wb.SheetNames[1]]
         const stream = XLSX.stream.to_csv(ws);
-        stream.pipe(fs.createWriteStream('./uploads/'+ csvFilename));
+        stream.pipe(fs.createWriteStream('./uploads/' + csvFilename));
     } catch (err) {
         return res.status(500).send('Data Parsing Error Occured: ' + err)
     }
