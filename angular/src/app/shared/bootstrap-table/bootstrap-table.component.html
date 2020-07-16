@@ -165,8 +165,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-9"></div>
-          <div class="col-3 paginationWrapper">
+          <div class="col-sm-12 paginationWrapper">
             <ul class="pagination">
               <li [class.disabled]="pagination.start === 0" [class.waves-effect]="pagination.start !== 0"><a (click)="pageBack()"><i class="fas fa-chevron-left"></i></a></li>
               <li class="pageView">{{pagination.start}} - {{pagination.end}} / {{data.length}}</li>

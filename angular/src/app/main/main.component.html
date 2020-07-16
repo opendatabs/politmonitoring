@@ -14,7 +14,7 @@
   </button>
 </div>
 
-<app-bubble-chart [data]="data" [categoryFilter]="categoryFilter"></app-bubble-chart>
+<app-bubble-chart class="d-none d-lg-block d-xl-block" [data]="data" [categoryFilter]="categoryFilter"></app-bubble-chart>
 <app-bootstrap-table *ngIf="data"
                        [data]="data"
                        [title]="'Grossratsgeschäfte'"

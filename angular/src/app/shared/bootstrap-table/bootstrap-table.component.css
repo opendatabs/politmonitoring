@@ -36,6 +36,7 @@ th.titleCol i {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  flex-wrap: wrap;
 
 }
 
@@ -51,8 +52,8 @@ th.titleCol i {
 #table {
   margin-top: 50px;
   width: 100%;
-  table-layout: fixed;
   font-size: 13px;
+  overflow-x: auto;
 }
 
 #tableWrapper {
