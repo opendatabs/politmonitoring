@@ -23,11 +23,11 @@ th.titleCol i {
   margin-left: 7px;
 }
 
-#tableWrapper th, #tableWrapper td {
+#tableWrapper th, #tableWrapper td, #tableWrapperMobile th, #tableWrapperMobile td {
   padding: 5px;
 }
 
-#tableWrapper td:not(.fixed-width) {
+#tableWrapper td:not(.fixed-width), #tableWrapperMobile td:not(.fixed-width) {
   width: auto;
 }
 
@@ -49,14 +49,14 @@ th.titleCol i {
   cursor: pointer;
 }
 
-#table {
+#table, #table-mobile {
   margin-top: 50px;
   width: 100%;
   font-size: 13px;
   overflow-x: auto;
 }
 
-#tableWrapper {
+#tableWrapper, #tableWrapperMobile {
   overflow-x: auto;
 }
 

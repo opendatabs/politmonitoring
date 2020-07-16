@@ -27,7 +27,7 @@
         </div>
         <div class="row">
           <div class="col-12">
-            <div id="tableWrapper">
+            <div id="tableWrapper" class="d-none d-md-block">
               <table id="table" class="table highlight table-hover">
                 <tr>
                   <th width="100px" class="titleCol fixed-width" (click)="changeSortBy('Geschäfts-nr')">
@@ -158,6 +158,50 @@
                     <span *ngIf="entry['Konsorten']" [innerHTML]="(entry['Konsorten'].slice(0, 70).toString() | highlight:searchString) + '...'"></span>
                     <span *ngIf="!entry['Konsorten']"></span>
                     <span class="tooltiptext">{{entry.Konsorten}}</span>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div id="tableWrapperMobile" class="d-sm-block d-md-none">
+              <table id="table-mobile" class="table highlight table-hover">
+                <tr>
+                  <th width="100px" class="titleCol fixed-width" (click)="changeSortBy('Geschäfts-nr')">
+                    <p>Geschäfts- <br>nummer
+                      <i *ngIf="'Geschäfts-nr' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
+                      <i *ngIf="'Geschäfts-nr' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                    </p>
+                  </th>
+                  <th width="170px" class="titleCol fixed-width" (click)="changeSortBy('Titel')">
+                    <p>Titel
+                      <i *ngIf="'Titel' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
+                      <i *ngIf="'Titel' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                    </p>
+                  </th>
+                  <th class="titleCol" (click)="changeSortBy('Themenbereich 1')">
+                    <p>
+                      <span *ngIf="!admin">Themenbereich</span>
+                      <span *ngIf="admin">Themen- <br>bereich</span>
+                      <i *ngIf="'Themenbereich 1' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
+                      <i *ngIf="'Themenbereich 1' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                    </p>
+                  </th>
+                </tr>
+                <tr #table *ngFor="let entry of data | sortBy: sort.sortBy: sort.asc | slice:pagination.start:pagination.end"
+                    (click)="selectEntry(entry)">
+                  <td>
+                    <a href="{{entry['Link'].toString()}}" target="_blank">
+                      <!-- <span *ngIf="entry['Geschäfts-nr']" [innerHTML]="entry['Geschäfts-nr'].toFixed(4) | highlight:searchString"></span> -->
+                      <span *ngIf="entry['Geschäfts-nr']" [innerHTML]="entry['Geschäfts-nr'] | highlight:searchString"></span>
+                      <span *ngIf="!entry['Geschäfts-nr']"></span>
+                    </a>
+                  </td>
+                  <td>
+                    <span *ngIf="entry['Titel']" [innerHTML]="entry['Titel'].toString() | highlight:searchString"></span>
+                    <span *ngIf="!entry['Titel']"></span>
+                  </td>
+                  <td>
+                    <span *ngIf="entry['Themenbereich 1']" [innerHTML]="entry['Themenbereich 1'].toString() | highlight:searchString"></span>
+                    <span *ngIf="!entry['Themenbereich 1']"></span>
                   </td>
                 </tr>
               </table>

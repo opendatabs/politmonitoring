@@ -6,6 +6,7 @@ import { Category } from './category';
 declare const $: any;
 declare var jQuery: any;
 import themenbereiche from '../../assets/themenbereiche.json';
+import descriptions from '../../assets/descriptions.json';
 
 
 
@@ -78,6 +79,16 @@ export class DataService {
         if (entry.hasOwnProperty(key)) {
           if (entry[key] !== null && entry[key].toString().toLocaleLowerCase().indexOf(searchText.toLocaleLowerCase()) !== -1) {
             found = true;
+          }
+          if (['Thema 1', 'Thema 2'].indexOf(key) > -1) {
+            if (entry[key] !== null && descriptions['category'][entry[key]] && descriptions['category'][entry[key]].toString().toLocaleLowerCase().indexOf(searchText.toLocaleLowerCase()) !== -1) {
+              found = true;
+            }
+          }
+          if (key === 'schwerpunkt') {
+            if (entry[key] !== null && descriptions['key_topic'][entry[key]] && descriptions['key_topic'][entry[key]].toString().toLocaleLowerCase().indexOf(searchText.toLocaleLowerCase()) !== -1) {
+              found = true;
+            }
           }
         }
       }
