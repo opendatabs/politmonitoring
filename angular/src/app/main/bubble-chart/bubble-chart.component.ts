@@ -61,6 +61,16 @@ export class BubbleChartComponent implements OnInit, OnChanges, AfterViewInit {
   ngAfterViewInit() {
     // send SVG to other component in case needed for PDF creation
     this.sendSvgData();
+
+    //this.vis.nativeElement.addEventListener('click', this.onClick.bind(this)) TODO: add later
+  }
+
+  // click on category labels
+  onClick(event) {
+    const classes = (event.target as Element).className['baseVal'].split(' ');
+    if (classes.indexOf('categoryLabels') > -1) {
+      this.dataService.filterByCategory(this.data, event.target.innerHTML)
+    }
   }
 
   private sendSvgData(): void {

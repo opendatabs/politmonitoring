@@ -145,3 +145,7 @@ button.reset-filter:hover {
   align-items: center;
   margin: 5px 0;
 }
+
+#filter-legend {
+  display: none;
+}

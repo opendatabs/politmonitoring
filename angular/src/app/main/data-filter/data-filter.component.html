@@ -1,6 +1,6 @@
 <!--because navbar is static, we add this invisible placeholder to provide space for the navbar -->
 <div class="invisible-navbar-placeholder"></div>
-<div class="custom-fixed-navbar container navbar">
+<div #filter class="custom-fixed-navbar container navbar">
   <div class="content">
     <div class="row">
       <div class="col-sm-12 filter-top">
@@ -39,31 +39,6 @@
             </div>
           </div>
         </div>
-        <!--<div ngbDropdown class="mr-sm-2" *ngIf="admin">
-          <button class="btn reset-filter" *ngIf="keyTopicFilter !== 'all'" (click)="resetKeyTopicFilter()">
-            <span><i class="fas fa-undo"></i></span>
-          </button>
-          <button ngbDropdownToggle class="btn btn-secondary" type="button" id="keyTopicDropdownButton"
-                  aria-haspopup="true" aria-expanded="false">
-            <span *ngIf="keyTopicFilter !== 'all'">{{keyTopicFilter}}</span>
-          </button>
-          <div ngbDropdownMenu aria-labelledby="dropdownMenuButton">
-            <div class="dropdown-item">
-              <div (click)="filterByKeyTopic('all')">
-                <input type="radio" id="radio_all_key_topic" name="radio-group-key-topic"
-                       [checked]="keyTopicFilter === 'all'">
-            <span *ngIf="keyTopicFilter === 'all'">Schwerpunktthema</span>
-                <label for="radio_all_key_topic">Alle</label>
-              </div>
-            </div>
-            <div class="dropdown-item" *ngFor="let entry of keyTopicDropdown; let i = index">
-              <div (click)="filterByKeyTopic(entry)">
-                <input type="radio" id="radio_key_topic_{{i}}" name="radio-group-key-topic">
-                <label for="radio_key_topic_{{i}}">{{entry}}</label>
-              </div>
-            </div>
-          </div>
-        </div>-->
         <div ngbDropdown class="mr-sm-2" autoClose="outside">
           <button class="btn reset-filter" *ngIf="partyFilterSet" (click)="resetPartyFilter()">
             <span><i class="fas fa-undo"></i></span>
@@ -158,20 +133,6 @@
                 <label for="radio_status_{{i}}">{{entry}}</label>
               </div>
             </div>
-            <!--<div class="dropdown-item">
-              <div (click)="filterStatus('Erledigt')">
-                <input type="radio" id="radio_status_erledigt" name="radio-group2"
-                       [checked]="statusFilter === 'Erledigt'">
-                <label for="radio_status_erledigt">Erledigt</label>
-              </div>
-            </div>
-            <div class="dropdown-item">
-              <div (click)="filterStatus('In Bearbeitung')">
-                <input type="radio" id="radio_status_bearbeitung" name="radio-group2"
-                       [checked]="statusFilter === 'In Bearbeitung'">
-                <label for="radio_status_bearbeitung">In Bearbeitung</label>
-              </div>
-            </div>-->
           </div>
         </div>
         <div id="dateFilter" *ngIf="filtered">
@@ -182,7 +143,7 @@
         </div>
       </div>
     </div>
-    <div class="row">
+    <div id="filter-legend" class="row">
       <div class="container">
         <div class="row">
           <div class="col-sm-12">

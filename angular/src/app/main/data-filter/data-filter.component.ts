@@ -1,12 +1,12 @@
 import {
   AfterViewChecked,
   AfterViewInit,
-  Component,
+  Component, ElementRef,
   EventEmitter, HostListener,
   Input,
   OnChanges,
   OnInit,
-  Output
+  Output, ViewChild
 } from '@angular/core';
 import { DataService} from '../../shared/data.service';
 import * as moment from 'moment';
@@ -28,6 +28,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
 
   @Input() data: any[];
   @Output() onFiltered: EventEmitter<any> = new EventEmitter();
+  @ViewChild('filter') filterRef : ElementRef;
 
   searchText = '';
   originalData: any[] = [];
@@ -78,7 +79,15 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   }
 
   ngAfterViewInit(): void {
-    this.adjustHeight();
+
+    this.filterRef.nativeElement.addEventListener('mouseover', event => {
+      $('#filter-legend').show();
+      this.adjustHeight();
+    });
+    this.filterRef.nativeElement.addEventListener('mouseout', event => {
+        $('#filter-legend').hide();
+      this.adjustHeight();
+    });
   }
 
   ngOnChanges(changes: any) {
