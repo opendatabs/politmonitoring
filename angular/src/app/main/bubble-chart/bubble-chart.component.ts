@@ -2,6 +2,7 @@ import { AfterViewInit, Component, Input, OnChanges, OnInit, HostListener, ViewC
 declare var BubbleChart;
 import * as $ from 'jquery';
 import { DataService } from '../../shared/data.service';
+import themenbereiche from '../../../assets/themenbereiche.json';
 
 @Component({
   selector: 'app-bubble-chart',
@@ -62,14 +63,18 @@ export class BubbleChartComponent implements OnInit, OnChanges, AfterViewInit {
     // send SVG to other component in case needed for PDF creation
     this.sendSvgData();
 
-    //this.vis.nativeElement.addEventListener('click', this.onClick.bind(this)) TODO: add later
+    this.vis.nativeElement.addEventListener('click', this.onClick.bind(this)) // TODO: add later
   }
 
   // click on category labels
   onClick(event) {
     const classes = (event.target as Element).className['baseVal'].split(' ');
     if (classes.indexOf('categoryLabels') > -1) {
-      this.dataService.filterByCategory(this.data, event.target.innerHTML)
+      const categories = themenbereiche.map(d => d.name);
+      const name = event.target.innerHTML.replace(/&amp;/g, '&');
+      if (categories.indexOf(name) > -1) {
+        this.dataService.setCategoryFromBubbleChart(name);
+      }
     }
   }
 

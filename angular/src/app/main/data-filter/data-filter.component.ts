@@ -76,6 +76,12 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
     this.isOpen = (window.innerWidth > 580);
     window.addEventListener('scroll', DataFilterComponent.scroll, true);
     this.authService.currentAdminState.subscribe(admin => this.admin = admin);
+    this.dataService.getCategoryFromBubbleChart().subscribe(category => {
+      if (category.length > 0) {
+        console.log('hello')
+        this.filterByCategory(false, {description: category, number: 1});
+      }
+    })
   }
 
   ngAfterViewChecked(): void {

@@ -26,6 +26,8 @@ export class DataService {
   private sortScr = new BehaviorSubject([{ sortBy: 'Geschäfts-Nr', asc: false }]);
   sort = this.sortScr.asObservable();
 
+  private categoryFromBubbleChart = new BehaviorSubject('');
+
   constructor(
     private http: HttpClient
     ) { }
@@ -80,7 +82,8 @@ export class DataService {
           if (entry[key] !== null && entry[key].toString().toLocaleLowerCase().indexOf(searchText.toLocaleLowerCase()) !== -1) {
             found = true;
           }
-          if (['Thema 1', 'Thema 2'].indexOf(key) > -1) {
+          //TODO: add tipp if person is looking for a word in here.
+          /*if (['Thema 1', 'Thema 2'].indexOf(key) > -1) {
             if (entry[key] !== null && descriptions['category'][entry[key]] && descriptions['category'][entry[key]].toString().toLocaleLowerCase().indexOf(searchText.toLocaleLowerCase()) !== -1) {
               found = true;
             }
@@ -89,7 +92,7 @@ export class DataService {
             if (entry[key] !== null && descriptions['key_topic'][entry[key]] && descriptions['key_topic'][entry[key]].toString().toLocaleLowerCase().indexOf(searchText.toLocaleLowerCase()) !== -1) {
               found = true;
             }
-          }
+          }*/
         }
       }
       if (found) {
@@ -202,6 +205,14 @@ export class DataService {
       }
     });
     return unique;
+  }
+
+  setCategoryFromBubbleChart(category: string) {
+    this.categoryFromBubbleChart.next(category);
+  }
+
+  getCategoryFromBubbleChart() {
+    return this.categoryFromBubbleChart;
   }
 
   sendJSON(data: object[]): void {
