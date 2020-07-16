@@ -9,6 +9,7 @@
 .invisible-navbar-placeholder {
   width: 100%;
   visibility: hidden;
+  height: 54px;
 }
 
 .content {
