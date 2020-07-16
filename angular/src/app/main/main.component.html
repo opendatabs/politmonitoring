@@ -1,7 +1,8 @@
 <app-data-filter [data]="data" (onFiltered)="replaceFilteredData($event)"></app-data-filter>
 <!--<app-upload *ngIf="admin"></app-upload>-->
 <div class="alert alert-warning my-2 d-lg-none" role="alert">
-  <b>Hinweis:</b> Die Visualisierung ist nicht für Mobilegeräte und Anzeigegrössen unter 990 Pixel optimiert.
+  <b>Hinweis:</b> Die Visualisierung ist nicht für Mobilegeräte und Anzeigegrössen unter 990 Pixel optimiert und wird deshalb nur
+  auf grösseren Bildschirmen dargestellt.
 </div>
 <div class="alert alert-warning my-2 alert-dismissible fade show" role="alert" *ngIf="detectIE()">
   <b>Hinweis:</b> Sie verwenden einen veralteten Browser, der von vielen modernen Webseiten nicht mehr länger unterstützt wird.

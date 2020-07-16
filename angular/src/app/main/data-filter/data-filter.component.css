@@ -92,7 +92,8 @@
 
 #dateFilter {
   position: absolute;
-  right: 30px;
+  right: 25px;
+  top: 5px;
 }
 
 button.reset-filter {
@@ -131,21 +132,34 @@ button.reset-filter:hover {
 
 .chip-all, .chip {
   margin: 5px;
-  padding: 0 15px;
-  height: 30px;
-  line-height: 30px;
+  padding: 0 10px;
+  height: 18px;
+  line-height: 18px;
 }
 
 .filter-row {
   align-items: center;
+  font-size: 13px;
+}
+
+.filter-top, #dropdowns {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .filter-top {
-  display: flex;
-  align-items: center;
-  margin: 5px 0;
+  margin: 5px 0
 }
 
 #filter-legend {
   display: none;
+}
+
+.no-padding {
+  padding: 0 !important;
+}
+
+.small-margin {
+  margin: 3px;
 }

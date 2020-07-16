@@ -2,10 +2,9 @@
 <div class="invisible-navbar-placeholder"></div>
 <div #filter class="custom-fixed-navbar container navbar">
   <div class="content">
-    <div class="row">
-      <div class="col-sm-12 filter-top">
-        <div class="form-inline">
-          <div class="input-group mr-sm-2" id='seachInput'>
+    <div class="row filter-top">
+        <div class="mr-sm-2">
+          <div class="input-group" id='seachInput'>
             <button class="btn reset-filter" *ngIf="searchText.length > 0" (click)="resetSearchText()">
               <span><i class="fas fa-undo"></i></span>
             </button>
@@ -16,7 +15,8 @@
             </div>
           </div>
         </div>
-        <div ngbDropdown class="mr-sm-2">
+      <div id="dropdowns">
+        <div ngbDropdown class="small-margin">
           <button class="btn reset-filter" *ngIf="categoryFilter.description !== 'all'" (click)="resetCategoryFilter()">
             <span><i class="fas fa-undo"></i></span></button>
           <button ngbDropdownToggle class="btn btn-secondary" type="button" id="dropdownMenuButton"
@@ -39,7 +39,7 @@
             </div>
           </div>
         </div>
-        <div ngbDropdown class="mr-sm-2" autoClose="outside">
+        <div ngbDropdown class="small-margin" autoClose="outside">
           <button class="btn reset-filter" *ngIf="partyFilterSet" (click)="resetPartyFilter()">
             <span><i class="fas fa-undo"></i></span>
           </button>
@@ -66,7 +66,7 @@
             </div>
           </div>
         </div>
-        <div ngbDropdown class="mr-sm-2" autoClose="outside">
+        <div ngbDropdown class="small-margin" autoClose="outside">
           <button class="btn reset-filter" *ngIf="instrumentFilterSet" (click)="resetInstrumentFilter()">
             <span><i class="fas fa-undo"></i></span></button>
           <button ngbDropdownToggle class="btn btn-secondary" type="button" id="instrumentDropdownButton"
@@ -90,7 +90,7 @@
             </div>
           </div>
         </div>
-        <div ngbDropdown class="mr-sm-2" (click)="stopEventPropagation($event)" autoClose="outside">
+        <div ngbDropdown class="small-margin" (click)="stopEventPropagation($event)" autoClose="outside">
           <button class="btn reset-filter" *ngIf="yearFilterSet" (click)="resetYearFilter()">
             <span><i class="fas fa-undo"></i></span></button>
           <button class="btn btn-secondary" type="button" id="dropdownMenuButton2" ngbDropdownToggle
@@ -111,7 +111,7 @@
             </div>
           </div>
         </div>
-        <div ngbDropdown class="mr-sm-2">
+        <div ngbDropdown class="small-margin">
           <button class="btn reset-filter" *ngIf="statusFilter !== 'all'" (click)="resetStatusFilter()">
             <span><i class="fas fa-undo"></i></span>
           </button>
@@ -135,19 +135,20 @@
             </div>
           </div>
         </div>
-        <div id="dateFilter" *ngIf="filtered">
-          <button class="btn btn-secondary" type="button" (click)="resetFilters()" placement="bottom"
+      </div>
+
+      <div id="dateFilter" *ngIf="filtered">
+          <button class="btn btn-secondary" type="button" (click)="resetFilters()" placement="left"
                   ngbTooltip="Alle&nbsp;Filter&nbsp;zurücksetzen">
             <i class="fas fa-undo"></i>
           </button>
         </div>
-      </div>
     </div>
     <div id="filter-legend" class="row">
       <div class="container">
         <div class="row">
           <div class="col-sm-12">
-            <h5>Filtereinstellungen:</h5>
+            <h6>Filtereinstellungen:</h6>
           </div>
         </div>
         <div class="row filter-row">
