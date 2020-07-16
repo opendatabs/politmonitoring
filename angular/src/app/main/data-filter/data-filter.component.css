@@ -154,6 +154,7 @@ button.reset-filter:hover {
 
 #filter-legend {
   display: none;
+  pointer-events: none;
 }
 
 .no-padding {

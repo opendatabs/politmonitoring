@@ -15,7 +15,7 @@
           </div>
         </div>
       </div>
-      <div [style.display]="isOpen ? 'flex' : 'none'" id="dropdowns">
+      <div [style.display]="isOpen || windowSize >= MOBILE_SIZE ? 'flex' : 'none'" id="dropdowns">
         <div ngbDropdown class="small-margin">
           <button class="btn reset-filter" *ngIf="categoryFilter.description !== 'all'" (click)="resetCategoryFilter()">
             <span><i class="fas fa-undo"></i></span></button>
@@ -149,7 +149,7 @@
         </button>
       </div>
     </div>
-    <div id="filter-legend" class="row">
+    <div id="filter-legend" class="row" [style.display]="isOpen && windowSize < MOBILE_SIZE ? 'block' : 'none'">
       <div class="container">
         <div class="row">
           <div class="col-sm-12">
@@ -165,7 +165,7 @@
               <div *ngFor="let entry of partyDropdown">
                 <div *ngIf="entry.checked" class="chip">
                   <span>{{entry.name}}</span>
-                  <span class="close-btn" (click)="deletePartySelection(entry)"><i class="fas fa-times"></i></span>
+                  <!--<span class="close-btn" (click)="deletePartySelection(entry)"><i class="fas fa-times"></i></span>-->
                 </div>
               </div>
             </div>
@@ -181,7 +181,7 @@
               <div *ngFor="let entry of instrumentDropdown">
                 <div *ngIf="entry.checked" class="chip">
                   <span>{{entry.name}}</span>
-                  <span class="close-btn" (click)="deleteInstrumentSelection(entry)"><i class="fas fa-times"></i></span>
+                  <!--<span class="close-btn" (click)="deleteInstrumentSelection(entry)"><i class="fas fa-times"></i></span>-->
                 </div>
               </div>
             </div>
@@ -197,7 +197,7 @@
               <div *ngFor="let entry of yearDropdown">
                 <div *ngIf="entry.checked" class="chip">
                   <span>{{entry.year}}</span>
-                  <span class="close-btn" (click)="deleteYearSelection(entry)"><i class="fas fa-times"></i></span>
+                  <!--<span class="close-btn" (click)="deleteYearSelection(entry)"><i class="fas fa-times"></i></span>-->
                 </div>
               </div>
             </div>

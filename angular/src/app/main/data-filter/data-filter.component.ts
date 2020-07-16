@@ -30,7 +30,9 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   @Output() onFiltered: EventEmitter<any> = new EventEmitter();
   @ViewChild('filter') filterRef : ElementRef;
 
-  isOpen = true;
+  MOBILE_SIZE = 580;
+  windowSize;
+  isOpen = false;
   searchText = '';
   originalData: any[] = [];
   categoryDropdown: Category[];
@@ -68,12 +70,14 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   onResize(event) {
     console.log("resize")
 
-    this.isOpen = (event.target.innerWidth > 580);
-    this.adjustHeight();
+    //this.isOpen = (event.target.innerWidth > this.MOBILE_SIZE);
+    this.windowSize = window.innerWidth;
+    //this.adjustHeight();
   }
 
   ngOnInit() {
-    this.isOpen = (window.innerWidth > 580);
+    //this.isOpen = (window.innerWidth > this.MOBILE_SIZE);
+    this.windowSize = window.innerWidth;
     window.addEventListener('scroll', DataFilterComponent.scroll, true);
     this.authService.currentAdminState.subscribe(admin => this.admin = admin);
     this.dataService.getCategoryFromBubbleChart().subscribe(category => {
@@ -90,13 +94,17 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
 
   ngAfterViewInit(): void {
 
-    this.filterRef.nativeElement.addEventListener('mouseover', event => {
-      $('#filter-legend').show();
-      this.adjustHeight();
+    this.filterRef.nativeElement.addEventListener('mouseenter', event => {
+      if (window.innerWidth > 580) {
+        $('#filter-legend').show(500);
+      }
+      //this.adjustHeight();
     });
-    this.filterRef.nativeElement.addEventListener('mouseout', event => {
-        $('#filter-legend').hide();
-      this.adjustHeight();
+    this.filterRef.nativeElement.addEventListener('mouseleave', event => {
+      if (window.innerWidth > 580) {
+        $('#filter-legend').hide(500);
+      }
+      //this.adjustHeight();
     });
   }
 
@@ -117,7 +125,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   }
 
   filterData() {
-    this.adjustHeight();
+    //this.adjustHeight();
     this.data = this.originalData;
     if (this.categoryFilter.description !== 'all') {
       this.data = this.dataService.filterByCategory(this.data, this.categoryFilter.description);
