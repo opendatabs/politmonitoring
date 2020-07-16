@@ -35,6 +35,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   keyTopicDropdown: string[];
   partyDropdown = [];
   instrumentDropdown = [];
+  statusDropdown = [];
   yearDropdown = [];
   categoryFilter: Category = {description: 'all', number: -1}; // if categoryFilter is -1, no filter is set
   keyTopicFilter = 'all';
@@ -224,6 +225,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
     this.partyDropdown = this.getInitParties();
     this.instrumentFilter = 'all';
     this.instrumentDropdown = this.getInitInstruments();
+    this.statusDropdown = this.getInitStatus();
     this.filterData();
   }
 
@@ -333,6 +335,8 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
     this.yearDropdown = this.getInitYears();
     this.partyDropdown = this.getInitParties();
     this.instrumentDropdown = this.getInitInstruments();
+    this.statusDropdown = this.getInitStatus();
+    this.statusDropdown = this.getInitStatus();
     this.filterData();
 
   }
@@ -341,6 +345,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   // tick only last 5 years (if year bigger than 2018)
   private getInitYears() {
     const years = this.dataService.unique(this.originalData.map(d => d['Jahr'])); // Jahr
+    years.unshift('letztes Quartal');
     // sort descending
     years.sort((a, b) => {
       return b - a;
@@ -377,6 +382,10 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
         name: d, checked: true
       };
     });
+  }
+
+  private getInitStatus() {
+    return this.dataService.unique(this.originalData.map(d => d['Status']));
   }
 
   private getInitCategories(): Category[] {

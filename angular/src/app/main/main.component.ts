@@ -24,13 +24,13 @@ export class MainComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-    this.dataService.getData().subscribe(
+    /*this.dataService.getData().subscribe(
         data => {
           console.log(data)
           data.forEach(d => {
             /* When the .xlsx file is parsed to JSON, some numbers can be converted with a tail of 000000 or 99999.
              * Fix the flawful parsing by rounding up or down and keeping the lenght at 7
-             */
+             *
             if (d['Geschäfts-nr'].length > 7) {
               if (d['Geschäfts-nr'].substring(7, 8) === '9') {
                 if (Number(d['Geschäfts-nr']) !== NaN) {
@@ -71,19 +71,20 @@ export class MainComponent implements OnInit, AfterViewInit {
             timeOut: 0
           });
         }
-    );
+    );*/
     this.dataService.getDataNew().subscribe(
       d => {
         const data = d['records'].map(elem => elem.fields);
         data.forEach(fields => {
           fields['Instrument'] = fields['geschaftstyp'] ? fields['geschaftstyp'] : '';
-          fields['Partei'] = fields['partei'] ? fields['partei'] : '';
+          fields['Partei'] = fields['partei'] ? fields['partei'] : 'Parteilos'; // TODO: change this
           fields['Link'] = fields['geschaft'] ? fields['geschaft'] : '';
           fields['Geschäfts-nr'] = fields['signatur'] ? fields['signatur'] : '';
           fields['Status'] = fields['status'] ? fields['status'] : '';
           fields['Thema 1'] = fields['thema_1'] ? fields['thema_1'] : '';
           fields['Thema 2'] = fields['thema_2'] ? fields['thema_2'] : '';
           fields['Titel'] = fields['titel'] ? fields['titel'] : '';
+          fields['UrheberIn'] = fields['urheber_name'] ? fields['urheber_name'] : '';
           fields['Schwerpunktthema (bei Bedarf)'] = fields['schwerpunkt'] ? fields['schwerpunkt'] : '';
           fields['Jahr'] = (new Date(fields['beginn_datum'])).getFullYear().toString();
           fields['Themenbereich 1'] = this.dataService.getCategoryForSubCategory(fields['thema_1']) ?

@@ -117,6 +117,12 @@ export class DataService {
       years.forEach(y => {
         if (y.checked && y.year === d.Jahr) {
           found = true;
+        } else if (y.checked && y.year === 'letztes Quartal') {
+          const today = new Date();
+          const dataDate = new Date(d['beginn_datum']);
+          if (dataDate.getFullYear() === today.getFullYear() && dataDate.getMonth() >= today.getMonth() - 3) {
+              found = true;
+          }
         }
       });
       return found;
