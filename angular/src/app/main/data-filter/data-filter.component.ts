@@ -30,6 +30,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   @Output() onFiltered: EventEmitter<any> = new EventEmitter();
   @ViewChild('filter') filterRef : ElementRef;
 
+  isOpen = true;
   searchText = '';
   originalData: any[] = [];
   categoryDropdown: Category[];
@@ -66,10 +67,13 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     console.log("resize")
+
+    this.isOpen = (event.target.innerWidth > 580);
     this.adjustHeight();
   }
 
   ngOnInit() {
+    this.isOpen = (window.innerWidth > 580);
     window.addEventListener('scroll', DataFilterComponent.scroll, true);
     this.authService.currentAdminState.subscribe(admin => this.admin = admin);
   }
@@ -314,6 +318,10 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
 
   allPartiesSelected() {
     return this.partyDropdown.filter(d => d.checked).length === this.partyDropdown.length;
+  }
+
+  toggleMobileFilter() {
+    this.isOpen = !this.isOpen;
   }
 
   private initDropdowns() {

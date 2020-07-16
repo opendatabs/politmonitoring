@@ -3,19 +3,19 @@
 <div #filter class="custom-fixed-navbar container navbar">
   <div class="content">
     <div class="row filter-top">
-        <div class="mr-sm-2">
-          <div class="input-group" id='seachInput'>
-            <button class="btn reset-filter" *ngIf="searchText.length > 0" (click)="resetSearchText()">
-              <span><i class="fas fa-undo"></i></span>
-            </button>
-            <input name='search' class="form-control" type="search" placeholder="Volltextsuche" aria-label="Suchen"
-                   (keydown)="keyDownFunction($event)" [(ngModel)]="searchText">
-            <div class="input-group-append">
-              <div class="input-group-text" (click)="filterData()">Suchen</div>
-            </div>
+      <div class="mr-sm-2">
+        <div class="input-group" id='seachInput'>
+          <button class="btn reset-filter" *ngIf="searchText.length > 0" (click)="resetSearchText()">
+            <span><i class="fas fa-undo"></i></span>
+          </button>
+          <input name='search' class="form-control" type="search" placeholder="Volltextsuche" aria-label="Suchen"
+                 (keydown)="keyDownFunction($event)" [(ngModel)]="searchText">
+          <div class="input-group-append">
+            <div class="input-group-text" (click)="filterData()">Suchen</div>
           </div>
         </div>
-      <div id="dropdowns">
+      </div>
+      <div [style.display]="isOpen ? 'flex' : 'none'" id="dropdowns">
         <div ngbDropdown class="small-margin">
           <button class="btn reset-filter" *ngIf="categoryFilter.description !== 'all'" (click)="resetCategoryFilter()">
             <span><i class="fas fa-undo"></i></span></button>
@@ -136,13 +136,18 @@
           </div>
         </div>
       </div>
-
+      <div id="dropdown-toggle" (click)="toggleMobileFilter()">
+        <button class="btn" type="button">
+        <i *ngIf="!isOpen" class="fa fa-chevron-down"></i>
+        <i *ngIf="isOpen" class="fa fa-chevron-up"></i>
+        </button>
+      </div>
       <div id="dateFilter" *ngIf="filtered">
-          <button class="btn btn-secondary" type="button" (click)="resetFilters()" placement="left"
-                  ngbTooltip="Alle&nbsp;Filter&nbsp;zurücksetzen">
-            <i class="fas fa-undo"></i>
-          </button>
-        </div>
+        <button class="btn btn-secondary" type="button" (click)="resetFilters()" placement="left"
+                ngbTooltip="Alle&nbsp;Filter&nbsp;zurücksetzen">
+          <i class="fas fa-undo"></i>
+        </button>
+      </div>
     </div>
     <div id="filter-legend" class="row">
       <div class="container">

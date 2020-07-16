@@ -163,3 +163,26 @@ button.reset-filter:hover {
 .small-margin {
   margin: 3px;
 }
+
+#dropdowns {
+  display: flex;
+}
+
+#dropdown-toggle {
+  display: none;
+}
+
+@media (max-width: 580px) {
+  #dropdowns {
+    display: none;
+  }
+  #dropdown-toggle {
+    display: block;
+    position: absolute;
+    top: 5px;
+    right: 25px;
+  }
+  #dateFilter {
+    right: 75px;
+  }
+}
