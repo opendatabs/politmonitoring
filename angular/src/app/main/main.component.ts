@@ -106,7 +106,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     if (this.firstDisplay) {
       // Has to be done async (not in same digest) to avoid expressionChangedAfterItHasBeenCheckedError
       setTimeout(() => {
-       // this.modalService.open(this.infoBtnContent, { size: 'lg' }); TODO: uncomment this!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+       this.modalService.open(this.infoBtnContent, { size: 'lg' }); //TODO: uncomment this!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         this.firstDisplay = false; // Only display modal on first load
       }, 0);
     }

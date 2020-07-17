@@ -1,13 +1,14 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { DataService } from '../shared/data.service';
-import { Angular5Csv } from 'angular5-csv/Angular5-csv';
-import { AuthService } from '../shared/auth.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
+import {DataService} from '../shared/data.service';
+import {Angular5Csv} from 'angular5-csv/Angular5-csv';
+import {AuthService} from '../shared/auth.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import moment from "moment"
 import * as XLSX from 'xlsx';
 import * as saveSvgApi from 'save-svg-as-png';
 import * as canvg from 'canvg';
 import * as jsPDF from 'jspdf';
+
 declare var jsPDF: any;
 
 @Component({
@@ -29,7 +30,8 @@ export class DownloadComponent implements OnInit {
     private dataService: DataService,
     private authService: AuthService,
     private modalService: NgbModal
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     // Use various services to fetch information from different components
@@ -71,7 +73,7 @@ export class DownloadComponent implements OnInit {
     console.log(d);
     // add canvg option so the the png string conversion works with IE11
     // https://github.com/exupero/saveSvgAsPng
-    saveSvgApi.svgAsPngUri(this.svg.childNodes[0], { canvg: canvg }, uri => {
+    saveSvgApi.svgAsPngUri(this.svg.childNodes[0], {canvg: canvg}, uri => {
       this.drawPdf(d, uri, this.nameFile(true));
       this.paused = false;
     });
@@ -79,59 +81,59 @@ export class DownloadComponent implements OnInit {
 
   onDownloadFullPdf(): void {
     this.paused = true;
-    saveSvgApi.svgAsPngUri(this.svg.childNodes[0], { canvg: canvg }, uri => {
+    saveSvgApi.svgAsPngUri(this.svg.childNodes[0], {canvg: canvg}, uri => {
       this.drawPdf(JSON.parse(JSON.stringify(this.originalData)), uri, this.nameFile());
       this.paused = false;
     });
   }
 
-/**
- * Creates the PDF by extracting including the SVG graph and generating a table out of the data
- *
- * @param {string[]} data that is chosen by the user. Either filtered or the full default dataset
- * @param {string} graphUri data of the SVG graph
- * @param {string} fileName name under which the file is saved
- * @memberof DownloadComponent
- */
-drawPdf(data: string[], graphUri: string, fileName: string): void {
+  /**
+   * Creates the PDF by extracting including the SVG graph and generating a table out of the data
+   *
+   * @param {string[]} data that is chosen by the user. Either filtered or the full default dataset
+   * @param {string} graphUri data of the SVG graph
+   * @param {string} fileName name under which the file is saved
+   * @memberof DownloadComponent
+   */
+  drawPdf(data: string[], graphUri: string, fileName: string): void {
     const columns: Array<{ title: string; dataKey: string; }> = [
-      { title: 'Geschäft', dataKey: 'Geschäfts-nr' },
-      { title: 'Instrument', dataKey: 'Instrument' },
-      { title: 'Urherber', dataKey: 'UrheberIn' },
-      { title: 'Titel', dataKey: 'Titel' },
-      { title: 'Status', dataKey: 'Status' },
-      { title: 'Jahr', dataKey: 'Jahr' },
-      { title: 'Partei', dataKey: 'Partei' },
-      { title: 'Themen-\nbereich 1', dataKey: 'Themenbereich 1' },
-      { title: 'Thema 1', dataKey: 'Thema 1' },
-      { title: 'Thema 2', dataKey: 'Thema 2' },
+      {title: 'Geschäft', dataKey: 'Geschäfts-nr'},
+      {title: 'Instrument', dataKey: 'Instrument'},
+      {title: 'Urherber', dataKey: 'UrheberIn'},
+      {title: 'Titel', dataKey: 'Titel'},
+      {title: 'Status', dataKey: 'Status'},
+      {title: 'Jahr', dataKey: 'Jahr'},
+      {title: 'Partei', dataKey: 'Partei'},
+      {title: 'Themen-\nbereich 1', dataKey: 'Themenbereich 1'},
+      {title: 'Thema 1', dataKey: 'Thema 1'},
+      {title: 'Thema 2', dataKey: 'Thema 2'},
     ];
 
     let fontSize = 8;
     let titleColumnWidth = 60;
     // All columnwiths have to be defined corresponding to their content width
     const columnStyles = {
-      'Geschäfts-nr': { columnWidth: 18 },
-      'Instrument': { columnWidth: 18 },
-      'UrheberIn': { columnWidth: 25 },
-      'Titel': { columnWidth: titleColumnWidth },
-      'Status': { columnWidth: 25 },
-      'Jahr': { columnWidth: 10 },
-      'Partei': { columnWidth: 19 },
-      'Themenbereich 1': { columnWidth: 30 },
-      'Thema 1': { columnWidth: 31 },
-      'Thema 2': { columnWidth: 31 },
+      'Geschäfts-nr': {columnWidth: 18},
+      'Instrument': {columnWidth: 18},
+      'UrheberIn': {columnWidth: 25},
+      'Titel': {columnWidth: titleColumnWidth},
+      'Status': {columnWidth: 25},
+      'Jahr': {columnWidth: 10},
+      'Partei': {columnWidth: 19},
+      'Themenbereich 1': {columnWidth: 30},
+      'Thema 1': {columnWidth: 31},
+      'Thema 2': {columnWidth: 31},
     };
 
     // smaller table properties with more columns if the user has admin privileges
     if (this.admin) {
       fontSize = 7;
       titleColumnWidth = 80;
-      columns.push({ title: 'Schwer-\npunkt', dataKey: 'Schwerpunktthema (bei Bedarf)' });
-      columnStyles['Schwerpunktthema(bei Bedarf)'] = { columnWidth: 20 };
+      columns.push({title: 'Schwer-\npunkt', dataKey: 'Schwerpunktthema (bei Bedarf)'});
+      columnStyles['Schwerpunktthema(bei Bedarf)'] = {columnWidth: 20};
     }
 
-    const doc = new jsPDF({ orientation: 'landscape' });
+    const doc = new jsPDF({orientation: 'landscape'});
     // add header
     doc.text(7, 15, 'Politmonitor Basel-Stadt');
     // add the graph produced from a base64 png string. Add position and size
@@ -139,8 +141,8 @@ drawPdf(data: string[], graphUri: string, fileName: string): void {
     // generate a table from cleared data
     doc.autoTable(columns, this.clearData(data), {
       startY: 800,
-      margin: { horizontal: 7 },
-      bodyStyles: { valign: 'top' },
+      margin: {horizontal: 7},
+      bodyStyles: {valign: 'top'},
       styles: {
         overflow: 'linebreak',
         fontSize: fontSize,
@@ -150,21 +152,22 @@ drawPdf(data: string[], graphUri: string, fileName: string): void {
     // download the file
     doc.save(fileName + '.pdf');
   }
+
   /* Triggers the modal to apear. Modaloption can be passed as arguments
    * See: https://ng-bootstrap.github.io/#/components/modal/examples
    */
   openLg(downloadBtnContent) {
-    this.modalService.open(downloadBtnContent, { windowClass: 'customModal' });
+    this.modalService.open(downloadBtnContent, {windowClass: 'customModal'});
   }
 
-/**
- * Calculate the appropritae width of the SVG graph when printed to PDF
- *
- * @private
- * @returns {number} image with in px
- * @memberof DownloadComponent
- */
-private calcWidth(): number {
+  /**
+   * Calculate the appropritae width of the SVG graph when printed to PDF
+   *
+   * @private
+   * @returns {number} image with in px
+   * @memberof DownloadComponent
+   */
+  private calcWidth(): number {
     const w = this.svg.childNodes[0].clientWidth;
     if (w && w > 0) {
       const ratio = 600 / w;
@@ -198,7 +201,7 @@ private calcWidth(): number {
   private createXlsx(data: object[]): XLSX.WorkBook {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
-     // add the worksheet to the workbook, name the tab
+    // add the worksheet to the workbook, name the tab
     XLSX.utils.book_append_sheet(wb, ws, 'Grossratsgeschäfte');
     return wb;
   }
@@ -210,7 +213,23 @@ private calcWidth(): number {
    */
   private clearData(data: any[]): object[] {
     const tmp: object[] = JSON.parse(JSON.stringify(data));
-    tmp.forEach(e => {
+    const cleanData = tmp.map(elem => {
+      return {
+        'Geschäft': elem['Geschäfts-nr'],
+        'Instrument': elem['Instrument'],
+        'Urherber': elem['UrheberIn'],
+        'Titel': elem['Titel'],
+        'Status': elem['Status'],
+        'Jahr': elem['Jahr'],
+        'Partei': elem['Partei'],
+        'Themenbereich 1': elem['Themenbereich 1'],
+        'Thema 1': elem['Thema 1'],
+        'Thema 2': elem['Thema 2'] ? elem['Thema 2'] : ''
+      }
+    });
+
+    return cleanData;
+    /*tmp.forEach(e => {
       if (e.hasOwnProperty('Themenbereich_Number')) {
         delete e['Themenbereich_Number'];
       }
@@ -221,13 +240,13 @@ private calcWidth(): number {
     if (this.admin) {
       return tmp;
     } else {
-      tmp.forEach( e => {
+      tmp.forEach(e => {
         if (e.hasOwnProperty('Schwerpunktthema (bei Bedarf)')) {
           delete e['Schwerpunktthema (bei Bedarf)'];
         }
       });
       return tmp;
-    }
+    }*/
   }
 
   /* Sets the options for the CSV file and clears the data intended for CSV-downlaod
@@ -250,7 +269,7 @@ private calcWidth(): number {
       noDownload: false,
       headers: headers
     };
-    return { downloadData, options };
+    return {downloadData, options};
   }
 
   /* Sort the handed collection by the given column header
@@ -259,7 +278,7 @@ private calcWidth(): number {
    * @param asc arranged ascending or descending sorting
    * @return the ordered collection
    */
-  private reorder(arr: Array <string>, sortBy: string, asc: boolean): Array <string> {
+  private reorder(arr: Array<string>, sortBy: string, asc: boolean): Array<string> {
     arr.sort((a: any, b: any) => {
       let returnValue: number;
       if (a[sortBy] < b[sortBy]) {

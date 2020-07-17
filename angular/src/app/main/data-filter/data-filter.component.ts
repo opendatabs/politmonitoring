@@ -96,13 +96,14 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
 
     this.filterRef.nativeElement.addEventListener('mouseenter', event => {
       if (window.innerWidth > 580) {
-        $('#filter-legend').show(500);
+        $('#filter-legend').show();
+        //TODO add animation
       }
       //this.adjustHeight();
     });
     this.filterRef.nativeElement.addEventListener('mouseleave', event => {
       if (window.innerWidth > 580) {
-        $('#filter-legend').hide(500);
+        $('#filter-legend').hide();
       }
       //this.adjustHeight();
     });
