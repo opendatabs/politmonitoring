@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { environment } from '../../environments/environment';
-import { Category } from './category';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable, BehaviorSubject} from 'rxjs';
+import {environment} from '../../environments/environment';
+import {Category} from './category';
+
 declare const $: any;
 declare var jQuery: any;
 import themenbereiche from '../../assets/themenbereiche.json';
 import descriptions from '../../assets/descriptions.json';
-
+import searchwords from '../../assets/searchwords.json';
 
 
 @Injectable()
@@ -23,14 +24,15 @@ export class DataService {
   private svgSrc = new BehaviorSubject([]);
   svg = this.svgSrc.asObservable();
 
-  private sortScr = new BehaviorSubject([{ sortBy: 'Geschäfts-Nr', asc: false }]);
+  private sortScr = new BehaviorSubject([{sortBy: 'Geschäfts-Nr', asc: false}]);
   sort = this.sortScr.asObservable();
 
   private categoryFromBubbleChart = new BehaviorSubject('');
 
   constructor(
     private http: HttpClient
-    ) { }
+  ) {
+  }
 
   static extractNumber(content: string): number {
     const start = content.indexOf('(') + 1;
@@ -65,7 +67,20 @@ export class DataService {
     const category = themenbereiche.find(elem => {
       return elem.children.includes(subcategory);
     });
-    return category ?  category.name : undefined;
+    return category ? category.name : undefined;
+  }
+
+  findSearchSuggestions(searchText: string): { parent: string, child: string }[] {
+    let result = [];
+    searchwords.forEach(d => {
+      const suptopic = d.name;
+      d.children.forEach(subtopic => {
+        if (subtopic['searchwords'].toLocaleLowerCase().includes(searchText.toLocaleLowerCase())) {
+          result.push({parent: suptopic, child: subtopic.name})
+        }
+      })
+    });
+    return result;
   }
 
   searchInArrayOfObjects(data: any[], searchText: String): any[] {
@@ -135,7 +150,7 @@ export class DataService {
           const today = new Date();
           const dataDate = new Date(d['beginn_datum']);
           if (dataDate.getFullYear() === today.getFullYear() && dataDate.getMonth() >= today.getMonth() - 3) {
-              found = true;
+            found = true;
           }
         }
       });
@@ -186,7 +201,7 @@ export class DataService {
   }
 
   unique(array): any[] {
-    return $.grep(array, function(el, index) {
+    return $.grep(array, function (el, index) {
       return index == $.inArray(el, array) && el && el.length > 0;
     });
   }

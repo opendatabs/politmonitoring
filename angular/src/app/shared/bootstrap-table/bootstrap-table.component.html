@@ -98,12 +98,6 @@
                       <i *ngIf="'Schwerpunktthema (bei Bedarf)' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
                     </p>
                   </th>
-                  <th class="titleCol" (click)="changeSortBy('Konsorten')">
-                    <p>Konsorten
-                      <i *ngIf="'Konsorten' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'Konsorten' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
-                    </p>
-                  </th>
                 </tr>
                 <tr #table *ngFor="let entry of data | sortBy: sort.sortBy: sort.asc | slice:pagination.start:pagination.end"
                     (click)="selectEntry(entry)">
@@ -153,11 +147,6 @@
                   <td *ngIf="admin">
                     <span *ngIf="entry['Schwerpunktthema (bei Bedarf)']" [innerHTML]="entry['Schwerpunktthema (bei Bedarf)'].toString() | highlight:searchString"></span>
                     <span *ngIf="!entry['Schwerpunktthema (bei Bedarf)']"></span>
-                  </td>
-                  <td class="customToolTip">
-                    <span *ngIf="entry['Konsorten']" [innerHTML]="(entry['Konsorten'].slice(0, 70).toString() | highlight:searchString) + '...'"></span>
-                    <span *ngIf="!entry['Konsorten']"></span>
-                    <span class="tooltiptext">{{entry.Konsorten}}</span>
                   </td>
                 </tr>
               </table>

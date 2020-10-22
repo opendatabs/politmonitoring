@@ -24,63 +24,16 @@ export class MainComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-    /*this.dataService.getData().subscribe(
-        data => {
-          console.log(data)
-          data.forEach(d => {
-            /* When the .xlsx file is parsed to JSON, some numbers can be converted with a tail of 000000 or 99999.
-             * Fix the flawful parsing by rounding up or down and keeping the lenght at 7
-             *
-            if (d['Geschäfts-nr'].length > 7) {
-              if (d['Geschäfts-nr'].substring(7, 8) === '9') {
-                if (Number(d['Geschäfts-nr']) !== NaN) {
-                  let tmp = parseFloat(d['Geschäfts-nr']).toFixed(4).toString();
-                  if (tmp.length < 7) {
-                    tmp = '0' + tmp;
-                  }
-                  d['Geschäfts-nr'] = tmp;
-                } else {
-                  d['Geschäfts-nr'] = d['Geschäfts-nr'].substring(0, 7);
-                }
-              } else {
-                d['Geschäfts-nr'] = d['Geschäfts-nr'].substring(0, 7);
-              }
-            }
 
-            // extract numbers of categories
-            d.Themenbereich_Number = DataService.extractNumber(d['Themenbereich 1']);
-            d.Thema2_Number = DataService.extractNumber(d['Thema 2']);
-
-            // remove number
-            d['Themenbereich 1'] = d['Themenbereich 1'].substring(0, d['Themenbereich 1'].indexOf('(')).trim();
-            if (d['Themenbereich 2']) {
-              d['Themenbereich 2'] = d['Themenbereich 2'].substring(0, d['Themenbereich 2'].indexOf('(')).trim();
-            }
-            d['Thema 1'] = d['Thema 1']
-              .substring(0, d['Thema 1'].indexOf('(')).trim();
-            d['Thema 2'] = d['Thema 2'].substring(0, d['Thema 2'].indexOf('(')).trim();
-          });
-          // Remove empty elements from array
-          const filteredData = data.filter( el => el['Geschäfts-nr'] > 0);
-          //this.data = filteredData;
-          //this.originalData = filteredData;
-        },
-        err => {
-          this.toastr.error('Beim Laden der Daten ist ein Fehler aufgetreten: ' + err.message, err.name, {
-            closeButton: true,
-            timeOut: 0
-          });
-        }
-    );*/
     this.dataService.getDataNew().subscribe(
       d => {
         const data = d['records'].map(elem => elem.fields);
         data.forEach(fields => {
           fields['Instrument'] = fields['geschaftstyp'] ? fields['geschaftstyp'] : '';
-          fields['Partei'] = fields['partei'] ? fields['partei'] : 'Parteilos'; // TODO: change this
+          fields['Partei'] = fields['partei'] ? fields['partei'] : 'Parteilos';
           fields['Link'] = fields['geschaft'] ? fields['geschaft'] : '';
           fields['Geschäfts-nr'] = fields['signatur'] ? fields['signatur'] : '';
-          fields['Status'] = fields['status'] ? fields['status'] : '';
+          fields['Status'] = fields['status'] ? this.parseStatus(fields['status']) : '';
           fields['Thema 1'] = fields['thema_1'] ? fields['thema_1'] : '';
           fields['Thema 2'] = fields['thema_2'] ? fields['thema_2'] : '';
           fields['Titel'] = fields['titel'] ? fields['titel'] : '';
@@ -133,5 +86,21 @@ export class MainComponent implements OnInit, AfterViewInit {
    */
   openLg(infoBtnContent) {
     this.modalService.open(infoBtnContent, { size: 'lg' , windowClass: 'animated slideInUp' });
+  }
+
+  parseStatus(entry) {
+    let status;
+    switch(entry) {
+      case 'A':
+        status = 'Abgeschlossen';
+        break;
+      case 'B':
+        status = 'in Bearbeitung';
+        break;
+      default:
+        status = 'Unbekannt';
+    }
+
+    return status;
   }
 }

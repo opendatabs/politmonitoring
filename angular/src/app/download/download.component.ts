@@ -224,7 +224,8 @@ export class DownloadComponent implements OnInit {
         'Partei': elem['Partei'],
         'Themenbereich 1': elem['Themenbereich 1'],
         'Thema 1': elem['Thema 1'],
-        'Thema 2': elem['Thema 2'] ? elem['Thema 2'] : ''
+        'Thema 2': elem['Thema 2'] ? elem['Thema 2'] : '',
+        'Link': elem['Link']
       }
     });
 

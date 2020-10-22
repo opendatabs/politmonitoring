@@ -11,7 +11,7 @@
           <input name='search' class="form-control" type="search" placeholder="Volltextsuche" aria-label="Suchen"
                  (keydown)="keyDownFunction($event)" [(ngModel)]="searchText">
           <div class="input-group-append">
-            <div class="input-group-text" (click)="filterData()">Suchen</div>
+            <div class="input-group-text" (click)="searchByText()">Suchen</div>
           </div>
         </div>
       </div>
@@ -138,8 +138,8 @@
       </div>
       <div id="dropdown-toggle" (click)="toggleMobileFilter()">
         <button class="btn" type="button">
-        <i *ngIf="!isOpen" class="fa fa-chevron-down"></i>
-        <i *ngIf="isOpen" class="fa fa-chevron-up"></i>
+          <i *ngIf="!isOpen" class="fa fa-chevron-down"></i>
+          <i *ngIf="isOpen" class="fa fa-chevron-up"></i>
         </button>
       </div>
       <div id="dateFilter" *ngIf="filtered">
@@ -147,6 +147,15 @@
                 ngbTooltip="Alle&nbsp;Filter&nbsp;zurücksetzen">
           <i class="fas fa-undo"></i>
         </button>
+      </div>
+    </div>
+    <div class="row" *ngIf="searchSuggestions.length > 0">
+      <div class="col-md-12">
+        <div>Meinten Sie:</div>
+        <div *ngFor="let sugg of searchSuggestions">
+          <a class="search-sugg-link" (click)="searchByText(sugg.child)">{{sugg.child}}</a>
+          <a class="search-sugg-link" (click)="filterByCategoryFromSearch(sugg.parent)">&nbsp;({{sugg.parent}})</a>
+        </div>
       </div>
     </div>
     <div id="filter-legend" class="row" [style.display]="isOpen && windowSize < MOBILE_SIZE ? 'block' : 'none'">

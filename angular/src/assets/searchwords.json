@@ -1,0 +1,252 @@
+[
+  {
+    "name": "Bildung",
+    "children": [
+      {
+        "name": "Volksschulen & Tagesbetreuung",
+        "searchwords": "Kindergarten, Primarschule, Sekundarschule, Privatschulen, Betreuungsangebote, Kinderbetreuung, Kindertagesstätten, Kita, Tagesstrukturen, Tagesbetreuung, Tagesfamilien, Tagesheim, Kinderkrippen, Tagesferien, Volksschulpolitik, Harmos, Lehrplan 21, Sonderpädagogik, Sprachförderung, Frühe Deutschförderung, Schulraumplanung"
+      },
+      {
+        "name": "Mittelschulen & Berufsbildung",
+        "searchwords": "allgemeinbildende Mittelschulen, Gymnasium, Gymnasien, Fachmaturitätsschule, FMS, Wirtschaftsmittelschule, WMS, höhere Fachschule, Gewerbeschule, Berufsfachschule, Schule für Gestaltung, Bildungszentrum Gesundheit, Berufsmaturität, Matur, Maturität, Brückenangebote, Passerelle, Berufsberatung, Gap Case Management, Berufsbildungspolitik "
+      },
+      {
+        "name": "Hochschulen & Weiterbildung",
+        "searchwords": "Universität, Universität Basel, Fachhochschule, Fachhochschule FHNW, Nachdiplom, Stipendium, Stipendien, Berufsdiplom, Fachdiplom, Swiss Tropical and Public Health Institute, Swiss TPH, Musikakademie, HGK, Musik-Akademie, Volkshochschule, Forschung & Entwicklung, Hochschulpolitik, Eignerstrategie Universität beider Basel, Eignerstrategie Fachhochschule FHNW, Eignerstrategie Swiss TPH"
+      }
+    ]
+  },
+  {
+    "name": "Gesellschaft & Chancengleichheit",
+    "children": [
+      {
+        "name": "Kinder, Jugendliche & Familien",
+        "searchwords": "Familienangebote, Jugendangebote, Jugendarbeit, Jugendhilfe, Schulheime, Kinder- und Jugenddienst, Frühförderung, kinderfreundlich, familienfreundlich, Spielgruppen, Elternbildung, Adoption, Kinderbüro, Jugendtreff, Familienpolitik, Vereinbarkeit Familie und Erwerbsarbeit, Elternzeit, Jugendschutz, Kinder- und Erwachsenenschutz KESB, Kindesschutz, Vormundschaft "
+      },
+      {
+        "name": "Ältere Bevölkerung",
+        "searchwords": "Ältere Bevölkerung 55plus, Seniorinnen, Senioren, Rentner, Rentnerinnen, Selbständigkeit im Alter, Selbstbestimmung im Alter, Alterspolitik, Altersbetreuung, Alterswohnungen, Wohnen im Alter, Alterssiedlungen, Altersdiskriminierung, Generationensolidarität, altersgerecht (ohne: gesundheitliche Pflegeleistungen, Altenpflege, Langzeitpflege etc.)"
+      },
+      {
+        "name": "Menschen mit Behinderung",
+        "searchwords": "Rollstuhlfahrende, Gehbehinderung, Sehbehinderung, Blindheit, Hörbehinderung, Gehörlosigkeit, geistige Behinderung, Körperbehinderung, psychische Erkrankungen, Diskriminierung von Menschen mit Behinderung, Gleichstellung von Menschen mit Behinderung, Behindertenrechtegesetz, Behindertengleichstellungsgesetz, BehiG, hindernisfreier Zugang, Barrierefreiheit, barrierefrei, hindernisfreies Wohnen, Heilpädagogik"
+      },
+      {
+        "name": "Migration & Integration",
+        "searchwords": "Zuwanderung, Abwanderung, Zuziehende, Aufenthaltsbewilligung, Integrationsgesetz, Integrationspolitik, Ausländergesetz, Einbürgerung, Ausländer, Ausländerinnen, Stimmrecht für Ausländer,  Ausländeranteil, ausländische Fachkräfte, rassistische Diskriminierung, Rassismus, Fremdenfeindlichkeit, Diskiminierungsschutz, kulturelle Vielfalt, Chancengleichheit, Asylwesen, Asylgesuch, Asylsuchende, Flüchtlinge, Sans-Papiers"
+      },
+      {
+        "name": "Gleichstellung der Geschlechter",
+        "searchwords": "Gleichstellung von Frauen und Männern, Geschlechtergleichstellung, Gleichberechtigung, Gleichstellungsgesetz, Diskriminierung, Lohngleichheit,Lohndiskiminierung, Geschlechterquote, Sexismus, Rollenbilder, Geschlechterstereotypen, Geschlechterrollen, Frauenberuf, Männerberuf, LGBT, lesbisch, schwul, bisexuell, transgender, Homosexualität, queer, Geschlechtsidentitäten, Gender"
+      }
+    ]
+  },
+  {
+    "name": "Finanzen & Steuern",
+    "children": [
+      {
+        "name": "Staatsfinanzen",
+        "searchwords": "Finanzhaushalt, Staatsverschuldung, Schulden, Schuldenbremse, Finanzausgleich, Finanzvermögen, Vermögen, Staatseinnahmen, Staatsausgaben, Budget, Finanzplanung, Investitionsplanung, Investitionen, Eignerstrategie Basler Kantonalbank BKB, Pensionskasse Basel-Stadt PKBS"
+      },
+      {
+        "name": "Steuerpolitik",
+        "searchwords": "Steuern, Einkommenssteuer, Vermögenssteuer, Liegenschaftssteuer, Quellensteuer, Schenkungssteuer, Erbschaftssteuer, Gewinnsteuer, Kapitalsteuer, Grundstücksteuer, Grundstücksgewinnsteuer, Handänderungssteuer, Steuerbelastung, Verteilung, Steuererklärung, Steuerabkommen, Mehrwertsteuer, Steuerwettbewerb, Unternehmenssteuern, Steuern Privatpersonen"
+      }
+    ]
+  },
+  {
+    "name": "Gesundheit",
+    "children": [
+      {
+        "name": "Gesundheitsversorgung",
+        "searchwords": "Spitalversorgung, Spital, Spitäler, Spitalplanung, Langzeitpflege, Pflegeheime, Spitalexterne Krankenpflege, Spitex, Heimpflege, Tagespflegeheim, Pflegeangebote, Altenpflege, Alterspflegeheime, Gesundheitsfachkräfte, Gesundheitskosten, Krankenkassenprämien, Krankenversicherung, Gesundheitspolitik, eHealth, Eignerstrategien öffentliche Spitäler"
+      },
+      {
+        "name": "Gesundheitsförderung",
+        "searchwords": "Gesundheitszustand, Gesundheitsverhalten, Public health, Gesundheitsförderung, Gesundheitsschutz, Krankheitsprävention, schulärztliche Untersuchungen, Impfungen, Suchtpolitik, Corona Schutzkonzepte"
+      }
+    ]
+  },
+  {
+    "name": "Kultur",
+    "children": [
+      {
+        "name": "Künste & Unterhaltung",
+        "searchwords": "Kultur, Museen, bildende Kunst, Musik, Theater, Tanz, Performance, Film, Medienkunst, Literatur, Kleinkunst, Kulturvermittlung, Kunstkredit, Kulturförderung, Jugendkultur, Zirkus, Musical, Zoo, Ausstellungen, Herbstmesse, Weihnachtsmarkt, Festivals, Kulturpolitik, Kunst im öffentlichen Raum, Kulturgüterschutz, Nachtleben, Nachtkultur, Clubs, Kino"
+      },
+      {
+        "name": "Sport",
+        "searchwords": "Sportanlagen, Sportplatz, Sportplätze, Sportzentren, Schwimmbäder, Hallenbäder, Gartenbäder, Kunsteisbahn, Eishalle St. Jakob-Arena, FC Basel, St. Jakob-Park"
+      },
+      {
+        "name": "Religion",
+        "searchwords": "Religionen, Konfessionen, Glaube, Atheismus, Sekten, Seelsorge, Radikalisierung, Religionsgemeinschaften, Religionsfragen"
+      }
+    ]
+  },
+  {
+    "name": "Öffentliche Ordnung & Sicherheit",
+    "children": [
+      {
+        "name": "Polizei & Kriminalität",
+        "searchwords": "Kantonspolizei, Polizeikräfte, Polizeiposten, Community Policing, Delikte, Straftaten, Übertretungen, Ordnungsbussen, Gewalt, Jugendgewalt, Häusliche Gewalt, sexuelle Übergriffe, Drohungen, Prävention, Radikalisierung, Nachrichtendienst"
+      },
+      {
+        "name": "Verkehrssicherheit",
+        "searchwords": "Verkehrsprävention, Verkehrskontrolle, Verkehrsführung, Verkehrsmedizin"
+      },
+      {
+        "name": "Recht & Strafvollzug",
+        "searchwords": "Justizvollzug, Inhaftierung, Gefängnisse, Untersuchungsgefängnis, Bässlergut, Haft, Bewährungshilfe, Gerichte, Strafverfahren, Staatsanwaltschaft, Strafbefehle, Rechtswesen, Forensik"
+      },
+      {
+        "name": "Bevölkerungsschutz",
+        "searchwords": "Rettung, Feuerwehr, Feuerverhütung, Feuerbekämpfung, Sanität, Militär, Zivilschutz, Katastrophenschutz, ABC-Schutz, Erdbebenvorsorge, Lebensmittelkontrolle, Lebensmittelhygiene, Lebensmittelsicherheit, Gefahrgut, Gefahrguttransport, Konsumentenschutz, Lebensmittelsicherheit, Veterinärwesen, Tiergesundheit, Tierschutz"
+      }
+    ]
+  },
+  {
+    "name": "Öffentlicher Raum",
+    "children": [
+      {
+        "name": "Gestaltung & Infrastruktur",
+        "searchwords": "Freiraum, Freiräume, Allmend, Plätze, Begegnungszonen, Spielstrassen, Strassenbau, Strassenunterhalt, Brücken, Unterführungen, Promenaden, permanente Bauten, Aufenthaltsqualität, öffentliche Toiletten, Sauberkeitsinfrastruktur, Abfalleimer, Stadtreinigung, Stromanschlüsse, Stromanschlussinfrastruktur, Fahrendenplatz"
+      },
+      {
+        "name": "Stadtgrün",
+        "searchwords": "Grünflächen, Pärke, Parks, Spielplätze, Spielplatz, Grünanlagen, Stadtbäume, Allee, Baumschutz, Freizeitgärten, Freizeitgarten, Baumrabatten, Friedhöfe, Friedhof, Wald"
+      },
+      {
+        "name": "Nutzung & Regulierung",
+        "searchwords": "Veranstaltungen im öffentlichen Raum, Bespielungspläne, spezielle Nutzungspläne, Strassenfeste, Boulevardgastronomie, Boulevardrestaurants, Food Trucks, Foodtrucks, Buvetten, Verkaufsstände, Informationsstände, Markt, Märkte, Bewilligungen für temporäre Nutzungen, Bewilligungen für permanente Nutzungen, Nutzungskonflikte, Plakatflächen, Werbung, Plakate, Reklame"
+      }
+    ]
+  },
+  {
+    "name": "Politik & Staat",
+    "children": [
+      {
+        "name": "Parlament & Regierung",
+        "searchwords": "Grosser Rat, Kantonsparlament, Stadtparlament, Ratsmitglieder, Legislative, Regierungsrat, Regierung, Exekutive, Kommissionen, Fraktionen, Parteien"
+      },
+      {
+        "name": "Verwaltung",
+        "searchwords": "Departemente, kantonale Öffentliche Dienste, Behörde, Behörden, Ämter, Dienststellen, Personal, Arbeitgeber Basel-Stadt, öffentliche Beschaffung"
+      },
+      {
+        "name": "Politische Beteiligung",
+        "searchwords": "Abstimmungen, Wahlen, aktives Wahlrecht, passives Wahlrecht, , Volksrechte, Initiativen, Referenden, Referendum, Petitionen, parlamentarische Instrumente, Mitwirkung, Demonstrationen, Kundgebungen Vernehmlassungen"
+      },
+      {
+        "name": "Grenzüberschreitende Zusammenarbeit",
+        "searchwords": "Trinationale Zusammenarbeit, Oberrhein, Trinationale Metropolregion Oberrhein, Trinationaler Eurodistrict Basel, regionale Zusammenarbeit, Metropolitanraum, Nordwestschweiz, Städtepartnerschaften, Entwicklungszusammenarbeit, Hilfswerke"
+      }
+    ]
+  },
+  {
+    "name": "Siedlungsentwicklung",
+    "children": [
+      {
+        "name": "Raumplanung",
+        "searchwords": "Städtebau, Raumentwicklung, Kantonaler Richtplan, Teilrichtpläne, Nutzungspläne, Nutzungsplanung, Zonenplan, Zonenänderungen, Bebauungspläne, Wohnanteilplan, Lärmempfindlichkeitsstufenplan, Siedlungsentwicklung, Bau- und Planungsgesetz, Bauordnung, Bauzonen, Mehrwertabgabefonds, Mehrwertabgaben, Verdichtung, Denkmalpflege, Heimatschutz"
+      },
+      {
+        "name": "Areale & Quartiere",
+        "searchwords": "Arealentwicklung, Arealplanung, Transformationsareale, Quartierentwicklung, Quartiertreffpunkte, Stadtteilsekretariate, Wohnumfeld, Zwischennutzungen, Nachbarschaft"
+      },
+      {
+        "name": "Wohnen",
+        "searchwords": "Wohnbau, Wohnraum, Wohnraumentwicklung, Immobilien, Sanierungen, Wohnschutz, Mieterschutz, Wohneigentum, Mietzins, Wohnformen, Gemeinnütziger Wohnbau, Genossenschaften, Genossenschaftswohnungen, Wohnflächenverbrauch, Leerstand, Leerstandsquote, öffentlich-rechtliche Wohnbaustiftung, Umnutzungen von Büro- und Gewerbeflächen"
+      }
+    ]
+  },
+  {
+    "name": "Soziale Sicherheit",
+    "children": [
+      {
+        "name": "Sozialversicherungen und -leistungen",
+        "searchwords": "Krankenversicherung, Unfallversicherung, Invalidenversicherung IV, Altersversicherung AHV, Arbeitslosenversicherung, Mutterschaftsversicherung, Sozialbeiträge, Sozialleistungen, Prämienverbilligung, Familienmietzinsbeiträge, Ergänzungsleistungen zur AHV und IV, Alimentenhilfe, Behindertenhilfe, Ausgleichskasse, Opferhilfe"
+      },
+      {
+        "name": "Sozialhilfe",
+        "searchwords": "Nothilfe, Fürsorge, Obdachlosigkeit, Notschlafstellen, Notwohnungen"
+      }
+    ]
+  },
+  {
+    "name": "Umwelt & Energie",
+    "children": [
+      {
+        "name": "Boden & Wasser",
+        "searchwords": "Grundwasser, Trinkwasser, Trinkwasserversorgung, Abwasser, Kläranlagen ARA, Versickerung, Gewässer, Gewässerschutz, Gewässerverschmutzung, Überschwemmungen, Bodensanierung, Altlasten, Bodenschutz, Bodenbelastung, Entsiegelung"
+      },
+      {
+        "name": "Abfall & Recycling",
+        "searchwords": "Abfälle, Haushaltsabfälle, Hauskehricht, Abfallwirtschaft, Abfallentsorgung, Papiersammlung, Altglassammelstellen,  Kompost, Bioabfälle,  Littering, Mehrweggeschirrpflicht, Food Waste, Foodwaste, Lebensmittelverschwendung, Kehrichtverwertung, Upcycling"
+      },
+      {
+        "name": "Biodiversität",
+        "searchwords": "Schutzgebiete, Naturschutz, biologische Vielfalt, Ökosysteme, Lebensräume, Landschaften, Neobiota, invasive Neophyten, Neozoen"
+      },
+      {
+        "name": "Energieversorgung",
+        "searchwords": "Energieverbrauch, Strom, Erdöl, Erdgas, Fernwärme, Heizung, erneuerbare Energien, neue Erneuerbare Energien, nEE, Sonnenenergie, Solarstrom, Solaranlagen, Photovoltaik-Anlagen, PV-Anlagen, Sonnenkollektoren,  Wärmepumpen, Industrielle Werke Basel IWB, Stromspar-Bonus, Wasserkraft, Energiepolitik, Windenergie, Windräder"
+      },
+      {
+        "name": "Kommunikationsinfrastruktur",
+        "searchwords": "Glasfaser, Glasfasernetz, LWL, Breitband, Mobilfunknetz, digitale Infrastruktur, WLAN, Wireless LAN, WiFi, 5G, LoRa, LoRa-Netz, LoRaWAN, Funk, Funknetzwerk, Telefonie, Telefonkabinen, Strahlenschutz, Elektrosmog, nichtionisierende Strahlung , Connectivity, Konnektivität, strahlungsarmes Funknetzwerk"
+      },
+      {
+        "name": "Klima & Luft",
+        "searchwords": "Klimaschutz, Klimawandel, Klimaanpassung, Klimapolitik, CO2, CO2-Emissionen, Treibhausgasemissionen, Kohlendioxid, Stickoxide, Klimarisiken, Hitze, Wärmeinseleffekt, Durchlüftung, Luftreinhaltung, Luftbelastung, Luftqualität, Feinstaub"
+      },
+      {
+        "name": "Lärm",
+        "searchwords": "Lärmbelastung, Lärmschutz, Verkehrslärm, Baulärm, Gastronomielärm, Gewerbelärm, Veranstaltungslärm, Nachbarschaftslärm, Fluglärm, Lautsprecherbewilligungen, Lärmmessung"
+      }
+    ]
+  },
+  {
+    "name": "Verkehr & Mobilität",
+    "children": [
+      {
+        "name": "Motorisierter Individualverkehr",
+        "searchwords": "Motorfahrzeuge, Lastwagen, Lieferwagen, Auto, Autoverkehr, Reisecars, E-Mobilität, Carsharing, Motorräder, Motorrad, Moped, Verkehrsinfrastruktur MIV, Taxi, E-Autos, Motorisierungsgrad, Tempo 30"
+      },
+      {
+        "name": "Parkraumbewirtschaftung",
+        "searchwords": "Parkieren, Parkraum, Parkmöglichkeiten, Parkplätze MIV, Parkhäuser, Quartierparking, Parkkarten, Pendlerfonds, Park & Ride, Ladestationen, Besucherparkkarte, Sharing-Parkkarte"
+      },
+      {
+        "name": "Veloverkehr",
+        "searchwords": "Fahrrad, Velowege, Veloparkplätze, Veloabstellplätze, Velonetz, E-Bikes, Lastenvelo, Cargo-Velo, E-Trottinett, E-Trottis, E-Scooter, Veloverleih, Langsamverkehr"
+      },
+      {
+        "name": "Fussverkehr",
+        "searchwords": "Gehwege, Fusswege, Trottoir, Fussgängerinnen, Fussgänger, Zebrastreifen, Fussgängerstreifen, Fussgängerzonen"
+      },
+      {
+        "name": "Öffentlicher Verkehr",
+        "searchwords": "Öffentlicher Personenverkehr, ÖV, Tram, Bahn, Bus, Tramnetz, ÖV-Infrastruktur, Tramschienen, Tramgleise, Haltestellen Tarifverbund Nordwestschweiz TNW, Ruftaxi, Eignerstrategie Basler Verkehrsbetriebe BVB"
+      },
+      {
+        "name": "Schifffahrt, Flug- & Güterverkehr",
+        "searchwords": "Hafen, Rheinhafen, trimodaler Containerterminal, Umschlagterminal, Hafenbecken, Personenschifffahrt, Güterbahnhof, City Logistik, Güterumschlag, Drohnen, Logistik, Flugverkehr, Flughafen, Euroairport EAP, Flugtreibstoffe, Flugticketabgabe, Eignerstrategie Schweizerische Rheinhäfen"
+      }
+    ]
+  },
+  {
+    "name": "Wirtschaft & Arbeit",
+    "children": [
+      {
+        "name": "Arbeitsmarkt",
+        "searchwords": "Arbeitsplätze, Arbeitskräfte, Fachkräfte, Fachkräftemangel, Beschäftigung, Einkommen, Arbeitsbedingungen, Arbeitssicherheit, Arbeitsbewilligung, Arbeitslosigkeit, RAV, Arbeitsmarktchancen Ü50, Schwarzarbeit, Arbeitsmarktpolitik, Arbeitsintegration"
+      },
+      {
+        "name": "Privatwirtschaft & Standort",
+        "searchwords": "Unternehmen, Wirtschaftskraft, Wertschöpfung, Wirtschaftspolitik, Standortattraktivität, Standortförderung, Tourismus, Airbnb, Gasttaxe, Rankings, Regulierungen Wirtschaft, Innovationsförderung, Technologiepark Basel, Switzerland Innovation Park Basel Area, Branchen, Life Sciences, Wirtschaftsflächen, Geschäftsimmobilien, Geschäftsmieten, Kongressförderung, neue Geschäftsmodelle"
+      }
+    ]
+  }
+]
+

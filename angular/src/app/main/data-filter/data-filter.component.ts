@@ -34,6 +34,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   windowSize;
   isOpen = false;
   searchText = '';
+  searchSuggestions = [];
   originalData: any[] = [];
   categoryDropdown: Category[];
   keyTopicDropdown: string[];
@@ -82,7 +83,6 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
     this.authService.currentAdminState.subscribe(admin => this.admin = admin);
     this.dataService.getCategoryFromBubbleChart().subscribe(category => {
       if (category.length > 0) {
-        console.log('hello')
         this.filterByCategory(false, {description: category, number: 1});
       }
     })
@@ -121,8 +121,17 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   // filter on Enter key
   keyDownFunction(event) {
     if (event.keyCode === 13) {
-      this.filterData();
+      this.searchByText();
     }
+  }
+
+  searchByText(text?) {
+    if (text) {
+      this.searchText = text;
+    }
+    this.searchSuggestions = this.dataService.findSearchSuggestions(this.searchText);
+    console.log(this.searchSuggestions);
+    this.filterData();
   }
 
   filterData() {
@@ -208,6 +217,12 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
     this.filterData();
   }
 
+  filterByCategoryFromSearch(categoryName) {
+    this.searchSuggestions = []; // reset search suggestions, since user found what they needed
+    this.searchText = ''; // reset searchtext if user clicked on category suggestion
+    this.filterByCategory(false, {description: categoryName, number : 1});
+  }
+
   // first argument is true no filter is set.
   filterByCategory(noFilter: boolean, category?: Category) {
     if (noFilter) {
@@ -259,6 +274,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
 
   resetSearchText() {
     this.searchText = '';
+    this.searchSuggestions = [];
     this.filterData();
   }
 
@@ -391,11 +407,13 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   }
 
   private getInitInstruments() {
-    const instruments = this.dataService.unique(this.originalData.map(d => d['Instrument'])); // Instrument
-
-    instruments.sort((a, b) => {
+    // const instruments = this.dataService.unique(this.originalData.map(d => d['Instrument'])); // Instrument
+    const instruments = ['Initiative', 'Referendum', 'Motion', 'Anzug', 'Petition',
+      'Budgetpostulat', 'Vorgezogenes Budgetpostulat', 'Resolution', 'Standesinitiative',
+    'Standesreferendum', 'Planungsanzug', 'Schriftliche Anfrage', 'Interpellation'];
+    /*instruments.sort((a, b) => {
       return a - b;
-    });
+    });*/
     return instruments.map(d => {
       return {
         name: d, checked: true
@@ -404,11 +422,11 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   }
 
   private getInitParties() {
-    const parties = this.dataService.unique(this.originalData.map(d => d['Partei'])); // Partei
-
-    parties.sort((a, b) => {
+    //const parties = this.dataService.unique(this.originalData.map(d => d['Partei'])); // Partei
+    const parties = ['SP', 'LDP', 'SVP', 'Grüne', 'Basta!', 'FDP', 'CVP', 'EVP', 'Grünliberale', 'Parteilos'];
+    /*parties.sort((a, b) => {
       return a - b;
-    });
+    });*/
     return parties.map(d => {
       return {
         name: d, checked: true

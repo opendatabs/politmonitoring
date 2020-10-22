@@ -14,6 +14,14 @@
 }
 
 #toolbar button.btn.active {
-  background-color: #6c757d;
+  background-color: rgb(36, 96, 54);
   color: white;
+}
+
+#toolbar .btn-light {
+  background-color: rgba(132, 95, 53, .1);
+}
+
+#toolbar .button-wrapper > .btn {
+  border-color: rgb(36, 96, 54);
 }
