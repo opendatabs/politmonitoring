@@ -182,10 +182,13 @@ button.reset-filter:hover {
     display: block;
     position: absolute;
     top: 5px;
-    right: 25px;
+    right: 5px;
   }
   #dateFilter {
-    right: 75px;
+    right: 55px;
+  }
+  .content {
+    margin: 0;
   }
 }
 
@@ -197,4 +200,8 @@ button.reset-filter:hover {
 .search-sugg-link:hover {
   color: #0056b3!important;
   text-decoration: underline!important;
+}
+
+#search-field {
+  max-width: 65%;
 }
