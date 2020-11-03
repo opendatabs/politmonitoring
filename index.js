@@ -76,10 +76,10 @@ const auth = (req, res, next) => {
     }
 };
 
-app.get('/auth', auth, (req, res) => {
+/*app.get('/auth', auth, (req, res) => {
     res.send(true);
     return;
-});
+});*/
 
 const storage = multer.diskStorage({
     destination: './uploads/',
