@@ -125,12 +125,14 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
     }
   }
 
-  searchByText(text?) {
-    if (text) {
-      this.searchText = text;
-    }
+  searchByText() {
     this.searchSuggestions = this.dataService.findSearchSuggestions(this.searchText);
-    console.log(this.searchSuggestions);
+    this.filterData();
+  }
+
+  searchByTextFromSuggestion(text) {
+    this.searchSuggestions = [];
+    this.searchText = text;
     this.filterData();
   }
 
@@ -221,6 +223,10 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
     this.searchSuggestions = []; // reset search suggestions, since user found what they needed
     this.searchText = ''; // reset searchtext if user clicked on category suggestion
     this.filterByCategory(false, {description: categoryName, number : 1});
+  }
+
+  removeSuggestions() {
+    this.searchSuggestions = []; // reset search suggestions, since user found what they needed
   }
 
   // first argument is true no filter is set.
