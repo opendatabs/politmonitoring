@@ -30,9 +30,9 @@ const BubbleChart = {
     'Vorgezogenes Budgetpostulat': 4,
     Standesinitiative: 4,
     Standesreferendum: 4,
-    Petition: 1,
-    'Schriftliche Anfrage': 1,
-    Interpellation: 1,
+    Petition: 2,
+    'Schriftliche Anfrage': 2,
+    Interpellation: 2,
   },
 
 
