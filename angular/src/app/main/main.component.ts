@@ -92,10 +92,10 @@ export class MainComponent implements OnInit, AfterViewInit {
     let status;
     switch(entry) {
       case 'A':
-        status = 'Abgeschlossen';
+        status = 'Abgeschlossen (A)';
         break;
       case 'B':
-        status = 'in Bearbeitung';
+        status = 'in Bearbeitung (B)';
         break;
       default:
         status = 'Unbekannt';
