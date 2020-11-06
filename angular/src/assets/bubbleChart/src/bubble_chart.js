@@ -21,17 +21,18 @@ const BubbleChart = {
   // defines size of bubbles
   AMOUNT_INSTRUMENTS: {
     Initiative: 8,
-    Anzug: 2,
-    Planungsanzug: 2,
-    Budgetpostulat: 2,
-    'Vorgezogenes Budgetpostulat': 2,
+    Referendum: 8,
     Motion: 4,
+    Anzug: 4,
     Resolution: 4,
+    Planungsanzug: 4,
+    Budgetpostulat: 4,
+    'Vorgezogenes Budgetpostulat': 4,
     Standesinitiative: 4,
     Standesreferendum: 4,
     Petition: 1,
     'Schriftliche Anfrage': 1,
-    Interpellation: 1
+    Interpellation: 1,
   },
 
 
