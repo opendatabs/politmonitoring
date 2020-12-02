@@ -429,7 +429,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
 
   private getInitParties() {
     //const parties = this.dataService.unique(this.originalData.map(d => d['Partei'])); // Partei
-    const parties = ['SP', 'LDP', 'SVP', 'Grüne', 'Basta!', 'FDP', 'CVP', 'EVP', 'Grünliberale', 'Parteilos'];
+    const parties = ['SP', 'LDP', 'SVP', 'Grüne', 'BastA!', 'FDP', 'CVP', 'EVP', 'GLP', 'AB', 'Parteilos'];
     /*parties.sort((a, b) => {
       return a - b;
     });*/

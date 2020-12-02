@@ -75,9 +75,16 @@ export class DataService {
     searchwords.forEach(d => {
       const suptopic = d.name;
       d.children.forEach(subtopic => {
-        if (subtopic['searchwords'].toLocaleLowerCase().includes(searchText.toLocaleLowerCase())) {
-          result.push({parent: suptopic, child: subtopic.name})
-        }
+        const searchwords = subtopic['searchwords'].split(',');
+        searchwords.forEach(searchword => {
+          const cleanSearchword = searchword.trim();
+          if (cleanSearchword.toLocaleLowerCase().startsWith(searchText.toLocaleLowerCase())) {
+            if (!result.map(d => d.parent).includes(suptopic)) {
+              result.push({parent: suptopic, child: subtopic.name})
+            }
+          }
+        });
+
       })
     });
     return result;

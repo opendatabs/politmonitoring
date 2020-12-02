@@ -66,6 +66,12 @@
                       <i *ngIf="'Status' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
                     </p>
                   </th>
+                  <th class="titleCol" (click)="changeSortBy('Beginn-Datum')">
+                    <p>Beginn-Datum
+                      <i *ngIf="'Beginn-Datum' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
+                      <i *ngIf="'Beginn-Datum' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                    </p>
+                  </th>
                   <th width="60px" class="titleCol fixed-width" (click)="changeSortBy('Jahr')">
                     <p>Jahr
                       <i *ngIf="'Jahr' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
@@ -127,6 +133,10 @@
                   <td>
                     <span *ngIf="entry['Status']" [innerHTML]="entry['Status'].toString() | highlight:searchString"></span>
                     <span *ngIf="!entry['Status']"></span>
+                  </td>
+                  <td>
+                    <span *ngIf="entry['Beginn-Datum']" [innerHTML]="entry['Beginn-Datum'].toString() | highlight:searchString"></span>
+                    <span *ngIf="!entry['Beginn-Datum']"></span>
                   </td>
                   <td>
                     <span *ngIf="entry['Jahr']" [innerHTML]="entry['Jahr'].toString() | highlight:searchString"></span>

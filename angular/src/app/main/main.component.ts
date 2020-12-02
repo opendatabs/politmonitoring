@@ -37,7 +37,8 @@ export class MainComponent implements OnInit, AfterViewInit {
           fields['Thema 1'] = fields['thema_1'] ? fields['thema_1'] : '';
           fields['Thema 2'] = fields['thema_2'] ? fields['thema_2'] : '';
           fields['Titel'] = fields['titel'] ? fields['titel'] : '';
-          fields['UrheberIn'] = fields['urheber_name'] ? fields['urheber_name'] : '';
+          fields['UrheberIn'] = fields['urheber'] ? fields['urheber'] : '';
+          fields['Beginn-Datum'] = fields['beginn_datum'] ? fields['beginn_datum'] : '';
           fields['Schwerpunktthema (bei Bedarf)'] = fields['schwerpunkt'] ? fields['schwerpunkt'] : '';
           fields['Jahr'] = (new Date(fields['beginn_datum'])).getFullYear().toString();
           fields['Themenbereich 1'] = this.dataService.getCategoryForSubCategory(fields['thema_1']) ?

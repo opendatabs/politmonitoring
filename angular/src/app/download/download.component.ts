@@ -82,6 +82,7 @@ export class DownloadComponent implements OnInit {
   onDownloadFullPdf(): void {
     this.paused = true;
     saveSvgApi.svgAsPngUri(this.svg.childNodes[0], {canvg: canvg}, uri => {
+      console.log(this.originalData)
       this.drawPdf(JSON.parse(JSON.stringify(this.originalData)), uri, this.nameFile());
       this.paused = false;
     });
@@ -97,11 +98,12 @@ export class DownloadComponent implements OnInit {
    */
   drawPdf(data: string[], graphUri: string, fileName: string): void {
     const columns: Array<{ title: string; dataKey: string; }> = [
-      {title: 'Geschäft', dataKey: 'Geschäfts-nr'},
+      {title: 'Geschäfts-nr', dataKey: 'Geschäfts-nr'},
       {title: 'Instrument', dataKey: 'Instrument'},
-      {title: 'Urherber', dataKey: 'UrheberIn'},
+      {title: 'UrheberIn', dataKey: 'UrheberIn'},
       {title: 'Titel', dataKey: 'Titel'},
       {title: 'Status', dataKey: 'Status'},
+      {title: 'Beginn-Datum', dataKey: 'Beginn-Datum'},
       {title: 'Jahr', dataKey: 'Jahr'},
       {title: 'Partei', dataKey: 'Partei'},
       {title: 'Themen-\nbereich 1', dataKey: 'Themenbereich 1'},
@@ -114,12 +116,13 @@ export class DownloadComponent implements OnInit {
     // All columnwiths have to be defined corresponding to their content width
     const columnStyles = {
       'Geschäfts-nr': {columnWidth: 18},
-      'Instrument': {columnWidth: 18},
+      'Instrument': {columnWidth: 19},
       'UrheberIn': {columnWidth: 25},
       'Titel': {columnWidth: titleColumnWidth},
       'Status': {columnWidth: 25},
+      'Beginn-Datum': {columnWidth: 20},
       'Jahr': {columnWidth: 10},
-      'Partei': {columnWidth: 19},
+      'Partei': {columnWidth: 15},
       'Themenbereich 1': {columnWidth: 30},
       'Thema 1': {columnWidth: 31},
       'Thema 2': {columnWidth: 31},
@@ -215,11 +218,12 @@ export class DownloadComponent implements OnInit {
     const tmp: object[] = JSON.parse(JSON.stringify(data));
     const cleanData = tmp.map(elem => {
       return {
-        'Geschäft': elem['Geschäfts-nr'],
+        'Geschäfts-nr': elem['Geschäfts-nr'],
         'Instrument': elem['Instrument'],
-        'Urherber': elem['UrheberIn'],
+        'UrheberIn': elem['UrheberIn'],
         'Titel': elem['Titel'],
         'Status': elem['Status'],
+        'Beginn-Datum': elem['Beginn-Datum'],
         'Jahr': elem['Jahr'],
         'Partei': elem['Partei'],
         'Themenbereich 1': elem['Themenbereich 1'],

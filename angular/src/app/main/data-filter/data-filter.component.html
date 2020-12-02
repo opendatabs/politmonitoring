@@ -151,10 +151,10 @@
     </div>
     <div class="row" *ngIf="searchSuggestions.length > 0 && searchSuggestions?.length > 0">
       <div class="col-sm-10">
-        <div>Suchen Sie nach einem der folgenden Themen oder (Themenbereichen)?</div>
+        <div>Suchen Sie nach einem der folgenden Themen beziehungsweise Themenbereichen?</div>
         <div *ngFor="let sugg of searchSuggestions">
-          <a class="search-sugg-link" (click)="searchByTextFromSuggestion(sugg.child)">{{sugg.child}}</a>
-          <a class="search-sugg-link" (click)="filterByCategoryFromSearch(sugg.parent)">&nbsp;({{sugg.parent}})</a>
+          <span>Thema: <a class="search-sugg-link" (click)="searchByTextFromSuggestion(sugg.child)">{{sugg.child}}</a>, </span>
+          <span>Themenbereich: <a class="search-sugg-link" (click)="filterByCategoryFromSearch(sugg.parent)">&nbsp;{{sugg.parent}}</a></span>
         </div>
       </div>
       <div class="col-sm-2 text-right">
