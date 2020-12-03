@@ -48,7 +48,7 @@ export class MainComponent implements OnInit, AfterViewInit {
             this.dataService.getCategoryForSubCategory(fields['thema_2']) :
             '';
         });
-        console.log(data);
+        //console.log(data);
         this.data = data;
         this.originalData = data;
       }
