@@ -4,7 +4,6 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MainComponent } from './main/main.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { UploadComponent } from './upload/upload.component';
 import { BootstrapTableModule } from './shared/bootstrap-table/bootstrap-table.module';
 import { HttpClientModule } from '@angular/common/http';
 import { DataService } from './shared/data.service';
@@ -27,7 +26,6 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
         AppComponent,
         NavbarComponent,
         MainComponent,
-        UploadComponent,
         BubbleChartComponent,
         DataFilterComponent,
         DownloadComponent

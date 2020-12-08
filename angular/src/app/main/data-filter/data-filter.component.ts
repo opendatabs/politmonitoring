@@ -30,6 +30,11 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   @Output() onFiltered: EventEmitter<any> = new EventEmitter();
   @ViewChild('filter') filterRef : ElementRef;
 
+  parties = ['SP', 'LDP', 'SVP', 'Grüne', 'BastA!', 'FDP', 'CVP', 'EVP', 'GLP', 'AB', 'Parteilos'];
+  instruments = ['Initiative', 'Referendum', 'Motion', 'Anzug', 'Petition',
+    'Budgetpostulat', 'Vorgezogenes Budgetpostulat', 'Resolution', 'Standesinitiative',
+    'Standesreferendum', 'Planungsanzug', 'Schriftliche Anfrage', 'Interpellation'];
+
   MOBILE_SIZE = 580;
   windowSize;
   isOpen = false;
@@ -370,21 +375,6 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
       .unique(this.originalData.map(d => d['Schwerpunktthema (bei Bedarf)']))
       .filter(d => d !== '');
     this.keyTopicDropdown.sort((a, b) => a.localeCompare(b));
-    // this.partyDropdown = ['BastA!', 'CVP', 'EVP', 'FDP', 'GLP', 'Grüne', 'LDP', 'SP', 'SVP', 'Parteilos', 'Kommission', 'Bevölkerung'];
-    /* this.instrumentDropdown = [
-      'Initiative',
-      'Motion',
-      'Anzug',
-      'Petition',
-      'Budgetpostulat',
-      'vorgezogenes Budgetpostulat',
-      'Resolution',
-      'Standesinitiative',
-      'Standesreferendum',
-      'Planungsanzug',
-      'schriftliche Anfrage',
-      'Interpellation'
-    ] */
     this.categoryDropdown = this.getInitCategories();
     this.yearDropdown = this.getInitYears();
     this.partyDropdown = this.getInitParties();
@@ -413,14 +403,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   }
 
   private getInitInstruments() {
-    // const instruments = this.dataService.unique(this.originalData.map(d => d['Instrument'])); // Instrument
-    const instruments = ['Initiative', 'Referendum', 'Motion', 'Anzug', 'Petition',
-      'Budgetpostulat', 'Vorgezogenes Budgetpostulat', 'Resolution', 'Standesinitiative',
-    'Standesreferendum', 'Planungsanzug', 'Schriftliche Anfrage', 'Interpellation'];
-    /*instruments.sort((a, b) => {
-      return a - b;
-    });*/
-    return instruments.map(d => {
+    return this.instruments.map(d => {
       return {
         name: d, checked: true
       };
@@ -428,12 +411,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   }
 
   private getInitParties() {
-    //const parties = this.dataService.unique(this.originalData.map(d => d['Partei'])); // Partei
-    const parties = ['SP', 'LDP', 'SVP', 'Grüne', 'BastA!', 'FDP', 'CVP', 'EVP', 'GLP', 'AB', 'Parteilos'];
-    /*parties.sort((a, b) => {
-      return a - b;
-    });*/
-    return parties.map(d => {
+    return this.parties.map(d => {
       return {
         name: d, checked: true
       };

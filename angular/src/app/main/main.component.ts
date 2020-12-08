@@ -25,6 +25,7 @@ export class MainComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
+    // maps new data from API to structure of old data, so we don't have to change everything
     this.dataService.getDataNew().subscribe(
       d => {
         const data = d['records'].map(elem => elem.fields);
@@ -43,7 +44,7 @@ export class MainComponent implements OnInit, AfterViewInit {
           fields['Jahr'] = (new Date(fields['beginn_datum'])).getFullYear().toString();
           fields['Themenbereich 1'] = this.dataService.getCategoryForSubCategory(fields['thema_1']) ?
             this.dataService.getCategoryForSubCategory(fields['thema_1']) :
-            this.dataService.getCategoryForSubCategory(fields['thema_2']); // TODO: remove themenbereich 2 - why is that????
+            this.dataService.getCategoryForSubCategory(fields['thema_2']); // if there is no themenbereich 1, we take themenbereich 2
           fields['Themenbereich 2'] = this.dataService.getCategoryForSubCategory(fields['thema_2']) ?
             this.dataService.getCategoryForSubCategory(fields['thema_2']) :
             '';
@@ -60,7 +61,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     if (this.firstDisplay) {
       // Has to be done async (not in same digest) to avoid expressionChangedAfterItHasBeenCheckedError
       setTimeout(() => {
-       this.modalService.open(this.infoBtnContent, { size: 'lg' }); //TODO: uncomment this!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+       this.modalService.open(this.infoBtnContent, { size: 'lg' });
         this.firstDisplay = false; // Only display modal on first load
       }, 0);
     }
@@ -89,6 +90,10 @@ export class MainComponent implements OnInit, AfterViewInit {
     this.modalService.open(infoBtnContent, { size: 'lg' , windowClass: 'animated slideInUp' });
   }
 
+  /**
+   * gets correct description for Status in data
+   * @param entry
+   */
   parseStatus(entry) {
     let status;
     switch(entry) {
