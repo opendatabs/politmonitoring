@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {DataService} from '../shared/data.service';
-import {Angular5Csv} from 'angular5-csv/Angular5-csv';
+import { AngularCsv } from 'angular-csv-ext/dist/Angular-csv';
 import {AuthService} from '../shared/auth.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import moment from "moment"
@@ -18,7 +18,7 @@ declare var jsPDF: any;
 })
 export class DownloadComponent implements OnInit {
 
-  @ViewChild('downlaodBtnContent') downloadBtnContent: ElementRef;
+  @ViewChild('downlaodBtnContent', { static: false }) downloadBtnContent: ElementRef;
   data: object[];
   originalData: object[];
   admin: boolean;
@@ -45,12 +45,12 @@ export class DownloadComponent implements OnInit {
 
   onDownloadCsv(): void {
     const csv: { downloadData: object[], options: object } = this.prepareCsv(this.data);
-    new Angular5Csv(csv.downloadData, this.nameFile(true), csv.options);
+    new AngularCsv(csv.downloadData, this.nameFile(true), csv.options);
   }
 
   onDownloadFullCsv(): void {
     const csv: { downloadData: object[], options: object } = this.prepareCsv(this.originalData);
-    new Angular5Csv(csv.downloadData, this.nameFile(true), csv.options);
+    new AngularCsv(csv.downloadData, this.nameFile(true), csv.options);
   }
 
   onDownloadXlsx(): void {

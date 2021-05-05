@@ -14,9 +14,7 @@ import { AuthService } from './shared/auth.service';
 import { FileUploadModule } from 'ng2-file-upload';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastrModule } from 'ngx-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Angular5Csv } from 'angular5-csv/Angular5-csv';
 import { DownloadComponent } from './download/download.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
@@ -40,7 +38,6 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
         CommonModule,
         BrowserAnimationsModule,
         AngularFontAwesomeModule,
-        ToastrModule.forRoot(),
         NgbModule.forRoot()
     ],
     providers: [

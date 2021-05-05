@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AppComponent {
   admin: boolean;
-  @ViewChild('content') content: ElementRef;
+  @ViewChild('content', { static: false }) content: ElementRef;
 
   constructor(
     private router: Router,
