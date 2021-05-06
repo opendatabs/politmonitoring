@@ -38,7 +38,7 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
         CommonModule,
         BrowserAnimationsModule,
         AngularFontAwesomeModule,
-        NgbModule.forRoot()
+        NgbModule
     ],
     providers: [
       DataService,

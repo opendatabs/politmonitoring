@@ -18,7 +18,7 @@ declare var jsPDF: any;
 })
 export class DownloadComponent implements OnInit {
 
-  @ViewChild('downlaodBtnContent', { static: false }) downloadBtnContent: ElementRef;
+  @ViewChild('downlaodBtnContent') downloadBtnContent: ElementRef;
   data: object[];
   originalData: object[];
   admin: boolean;
