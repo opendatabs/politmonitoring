@@ -1,5 +1,5 @@
 <button class="btn btn-primary m-2 downloadMenuBtn" (click)="openLg(downloadBtnContent)">
-  <fa name="download"></fa>
+  <fa-icon [icon]="faDownload"></fa-icon>
 </button>
 <ng-template #downloadBtnContent let-c="close" let-d="dismiss">
   <div class="modal-header">
@@ -20,36 +20,36 @@
     <div class="row mb-2" id="row1">
       <div class="col">
         <button [disabled]="paused" class="btn btn-primary" (click)="onDownloadFullCsv()">
-          <fa name="file-text-o"></fa>&nbsp;.CSV&nbsp;&nbsp;
+          <fa-icon [icon]="faFileAlt"></fa-icon>&nbsp;.CSV&nbsp;&nbsp;
         </button>
       </div>
       <div class="col">
         <button [disabled]="paused" class="btn btn-primary" (click)="onDownloadCsv()">
-          <fa name="file-text-o"></fa>&nbsp;.CSV&nbsp;&nbsp;
+          <fa-icon [icon]="faFileAlt"></fa-icon>&nbsp;.CSV&nbsp;&nbsp;
         </button>
       </div>
     </div>
     <div class="row mb-2" id="row2">
       <div class="col">
         <button [disabled]="paused" class="btn btn-primary" (click)="onDownloadFullXlsx()">
-          <fa name="file-excel-o"></fa>&nbsp;.XLSX
+          <fa-icon [icon]="faFileExcel"></fa-icon>&nbsp;.XLSX
         </button>
       </div>
       <div class="col">
         <button [disabled]="paused" class="btn btn-primary" (click)="onDownloadXlsx()">
-          <fa name="file-excel-o"></fa>&nbsp;.XLSX
+          <fa-icon [icon]="faFileExcel"></fa-icon>&nbsp;.XLSX
         </button>
       </div>
     </div>
     <div class="row mb-2" id="row3">
       <div class="col">
         <button [disabled]="paused" class="btn btn-primary" (click)="onDownloadFullPdf()">
-          <fa name="file-pdf-o"></fa>&nbsp;.PDF&nbsp;&nbsp;
+          <fa-icon [icon]="faFilePdf"></fa-icon>&nbsp;.PDF&nbsp;&nbsp;
         </button>
       </div>
       <div class="col">
         <button [disabled]="paused" class="btn btn-primary" (click)="onDownloadPdf()">
-          <fa name="file-pdf-o"></fa>&nbsp;.PDF&nbsp;&nbsp;
+          <fa-icon [icon]="faFilePdf"></fa-icon>&nbsp;.PDF&nbsp;&nbsp;
         </button>
       </div>
     </div>

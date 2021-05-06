@@ -8,6 +8,8 @@ import * as XLSX from 'xlsx';
 import * as saveSvgApi from 'save-svg-as-png';
 import * as canvg from 'canvg';
 import * as jsPDF from 'jspdf';
+import { faFileAlt, faFileExcel, faFilePdf } from '@fortawesome/free-regular-svg-icons';
+import { faDownload } from '@fortawesome/free-solid-svg-icons';
 
 declare var jsPDF: any;
 
@@ -25,6 +27,12 @@ export class DownloadComponent implements OnInit {
   svg: any;
   paused = false;
   sortBy: any;
+
+  // icons
+  faFileAlt = faFileAlt;
+  faFileExcel = faFileExcel;
+  faFilePdf = faFilePdf;
+  faDownload = faDownload;
 
   constructor(
     private dataService: DataService,
