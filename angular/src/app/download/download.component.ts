@@ -7,11 +7,11 @@ import moment from "moment"
 import * as XLSX from 'xlsx';
 import * as saveSvgApi from 'save-svg-as-png';
 import * as canvg from 'canvg';
-import * as jsPDF from 'jspdf';
+import { jsPDF } from "jspdf";
 import { faFileAlt, faFileExcel, faFilePdf } from '@fortawesome/free-regular-svg-icons';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 
-declare var jsPDF: any;
+declare var pdf: any;
 
 @Component({
   selector: 'app-download',
@@ -144,7 +144,7 @@ export class DownloadComponent implements OnInit {
       columnStyles['Schwerpunktthema(bei Bedarf)'] = {columnWidth: 20};
     }
 
-    const doc = new jsPDF({orientation: 'landscape'});
+    const doc = new pdf({orientation: 'landscape'});
     // add header
     doc.text(7, 15, 'Politmonitor Basel-Stadt');
     // add the graph produced from a base64 png string. Add position and size
