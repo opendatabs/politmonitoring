@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { AuthService } from '../auth.service';
 import { DataService } from '../data.service';
 
 @Component({
@@ -28,7 +27,6 @@ export class BootstrapTableComponent implements OnInit, OnChanges {
     };
 
     constructor(
-        private authService: AuthService,
         private dataService: DataService
         ) { }
 
@@ -39,7 +37,6 @@ export class BootstrapTableComponent implements OnInit, OnChanges {
     }
 
     ngOnInit() {
-      this.authService.currentAdminState.subscribe(admin => {this.admin = admin; });
       this.pagination.end = this.pagination.start + this.pagination.numberOfEntries;
       this.pagination.numberPages = Math.ceil(this.data.length / this.pagination.numberOfEntries);
       this.sort.sortBy = this.initialSortBy;

@@ -10,15 +10,11 @@ import { DataService } from './shared/data.service';
 import { BubbleChartComponent } from './main/bubble-chart/bubble-chart.component';
 import { DataFilterComponent } from './main/data-filter/data-filter.component';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from './shared/auth.service';
-import { FileUploadModule } from 'ng2-file-upload';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastrModule } from 'ngx-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Angular5Csv } from 'angular5-csv/Angular5-csv';
 import { DownloadComponent } from './download/download.component';
-import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 @NgModule({
@@ -36,16 +32,13 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
         BootstrapTableModule,
         HttpClientModule,
         FormsModule,
-        FileUploadModule,
         CommonModule,
         BrowserAnimationsModule,
-        AngularFontAwesomeModule,
-        ToastrModule.forRoot(),
-        NgbModule.forRoot()
+        NgbModule,
+        FontAwesomeModule
     ],
     providers: [
-      DataService,
-      AuthService
+      DataService
     ],
     bootstrap: [AppComponent]
 })

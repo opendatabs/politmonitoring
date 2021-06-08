@@ -13,7 +13,7 @@ export class BubbleChartComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() data;
   @Input() categoryFilter;
 
-  @ViewChild('vis') vis: ElementRef;
+  @ViewChild('vis', { static: true }) vis: ElementRef;
 
   innerWidth: number;
   bubblesInitialized = false;

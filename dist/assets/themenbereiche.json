@@ -1,113 +1,121 @@
 [
-    {
-        "name": "Bildung",
-        "children": [
-            "Volksschulen & Tagesbetreuung",
-            "Mittelschulen & Berufsbildung",
-            "Hochschulen & Weiterbildung"
-        ]
-    },
-    {
-        "name": "Gesellschaft & Chancengleichheit",
-        "children": [
-            "Kinder, Jugendliche & Familien",
-            "Ältere Bevölkerung",
-            "Menschen mit Behinderung",
-            "Migration & Integration",
-            "Gleichstellung der Geschlechter"
-        ]
-    },
-    {
-        "name": "Finanzen & Steuern",
-        "children": [
-            "Staatsfinanzen",
-            "Steuerpolitik"
-        ]
-    },
-    {
-        "name": "Gesundheit",
-        "children": [
-            "Gesundheitsversorgung",
-            "Gesundheitsförderung"
-        ]
-    },
-    {
-        "name": "Kultur",
-        "children": [
-            "Künste & Unterhaltung",
-            "Sport",
-            "Religion"
-        ]
-    },
-    {
-        "name": "Öffentliche Ordnung & Sicherheit",
-        "children": [
-            "Polizei & Kriminalität",
-            "Verkehrssicherheit",
-            "Recht & Strafvollzug",
-            "Bevölkerungsschutz"
-        ]
-    },
-    {
-        "name": "Öffentlicher Raum",
-        "children": [
-            "Gestaltung & Infrastruktur",
-            "Stadtgrün",
-            "Nutzung & Regulierung"
-        ]
-    },
-    {
-        "name": "Politik & Staat",
-        "children": [
-            "Parlament & Regierung",
-            "Verwaltung",
-            "Politische Beteiligung",
-            "Grenzüberschreitende Zusammenarbeit"
-        ]
-    },
-    {
-        "name": "Siedlungsentwicklung",
-        "children": [
-            "Raumplanung",
-            "Areale & Quartiere",
-            "Wohnen"
-        ]
-    },
-    {
-        "name": "Soziale Sicherheit",
-        "children": [
-            "Sozialversicherungen und -leistungen",
-            "Sozialhilfe"
-        ]
-    },
-    {
-        "name": "Umwelt & Energie",
-        "children": [
-            "Boden & Wasser",
-            "Abfall & Recycling",
-            "Biodiversität",
-            "Energieversorgung",
-            "Kommunikationsinfrastruktur",
-            "Klima & Luft",
-            "Lärm"
-        ]
-    },
-    {
-        "name": "Verkehr & Mobilität",
-        "children": [
-            "Motorisierter Individualverkehr",
-            "Parkraumbewirtschaftung",
-            "Veloverkehr",
-            "Fussverkehr",
-            "Öffentlicher Verkehr",
-            "Schifffahrt, Flug- & Güterverkehr"
-        ]
-    },
-    {
-        "name": "Wirtschaft & Arbeit",
-        "children": [
-            "Arbeitsmarkt",
-            "Privatwirtschaft & Standort"
-        ]
-    }
+  {
+    "name": "Bildung",
+    "children": [
+      "Volksschulen & Tagesbetreuung",
+      "Mittelschulen & Berufsbildung",
+      "Hochschulen & Weiterbildung"
+    ]
+  },
+  {
+    "name": "Gesellschaft & Chancengleichheit",
+    "children": [
+      "Kinder, Jugendliche & Familien",
+      "Ältere Bevölkerung",
+      "Menschen mit Behinderung",
+      "Migration & Integration",
+      "Gleichstellung der Geschlechter"
+    ]
+  },
+  {
+    "name": "Finanzen & Steuern",
+    "children": [
+      "Staatsfinanzen",
+      "Steuerpolitik"
+    ]
+  },
+  {
+    "name": "Gesundheit",
+    "children": [
+      "Gesundheitsversorgung",
+      "Gesundheitsförderung"
+    ]
+  },
+  {
+    "name": "Kultur",
+    "children": [
+      "Künste & Unterhaltung",
+      "Sport",
+      "Religion"
+    ]
+  },
+  {
+    "name": "Öffentliche Ordnung & Sicherheit",
+    "children": [
+      "Polizei & Kriminalität",
+      "Verkehrssicherheit",
+      "Recht & Strafvollzug",
+      "Bevölkerungsschutz"
+    ]
+  },
+  {
+    "name": "Öffentlicher Raum",
+    "children": [
+      "Gestaltung & Infrastruktur",
+      "Stadtgrün",
+      "Nutzung & Regulierung"
+    ]
+  },
+  {
+    "name": "Politik & Staat",
+    "children": [
+      "Parlament & Regierung",
+      "Verwaltung",
+      "Politische Beteiligung",
+      "Grenzüberschreitende Zusammenarbeit"
+    ]
+  },
+  {
+    "name": "Siedlungsentwicklung",
+    "children": [
+      "Raumplanung",
+      "Areale & Quartiere",
+      "Wohnen"
+    ]
+  },
+  {
+    "name": "Soziale Sicherheit",
+    "children": [
+      "Sozialversicherungen und -leistungen",
+      "Sozialhilfe"
+    ]
+  },
+  {
+    "name": "Umwelt & Energie",
+    "children": [
+      "Boden & Wasser",
+      "Abfall & Recycling",
+      "Biodiversität",
+      "Energieversorgung",
+      "Kommunikationsinfrastruktur",
+      "Klima & Luft",
+      "Lärm"
+    ]
+  },
+  {
+    "name": "Verkehr & Mobilität",
+    "children": [
+      "Motorisierter Individualverkehr",
+      "Parkraumbewirtschaftung",
+      "Veloverkehr",
+      "Fussverkehr",
+      "Öffentlicher Verkehr",
+      "Schifffahrt, Flug- & Güterverkehr"
+    ]
+  },
+  {
+    "name": "Wirtschaft & Arbeit",
+    "children": [
+      "Arbeitsmarkt",
+      "Privatwirtschaft & Standort"
+    ]
+  }
 ]
+
+
+
+
+
+
+
+

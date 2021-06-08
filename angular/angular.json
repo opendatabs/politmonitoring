@@ -11,6 +11,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "../dist",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -24,7 +25,6 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css",
-              "node_modules/ngx-toastr/toastr.css",
               "node_modules/font-awesome/css/font-awesome.css"
             ],
             "scripts": [
@@ -37,18 +37,19 @@
               "src/assets/bubbleChart/build/fillColorCalculator.js",
               "src/assets/bubbleChart/build/bubble_chart.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "node_modules/jspdf/dist/jspdf.min.js",
-              "node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js",
-              "node_modules/save-svg-as-png/lib/saveSvgAsPng.js",
-              "node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js"
             ]
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -97,10 +98,6 @@
               "src/assets/bubbleChart/build/fillColorCalculator.js",
               "src/assets/bubbleChart/build/bubble_chart.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "node_modules/jspdf/dist/jspdf.min.js",
-              "node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js",
-              "node_modules/save-svg-as-png/lib/saveSvgAsPng.js",
-              "node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -159,7 +156,7 @@
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
-      "styleext": "css"
+      "style": "css"
     },
     "@schematics/angular:directive": {
       "prefix": "app"

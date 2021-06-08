@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { DataService } from '../shared/data.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-main',
@@ -14,13 +13,12 @@ export class MainComponent implements OnInit, AfterViewInit {
   data: any[];
   originalData: any[];
   categoryFilter: String;
-  @ViewChild('infoBtnContent') infoBtnContent: ElementRef;
+  @ViewChild('infoBtnContent', { static: true }) infoBtnContent: ElementRef;
   firstDisplay = true; // true: display modal on first page load
 
   constructor(
     private dataService: DataService,
     private modalService: NgbModal,
-    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
