@@ -10,7 +10,6 @@ import { DataService } from './shared/data.service';
 import { BubbleChartComponent } from './main/bubble-chart/bubble-chart.component';
 import { DataFilterComponent } from './main/data-filter/data-filter.component';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from './shared/auth.service';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -39,8 +38,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
         FontAwesomeModule
     ],
     providers: [
-      DataService,
-      AuthService
+      DataService
     ],
     bootstrap: [AppComponent]
 })

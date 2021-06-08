@@ -9,8 +9,6 @@ import {
   Output, ViewChild
 } from '@angular/core';
 import { DataService} from '../../shared/data.service';
-import * as moment from 'moment';
-import { AuthService } from '../../shared/auth.service';
 import { Category } from '../../shared/category';
 declare const $: any;
 declare var jQuery: any;
@@ -58,7 +56,6 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   partyFilterSet = false;
   subCategoryFilter = 'all';
   subCategoryDropdown: string[];
-  admin: boolean;
 
   // Keep filter/searchbar visible on scrolling
   static scroll() {
@@ -69,7 +66,6 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
 
   constructor(
     private dataService: DataService,
-    private authService: AuthService
   ) { }
 
   @HostListener('window:resize', ['$event'])
@@ -85,12 +81,6 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
     //this.isOpen = (window.innerWidth > this.MOBILE_SIZE);
     this.windowSize = window.innerWidth;
     window.addEventListener('scroll', DataFilterComponent.scroll, true);
-    this.authService.currentAdminState.subscribe(admin => this.admin = admin);
-    this.dataService.getCategoryFromBubbleChart().subscribe(category => {
-      if (category.length > 0) {
-        this.filterByCategory(false, {description: category, number: 1});
-      }
-    })
   }
 
   ngAfterViewChecked(): void {

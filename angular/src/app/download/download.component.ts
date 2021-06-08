@@ -1,7 +1,6 @@
 import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {DataService} from '../shared/data.service';
 import { AngularCsv } from 'angular-csv-ext/dist/Angular-csv';
-import {AuthService} from '../shared/auth.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import moment from "moment"
 import * as XLSX from 'xlsx';
@@ -23,7 +22,6 @@ export class DownloadComponent implements OnInit {
   @ViewChild('downlaodBtnContent') downloadBtnContent: ElementRef;
   data: object[];
   originalData: object[];
-  admin: boolean;
   svg: any;
   paused = false;
   sortBy: any;
@@ -36,14 +34,12 @@ export class DownloadComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
-    private authService: AuthService,
     private modalService: NgbModal
   ) {
   }
 
   ngOnInit() {
     // Use various services to fetch information from different components
-    this.authService.currentAdminState.subscribe(admin => this.admin = admin);
     this.dataService.data.subscribe(data => this.data = data);
     this.dataService.originalData.subscribe(originalData => this.originalData = originalData);
     this.dataService.svg.subscribe(svg => this.svg = svg);
@@ -135,14 +131,6 @@ export class DownloadComponent implements OnInit {
       'Thema 1': {cellWidth: 31},
       'Thema 2': {cellWidth: 31},
     };
-
-    // smaller table properties with more columns if the user has admin privileges
-    if (this.admin) {
-      fontSize = 7;
-      titleColumnWidth = 80;
-      columns.push({title: 'Schwer-\npunkt', dataKey: 'Schwerpunktthema (bei Bedarf)'});
-      columnStyles['Schwerpunktthema(bei Bedarf)'] = {cellWidth: 20};
-    }
 
     const doc = new jsPDF({orientation: 'landscape'});
     // add header
@@ -250,24 +238,6 @@ export class DownloadComponent implements OnInit {
     });
 
     return cleanData;
-    /*tmp.forEach(e => {
-      if (e.hasOwnProperty('Themenbereich_Number')) {
-        delete e['Themenbereich_Number'];
-      }
-      if (e.hasOwnProperty('Thema2_Number')) {
-        delete e['Thema2_Number'];
-      }
-    });
-    if (this.admin) {
-      return tmp;
-    } else {
-      tmp.forEach(e => {
-        if (e.hasOwnProperty('Schwerpunktthema (bei Bedarf)')) {
-          delete e['Schwerpunktthema (bei Bedarf)'];
-        }
-      });
-      return tmp;
-    }*/
   }
 
   /* Sets the options for the CSV file and clears the data intended for CSV-downlaod
