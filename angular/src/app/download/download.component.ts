@@ -6,8 +6,8 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import moment from "moment"
 import * as XLSX from 'xlsx';
 import * as saveSvgApi from 'save-svg-as-png';
-import * as canvg from 'canvg';
 import { jsPDF } from "jspdf";
+import autoTable from 'jspdf-autotable';
 import { faFileAlt, faFileExcel, faFilePdf } from '@fortawesome/free-regular-svg-icons';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 
@@ -81,7 +81,7 @@ export class DownloadComponent implements OnInit {
     console.log(d);
     // add canvg option so the the png string conversion works with IE11
     // https://github.com/exupero/saveSvgAsPng
-    saveSvgApi.svgAsPngUri(this.svg.childNodes[0], {canvg: canvg}, uri => {
+    saveSvgApi.svgAsPngUri(this.svg.childNodes[0], {}).then(uri => {
       this.drawPdf(d, uri, this.nameFile(true));
       this.paused = false;
     });
@@ -89,7 +89,7 @@ export class DownloadComponent implements OnInit {
 
   onDownloadFullPdf(): void {
     this.paused = true;
-    saveSvgApi.svgAsPngUri(this.svg.childNodes[0], {canvg: canvg}, uri => {
+    saveSvgApi.svgAsPngUri(this.svg.childNodes[0], {}).then(uri => {
       console.log(this.originalData)
       this.drawPdf(JSON.parse(JSON.stringify(this.originalData)), uri, this.nameFile());
       this.paused = false;
@@ -122,18 +122,18 @@ export class DownloadComponent implements OnInit {
     let fontSize = 8;
     let titleColumnWidth = 60;
     // All columnwiths have to be defined corresponding to their content width
-    const columnStyles = {
-      'Geschäfts-nr': {columnWidth: 18},
-      'Instrument': {columnWidth: 19},
-      'UrheberIn': {columnWidth: 25},
-      'Titel': {columnWidth: titleColumnWidth},
-      'Status': {columnWidth: 25},
-      'Beginn-Datum': {columnWidth: 20},
-      'Jahr': {columnWidth: 10},
-      'Partei': {columnWidth: 15},
-      'Themenbereich 1': {columnWidth: 30},
-      'Thema 1': {columnWidth: 31},
-      'Thema 2': {columnWidth: 31},
+    const columnStyles : any  = {
+      'Geschäfts-nr': {cellWidth: 18},
+      'Instrument': {cellWidth: 19},
+      'UrheberIn': {cellWidth: 25},
+      'Titel': {cellWidth: titleColumnWidth},
+      'Status': {cellWidth: 25},
+      'Beginn-Datum': {cellWidth: 23},
+      'Jahr': {cellWidth: 10},
+      'Partei': {cellWidth: 15},
+      'Themenbereich 1': {cellWidth: 30},
+      'Thema 1': {cellWidth: 31},
+      'Thema 2': {cellWidth: 31},
     };
 
     // smaller table properties with more columns if the user has admin privileges
@@ -141,16 +141,21 @@ export class DownloadComponent implements OnInit {
       fontSize = 7;
       titleColumnWidth = 80;
       columns.push({title: 'Schwer-\npunkt', dataKey: 'Schwerpunktthema (bei Bedarf)'});
-      columnStyles['Schwerpunktthema(bei Bedarf)'] = {columnWidth: 20};
+      columnStyles['Schwerpunktthema(bei Bedarf)'] = {cellWidth: 20};
     }
 
-    const doc = new pdf({orientation: 'landscape'});
+    const doc = new jsPDF({orientation: 'landscape'});
     // add header
-    doc.text(7, 15, 'Politmonitor Basel-Stadt');
+    doc.text( 'Politmonitor Basel-Stadt', 7, 15);
     // add the graph produced from a base64 png string. Add position and size
-    doc.addImage(graphUri, 'PNG', 5, 15, this.calcWidth(), 150);
+    const size = this.calcSize();
+    doc.addImage(graphUri, 'PNG', 5, 15, size.width, size.height);
+    console.log(this.clearData(data), columns)
     // generate a table from cleared data
-    doc.autoTable(columns, this.clearData(data), {
+    autoTable(doc,  {
+      body: this.clearData(data),
+      columns: columns,
+      horizontalPageBreak: true,
       startY: 800,
       margin: {horizontal: 7},
       bodyStyles: {valign: 'top'},
@@ -178,18 +183,21 @@ export class DownloadComponent implements OnInit {
    * @returns {number} image with in px
    * @memberof DownloadComponent
    */
-  private calcWidth(): number {
+  private calcSize(): {width: number, height: number} {
     const w = this.svg.childNodes[0].clientWidth;
-    if (w && w > 0) {
-      const ratio = 600 / w;
-      if (ratio <= 0.5) {
-        return 300;
-      } else {
-        return 150 / ratio;
-      }
-    } else {
-      return 300;
+    const h = this.svg.childNodes[0].clientHeight;
+
+    let height = 180;
+    // scale width for height
+    let width = (w/h) * 180;
+
+    // too big, use width to scale
+    if (width > 280) {
+      width = 280;
+      height = (h/w) * 280;
     }
+
+    return {width: width, height: height};
   }
 
   /* Names a file as construction of a convention and adds the current date and wether the
@@ -222,7 +230,7 @@ export class DownloadComponent implements OnInit {
    * @param data the data that is supposed to be cleared
    * @return a filtered deep-copy of the data param
    */
-  private clearData(data: any[]): object[] {
+  private clearData(data: any[]): any[] {
     const tmp: object[] = JSON.parse(JSON.stringify(data));
     const cleanData = tmp.map(elem => {
       return {
