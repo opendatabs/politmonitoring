@@ -102,7 +102,7 @@ export class DownloadComponent implements OnInit {
    */
   drawPdf(data: string[], graphUri: string, fileName: string): void {
     const columns: Array<{ title: string; dataKey: string; }> = [
-      {title: 'Geschäfts-nr', dataKey: 'Geschäfts-nr'},
+      {title: 'Geschäfts-Nr.', dataKey: 'Geschäfts-nr'},
       {title: 'Instrument', dataKey: 'Instrument'},
       {title: 'UrheberIn', dataKey: 'UrheberIn'},
       {title: 'Titel', dataKey: 'Titel'},
@@ -119,7 +119,7 @@ export class DownloadComponent implements OnInit {
     let titleColumnWidth = 60;
     // All columnwiths have to be defined corresponding to their content width
     const columnStyles : any  = {
-      'Geschäfts-nr': {cellWidth: 18},
+      'Geschäfts-Nr.': {cellWidth: 14},
       'Instrument': {cellWidth: 19},
       'UrheberIn': {cellWidth: 25},
       'Titel': {cellWidth: titleColumnWidth},
@@ -127,9 +127,9 @@ export class DownloadComponent implements OnInit {
       'Beginn-Datum': {cellWidth: 23},
       'Jahr': {cellWidth: 10},
       'Partei': {cellWidth: 15},
-      'Themenbereich 1': {cellWidth: 30},
-      'Thema 1': {cellWidth: 31},
-      'Thema 2': {cellWidth: 31},
+      'Themenbereich 1': {cellWidth: 28},
+      'Thema 1': {cellWidth: 28},
+      'Thema 2': {cellWidth: 28},
     };
 
     const doc = new jsPDF({orientation: 'landscape'});
