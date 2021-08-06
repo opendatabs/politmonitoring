@@ -45,7 +45,7 @@
     "save-svg-as-png": "^1.4.6",
     "tslib": "^2.0.0",
     "webpack-dev-server": "^3.11.2",
-    "xlsx": "^0.13.4",
+    "xlsx": "^0.17.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
