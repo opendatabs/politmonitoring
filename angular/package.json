@@ -44,7 +44,7 @@
     "rxjs-compat": "^6.5.1",
     "save-svg-as-png": "^1.4.6",
     "tslib": "^2.0.0",
-    "webpack-dev-server": "^3.11.2",
+    "webpack-dev-server": "^4.3.1",
     "xlsx": "^0.17.2",
     "zone.js": "~0.10.2"
   },
