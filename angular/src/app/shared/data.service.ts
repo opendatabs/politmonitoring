@@ -101,7 +101,7 @@ export class DataService {
       found = false;
       for (const key in entry) {
         if (entry.hasOwnProperty(key)) {
-          if (entry[key] !== null && entry[key].toString().toLocaleLowerCase().indexOf(searchText.toLocaleLowerCase()) !== -1) {
+          if (entry[key] && entry[key] !== null && entry[key].toString().toLocaleLowerCase().indexOf(searchText.toLocaleLowerCase()) !== -1) {
             found = true;
           }
           //TODO: add tipp if person is looking for a word in here.
