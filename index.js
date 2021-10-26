@@ -22,7 +22,7 @@ app.get('/get-data', async (req, res) => {
 
     const apiKey = config.apiKey ? config.apiKey : process.env.API_KEY;
     res.set('Authorization', apiKey)
-    const apiUrl = `https://data.bs.ch/api/records/1.0/search/?apikey=${apiKey}&dataset=100086&q=&rows=1000&sort=-signatur&facet=signatur&facet=geschaftstyp&facet=gr_urheber&facet=urheber_name&facet=partei&facet=status&facet=beginn_datum&facet=ende&facet=endfrist&facet=thema_1&facet=thema_2&facet=schwerpunkt`;
+    const apiUrl = `https://data.bs.ch/api/records/1.0/search/?apikey=${apiKey}&dataset=100086&q=&rows=2000&sort=-signatur&facet=signatur&facet=geschaftstyp&facet=gr_urheber&facet=urheber_name&facet=partei&facet=status&facet=beginn_datum&facet=ende&facet=endfrist&facet=thema_1&facet=thema_2&facet=schwerpunkt`;
 
 
     // apikey=${config.apiKey}&
