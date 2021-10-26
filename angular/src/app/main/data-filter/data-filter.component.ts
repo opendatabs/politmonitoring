@@ -28,7 +28,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   @Output() onFiltered: EventEmitter<any> = new EventEmitter();
   @ViewChild('filter', { static: true }) filterRef : ElementRef;
 
-  parties = ['SP', 'LDP', 'SVP', 'Grüne', 'BastA!', 'FDP', 'CVP', 'EVP', 'GLP', 'AB', 'Parteilos'];
+  parties = ['SP', 'LDP', 'SVP', 'Grüne', 'BastA!', 'FDP', 'CVP', 'EVP', 'GLP', 'AB', 'VA', 'Parteilos'];
   instruments = ['Initiative', 'Referendum', 'Motion', 'Anzug', 'Petition',
     'Budgetpostulat', 'Vorgezogenes Budgetpostulat', 'Resolution', 'Standesinitiative',
     'Standesreferendum', 'Planungsanzug', 'Schriftliche Anfrage', 'Interpellation'];
