@@ -1,15 +1,18 @@
 import {
   AfterViewChecked,
   AfterViewInit,
-  Component, ElementRef,
-  EventEmitter, HostListener,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
   Input,
   OnChanges,
   OnInit,
-  Output, ViewChild
-} from '@angular/core';
-import { DataService} from '../../shared/data.service';
-import { Category } from '../../shared/category';
+  Output,
+  ViewChild,
+} from "@angular/core";
+import { DataService } from "../../shared/data.service";
+import { Category } from "../../shared/category";
 declare const $: any;
 declare var jQuery: any;
 
@@ -18,25 +21,38 @@ interface jQuery {
 }
 
 @Component({
-  selector: 'app-data-filter',
-  templateUrl: './data-filter.component.html',
-  styleUrls: ['./data-filter.component.css']
+  selector: "app-data-filter",
+  templateUrl: "./data-filter.component.html",
+  styleUrls: ["./data-filter.component.css"],
 })
-export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges, AfterViewInit {
-
+export class DataFilterComponent
+  implements OnInit, AfterViewChecked, OnChanges, AfterViewInit
+{
   @Input() data: any[];
   @Output() onFiltered: EventEmitter<any> = new EventEmitter();
-  @ViewChild('filter', { static: true }) filterRef : ElementRef;
+  @ViewChild("filter", { static: true }) filterRef: ElementRef;
 
-  parties = ['SP', 'LDP', 'SVP', 'Grüne', 'BastA!', 'FDP', 'CVP', 'EVP', 'GLP', 'AB', 'VA', 'Parteilos'];
-  instruments = ['Initiative', 'Referendum', 'Motion', 'Anzug', 'Petition',
-    'Budgetpostulat', 'Vorgezogenes Budgetpostulat', 'Resolution', 'Standesinitiative',
-    'Standesreferendum', 'Planungsanzug', 'Schriftliche Anfrage', 'Interpellation'];
+  parties = this.dataService.getParties().map((party) => party.displayName);
+  instruments = [
+    "Initiative",
+    "Referendum",
+    "Motion",
+    "Anzug",
+    "Petition",
+    "Budgetpostulat",
+    "Vorgezogenes Budgetpostulat",
+    "Resolution",
+    "Standesinitiative",
+    "Standesreferendum",
+    "Planungsanzug",
+    "Schriftliche Anfrage",
+    "Interpellation",
+  ];
 
   MOBILE_SIZE = 580;
   windowSize;
   isOpen = false;
-  searchText = '';
+  searchText = "";
   searchSuggestions = [];
   originalData: any[] = [];
   categoryDropdown: Category[];
@@ -45,32 +61,30 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   instrumentDropdown = [];
   statusDropdown = [];
   yearDropdown = [];
-  categoryFilter: Category = {description: 'all', number: -1}; // if categoryFilter is -1, no filter is set
-  keyTopicFilter = 'all';
-  partyFilter = 'all';
-  instrumentFilter = 'all';
-  statusFilter = 'all';
+  categoryFilter: Category = { description: "all", number: -1 }; // if categoryFilter is -1, no filter is set
+  keyTopicFilter = "all";
+  partyFilter = "all";
+  instrumentFilter = "all";
+  statusFilter = "all";
   filtered = false;
   yearFilterSet = false;
   instrumentFilterSet = false;
   partyFilterSet = false;
-  subCategoryFilter = 'all';
+  subCategoryFilter = "all";
   subCategoryDropdown: string[];
 
   // Keep filter/searchbar visible on scrolling
   static scroll() {
-    const navHeight = $('.navbar').outerHeight();
+    const navHeight = $(".navbar").outerHeight();
     const scrollTop = navHeight - $(window).scrollTop();
-    $('.custom-fixed-navbar').css('top', (Math.max(scrollTop, 0)));
+    $(".custom-fixed-navbar").css("top", Math.max(scrollTop, 0));
   }
 
-  constructor(
-    private dataService: DataService,
-  ) { }
+  constructor(private dataService: DataService) {}
 
-  @HostListener('window:resize', ['$event'])
+  @HostListener("window:resize", ["$event"])
   onResize(event) {
-    console.log("resize")
+    console.log("resize");
 
     //this.isOpen = (event.target.innerWidth > this.MOBILE_SIZE);
     this.windowSize = window.innerWidth;
@@ -80,7 +94,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   ngOnInit() {
     //this.isOpen = (window.innerWidth > this.MOBILE_SIZE);
     this.windowSize = window.innerWidth;
-    window.addEventListener('scroll', DataFilterComponent.scroll, true);
+    window.addEventListener("scroll", DataFilterComponent.scroll, true);
   }
 
   ngAfterViewChecked(): void {
@@ -88,17 +102,16 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   }
 
   ngAfterViewInit(): void {
-
-    this.filterRef.nativeElement.addEventListener('mouseenter', event => {
+    this.filterRef.nativeElement.addEventListener("mouseenter", (event) => {
       if (window.innerWidth > 580) {
-        $('#filter-legend').show();
+        $("#filter-legend").show();
         //TODO add animation
       }
       //this.adjustHeight();
     });
-    this.filterRef.nativeElement.addEventListener('mouseleave', event => {
+    this.filterRef.nativeElement.addEventListener("mouseleave", (event) => {
       if (window.innerWidth > 580) {
-        $('#filter-legend').hide();
+        $("#filter-legend").hide();
       }
       //this.adjustHeight();
     });
@@ -121,7 +134,9 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   }
 
   searchByText() {
-    this.searchSuggestions = this.dataService.findSearchSuggestions(this.searchText);
+    this.searchSuggestions = this.dataService.findSearchSuggestions(
+      this.searchText
+    );
     this.filterData();
   }
 
@@ -134,16 +149,25 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   filterData() {
     //this.adjustHeight();
     this.data = this.originalData;
-    if (this.categoryFilter.description !== 'all') {
-      this.data = this.dataService.filterByCategory(this.data, this.categoryFilter.description);
-      if (this.subCategoryFilter !== 'all') {
-        this.data = this.dataService.filterBySubCategory(this.data, this.subCategoryFilter);
+    if (this.categoryFilter.description !== "all") {
+      this.data = this.dataService.filterByCategory(
+        this.data,
+        this.categoryFilter.description
+      );
+      if (this.subCategoryFilter !== "all") {
+        this.data = this.dataService.filterBySubCategory(
+          this.data,
+          this.subCategoryFilter
+        );
       }
     }
-    if (this.keyTopicFilter !== 'all') {
-      this.data = this.dataService.filterByKeyTopic(this.data, this.keyTopicFilter);
+    if (this.keyTopicFilter !== "all") {
+      this.data = this.dataService.filterByKeyTopic(
+        this.data,
+        this.keyTopicFilter
+      );
     }
-    if (this.statusFilter !== 'all') {
+    if (this.statusFilter !== "all") {
       this.data = this.dataService.filterByStatus(this.data, this.statusFilter);
     }
     /*if (this.partyFilter !== 'all') {
@@ -152,17 +176,34 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
     /*if (this.instrumentFilter !== 'all') {
       this.data = this.dataService.filterByInstrument(this.data, this.instrumentFilter);
     }*/
-    this.data = this.dataService.searchInArrayOfObjects(this.data, this.searchText);
+    this.data = this.dataService.searchInArrayOfObjects(
+      this.data,
+      this.searchText
+    );
     this.data = this.dataService.filterYears(this.data, this.yearDropdown);
-    this.data = this.dataService.filterInstruments(this.data, this.instrumentDropdown);
+    this.data = this.dataService.filterInstruments(
+      this.data,
+      this.instrumentDropdown
+    );
+    console.log(this.data);
     this.data = this.dataService.filterParties(this.data, this.partyDropdown);
+    console.log(this.data);
     // check if any filter is set.
     this.checkFiltersSet();
-    this.filtered = this.categoryFilter.description !== 'all' || this.keyTopicFilter !== 'all' || this.searchText.length > 0
-      || this.statusFilter !== 'all' || this.yearFilterSet || this.partyFilterSet || this.instrumentFilterSet;
+    this.filtered =
+      this.categoryFilter.description !== "all" ||
+      this.keyTopicFilter !== "all" ||
+      this.searchText.length > 0 ||
+      this.statusFilter !== "all" ||
+      this.yearFilterSet ||
+      this.partyFilterSet ||
+      this.instrumentFilterSet;
     // Has to be done async (not in same digest) to avoid expressionChangedAfterItHasBeenCheckedError
     setTimeout(() => {
-      this.onFiltered.emit({data: this.data, categoryFilter: this.categoryFilter.description});
+      this.onFiltered.emit({
+        data: this.data,
+        categoryFilter: this.categoryFilter.description,
+      });
       this.getDownloadData();
     }, 0);
   }
@@ -173,40 +214,46 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   }
 
   checkAllYears() {
-    this.yearDropdown.forEach(d => d.checked = true);
+    this.yearDropdown.forEach((d) => (d.checked = true));
     this.filterData();
   }
 
   uncheckAllYears() {
-    this.yearDropdown.forEach(d => d.checked = false);
+    this.yearDropdown.forEach((d) => (d.checked = false));
     this.filterData();
   }
 
   checkAllParties() {
-    this.partyDropdown.forEach(d => d.checked = true);
+    this.partyDropdown.forEach((d) => (d.checked = true));
     this.filterData();
   }
 
   uncheckAllParties() {
-    this.partyDropdown.forEach(d => d.checked = false);
+    this.partyDropdown.forEach((d) => (d.checked = false));
     this.filterData();
   }
 
   checkAllInstruments() {
-    this.instrumentDropdown.forEach(d => d.checked = true);
+    this.instrumentDropdown.forEach((d) => (d.checked = true));
     this.filterData();
   }
 
   uncheckAllInstruments() {
-    this.instrumentDropdown.forEach(d => d.checked = false);
+    this.instrumentDropdown.forEach((d) => (d.checked = false));
     this.filterData();
   }
 
   // checks if filter of year is set
   checkFiltersSet() {
-    this.yearFilterSet = this.yearDropdown.filter(d => d.checked).length !== this.getInitYears().filter(d => d.checked).length;
-    this.instrumentFilterSet = this.instrumentDropdown.filter(d => d.checked).length !== this.getInitInstruments().filter(d => d.checked).length;
-    this.partyFilterSet = this.partyDropdown.filter(d => d.checked).length !== this.getInitParties().filter(d => d.checked).length;
+    this.yearFilterSet =
+      this.yearDropdown.filter((d) => d.checked).length !==
+      this.getInitYears().filter((d) => d.checked).length;
+    this.instrumentFilterSet =
+      this.instrumentDropdown.filter((d) => d.checked).length !==
+      this.getInitInstruments().filter((d) => d.checked).length;
+    this.partyFilterSet =
+      this.partyDropdown.filter((d) => d.checked).length !==
+      this.getInitParties().filter((d) => d.checked).length;
   }
 
   filterStatus(status: string) {
@@ -216,8 +263,8 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
 
   filterByCategoryFromSearch(categoryName) {
     this.searchSuggestions = []; // reset search suggestions, since user found what they needed
-    this.searchText = ''; // reset searchtext if user clicked on category suggestion
-    this.filterByCategory(false, {description: categoryName, number : 1});
+    this.searchText = ""; // reset searchtext if user clicked on category suggestion
+    this.filterByCategory(false, { description: categoryName, number: 1 });
   }
 
   removeSuggestions() {
@@ -227,16 +274,16 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   // first argument is true no filter is set.
   filterByCategory(noFilter: boolean, category?: Category) {
     if (noFilter) {
-      this.categoryFilter = {description: 'all', number: -1};
+      this.categoryFilter = { description: "all", number: -1 };
     } else {
       this.categoryFilter = category;
     }
     this.filterData();
     // prepare sub category dropdown
-    const allCategories = this.data.map(d => d['Thema 1']);
+    const allCategories = this.data.map((d) => d["Thema 1"]);
     this.subCategoryDropdown = this.dataService.unique(allCategories);
     this.subCategoryDropdown.sort();
-    this.subCategoryFilter = 'all';
+    this.subCategoryFilter = "all";
   }
 
   filterByKeyTopic(keyTopic: string) {
@@ -260,32 +307,32 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   }
 
   resetFilters() {
-    this.searchText = '';
-    this.categoryFilter = { description: 'all', number: -1 };
-    this.keyTopicFilter = 'all';
+    this.searchText = "";
+    this.categoryFilter = { description: "all", number: -1 };
+    this.keyTopicFilter = "all";
     this.yearDropdown = this.getInitYears();
-    this.statusFilter = 'all';
-    this.partyFilter = 'all';
+    this.statusFilter = "all";
+    this.partyFilter = "all";
     this.partyDropdown = this.getInitParties();
-    this.instrumentFilter = 'all';
+    this.instrumentFilter = "all";
     this.instrumentDropdown = this.getInitInstruments();
     this.statusDropdown = this.getInitStatus();
     this.filterData();
   }
 
   resetSearchText() {
-    this.searchText = '';
+    this.searchText = "";
     this.searchSuggestions = [];
     this.filterData();
   }
 
   resetCategoryFilter() {
-    this.categoryFilter = { description: 'all', number: - 1};
+    this.categoryFilter = { description: "all", number: -1 };
     this.filterData();
   }
 
   resetKeyTopicFilter() {
-    this.keyTopicFilter = 'all';
+    this.keyTopicFilter = "all";
     this.filterData();
   }
 
@@ -305,7 +352,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   }
 
   resetStatusFilter() {
-    this.statusFilter = 'all';
+    this.statusFilter = "all";
     this.filterData();
   }
 
@@ -314,7 +361,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   }
 
   deleteInstrumentSelection(entry) {
-    this.instrumentDropdown.forEach(d => {
+    this.instrumentDropdown.forEach((d) => {
       if (d.name === entry.name) {
         d.checked = false;
       }
@@ -323,7 +370,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   }
 
   deletePartySelection(entry) {
-    this.partyDropdown.forEach(d => {
+    this.partyDropdown.forEach((d) => {
       if (d.name === entry.name) {
         d.checked = false;
       }
@@ -332,7 +379,7 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   }
 
   deleteYearSelection(entry) {
-    this.yearDropdown.forEach(d => {
+    this.yearDropdown.forEach((d) => {
       if (d.name === entry.name) {
         d.checked = false;
       }
@@ -341,15 +388,24 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   }
 
   allInstrumentsSelected() {
-    return this.instrumentDropdown.filter(d => d.checked).length === this.instrumentDropdown.length;
+    return (
+      this.instrumentDropdown.filter((d) => d.checked).length ===
+      this.instrumentDropdown.length
+    );
   }
 
   allYearsSelected() {
-    return this.yearDropdown.filter(d => d.checked).length === this.yearDropdown.length;
+    return (
+      this.yearDropdown.filter((d) => d.checked).length ===
+      this.yearDropdown.length
+    );
   }
 
   allPartiesSelected() {
-    return this.partyDropdown.filter(d => d.checked).length === this.partyDropdown.length;
+    return (
+      this.partyDropdown.filter((d) => d.checked).length ===
+      this.partyDropdown.length
+    );
   }
 
   toggleMobileFilter() {
@@ -357,13 +413,20 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   }
 
   private initDropdowns() {
-    this.categoryDropdown = this.dataService.uniqueCategories(this.originalData.map(d => {
-      return { description: d['Themenbereich 1'], number: d.Themenbereich_Number };
-    }));
-    this.categoryDropdown.sort((a, b) => a.description.localeCompare(b.description));
+    this.categoryDropdown = this.dataService.uniqueCategories(
+      this.originalData.map((d) => {
+        return {
+          description: d["Themenbereich 1"],
+          number: d.Themenbereich_Number,
+        };
+      })
+    );
+    this.categoryDropdown.sort((a, b) =>
+      a.description.localeCompare(b.description)
+    );
     this.keyTopicDropdown = this.dataService
-      .unique(this.originalData.map(d => d['Schwerpunktthema (bei Bedarf)']))
-      .filter(d => d !== '');
+      .unique(this.originalData.map((d) => d["Schwerpunktthema (bei Bedarf)"]))
+      .filter((d) => d !== "");
     this.keyTopicDropdown.sort((a, b) => a.localeCompare(b));
     this.categoryDropdown = this.getInitCategories();
     this.yearDropdown = this.getInitYears();
@@ -372,50 +435,54 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
     this.statusDropdown = this.getInitStatus();
     this.statusDropdown = this.getInitStatus();
     this.filterData();
-
   }
 
   // get the original values for years
   // tick only last 5 years (if year bigger than 2018)
   private getInitYears() {
-    const years = this.dataService.unique(this.originalData.map(d => d['Jahr'])); // Jahr
-    years.unshift('letztes Quartal');
+    const years = this.dataService.unique(
+      this.originalData.map((d) => d["Jahr"])
+    ); // Jahr
+    years.unshift("letztes Quartal");
     // sort descending
     years.sort((a, b) => {
       return b - a;
     });
-    return years.map(d => {
-      const checked = (d >= (new Date().getFullYear()) - 1);
+    return years.map((d) => {
+      const checked = d >= new Date().getFullYear() - 1;
       return {
-        year: d, checked: checked
+        year: d,
+        checked: checked,
       };
     });
   }
 
   private getInitInstruments() {
-    return this.instruments.map(d => {
+    return this.instruments.map((d) => {
       return {
-        name: d, checked: true
+        name: d,
+        checked: true,
       };
     });
   }
 
   private getInitParties() {
-    return this.parties.map(d => {
+    return this.parties.map((d) => {
       return {
-        name: d, checked: true
+        name: d,
+        checked: true,
       };
     });
   }
 
   private getInitStatus() {
-    return this.dataService.unique(this.originalData.map(d => d['Status']));
+    return this.dataService.unique(this.originalData.map((d) => d["Status"]));
   }
 
   private getInitCategories(): Category[] {
     const categories = this.dataService.getCategories();
     const categoriesAsObj = categories.map((d, i) => {
-      return <Category>{description: d.name, number: i};
+      return <Category>{ description: d.name, number: i };
     });
     return categoriesAsObj;
   }
@@ -429,7 +496,9 @@ export class DataFilterComponent implements OnInit, AfterViewChecked, OnChanges,
   }
 
   private adjustHeight() {
-    $('.invisible-navbar-placeholder').css('height', $('.custom-fixed-navbar').outerHeight());
+    $(".invisible-navbar-placeholder").css(
+      "height",
+      $(".custom-fixed-navbar").outerHeight()
+    );
   }
-
 }

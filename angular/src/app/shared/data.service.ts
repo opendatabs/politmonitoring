@@ -1,19 +1,33 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable, BehaviorSubject} from 'rxjs';
-import {environment} from '../../environments/environment';
-import {Category} from './category';
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Observable, BehaviorSubject } from "rxjs";
+import { environment } from "../../environments/environment";
+import { Category } from "./category";
 
 declare const $: any;
 declare var jQuery: any;
-import themenbereiche from '../../assets/themenbereiche.json';
-import descriptions from '../../assets/descriptions.json';
-import searchwords from '../../assets/searchwords.json';
-
+import themenbereiche from "../../assets/themenbereiche.json";
+import descriptions from "../../assets/descriptions.json";
+import searchwords from "../../assets/searchwords.json";
 
 @Injectable()
 export class DataService {
-  private headers = new HttpHeaders({'Content-Type': 'application/json'});
+  private parties = [
+    { identifier: "SP", displayName: "SP" },
+    { identifier: "LDP", displayName: "LDP" },
+    { identifier: "SVP", displayName: "SVP" },
+    { identifier: "Grüne", displayName: "Grüne" },
+    { identifier: "GLP", displayName: "GLP" },
+    { identifier: "FDP", displayName: "FDP" },
+    { identifier: "Mitte", displayName: "Die Mitte" },
+    { identifier: "BastA!", displayName: "BastA!" },
+    { identifier: "EVP", displayName: "EVP" },
+    { identifier: "jgb", displayName: "jgb" },
+    { identifier: "AB", displayName: "AB" },
+    { identifier: "VA", displayName: "VA" },
+    { identifier: "", displayName: "Parteilos/ehem. Mitglieder" },
+  ];
+  private headers = new HttpHeaders({ "Content-Type": "application/json" });
 
   private dataSrc = new BehaviorSubject([]);
   data = this.dataSrc.asObservable();
@@ -24,19 +38,18 @@ export class DataService {
   private svgSrc = new BehaviorSubject([]);
   svg = this.svgSrc.asObservable();
 
-  private sortScr = new BehaviorSubject([{sortBy: 'Geschäfts-Nr', asc: false}]);
+  private sortScr = new BehaviorSubject([
+    { sortBy: "Geschäfts-Nr", asc: false },
+  ]);
   sort = this.sortScr.asObservable();
 
-  private categoryFromBubbleChart = new BehaviorSubject('');
+  private categoryFromBubbleChart = new BehaviorSubject("");
 
-  constructor(
-    private http: HttpClient
-  ) {
-  }
+  constructor(private http: HttpClient) {}
 
   static extractNumber(content: string): number {
-    const start = content.indexOf('(') + 1;
-    const end = content.indexOf(')');
+    const start = content.indexOf("(") + 1;
+    const end = content.indexOf(")");
     let number: number;
     if (content.length > 0) {
       number = parseInt(content.substring(start, end));
@@ -50,12 +63,12 @@ export class DataService {
   }
 
   getData(): Observable<any[]> {
-    const url = environment.apiUrl + 'data';
+    const url = environment.apiUrl + "data";
     return this.http.get<any[]>(url);
   }
 
   getDataNew(): Observable<any[]> {
-    const url = environment.apiUrl + 'get-data';
+    const url = environment.apiUrl + "get-data";
     return this.http.get<any[]>(url);
   }
 
@@ -64,28 +77,33 @@ export class DataService {
   }
 
   getCategoryForSubCategory(subcategory: string) {
-    const category = themenbereiche.find(elem => {
+    const category = themenbereiche.find((elem) => {
       return elem.children.includes(subcategory);
     });
     return category ? category.name : undefined;
   }
 
-  findSearchSuggestions(searchText: string): { parent: string, child: string }[] {
+  findSearchSuggestions(
+    searchText: string
+  ): { parent: string; child: string }[] {
     let result = [];
-    searchwords.forEach(d => {
+    searchwords.forEach((d) => {
       const suptopic = d.name;
-      d.children.forEach(subtopic => {
-        const searchwords = subtopic['searchwords'].split(',');
-        searchwords.forEach(searchword => {
+      d.children.forEach((subtopic) => {
+        const searchwords = subtopic["searchwords"].split(",");
+        searchwords.forEach((searchword) => {
           const cleanSearchword = searchword.trim();
-          if (cleanSearchword.toLocaleLowerCase().startsWith(searchText.toLocaleLowerCase())) {
-            if (!result.map(d => d.parent).includes(suptopic)) {
-              result.push({parent: suptopic, child: subtopic.name})
+          if (
+            cleanSearchword
+              .toLocaleLowerCase()
+              .startsWith(searchText.toLocaleLowerCase())
+          ) {
+            if (!result.map((d) => d.parent).includes(suptopic)) {
+              result.push({ parent: suptopic, child: subtopic.name });
             }
           }
         });
-
-      })
+      });
     });
     return result;
   }
@@ -93,7 +111,11 @@ export class DataService {
   searchInArrayOfObjects(data: any[], searchText: String): any[] {
     const list = data;
     const result = [];
-    if (typeof list === 'undefined' || typeof searchText === 'undefined' || searchText === '') {
+    if (
+      typeof list === "undefined" ||
+      typeof searchText === "undefined" ||
+      searchText === ""
+    ) {
       return data;
     }
     let found: boolean;
@@ -101,7 +123,14 @@ export class DataService {
       found = false;
       for (const key in entry) {
         if (entry.hasOwnProperty(key)) {
-          if (entry[key] && entry[key] !== null && entry[key].toString().toLocaleLowerCase().indexOf(searchText.toLocaleLowerCase()) !== -1) {
+          if (
+            entry[key] &&
+            entry[key] !== null &&
+            entry[key]
+              .toString()
+              .toLocaleLowerCase()
+              .indexOf(searchText.toLocaleLowerCase()) !== -1
+          ) {
             found = true;
           }
           //TODO: add tipp if person is looking for a word in here.
@@ -125,38 +154,44 @@ export class DataService {
   }
 
   filterByCategory(data: any[], category: string): any[] {
-    return data.filter(d => {
-      return d['Themenbereich 1'] === category || d['Themenbereich 2'] === category;
+    return data.filter((d) => {
+      return (
+        d["Themenbereich 1"] === category || d["Themenbereich 2"] === category
+      );
       //return d.Themenbereich_Number === category || d.Thema2_Number === category;
     });
   }
 
   filterByKeyTopic(data: any[], keyTopicFilter: string) {
-    return data.filter(d => {
-      return d['Schwerpunktthema (bei Bedarf)'] === keyTopicFilter;
+    return data.filter((d) => {
+      return d["Schwerpunktthema (bei Bedarf)"] === keyTopicFilter;
     });
   }
 
   filterBySubCategory(data: any[], subCategoryFilter: string) {
-    return data.filter(d => {
-      if (d['Thema 2'] === subCategoryFilter) {
+    return data.filter((d) => {
+      if (d["Thema 2"] === subCategoryFilter) {
         // console.log('hier');
       }
-      return d['Thema 1'] === subCategoryFilter ||
-        d['Thema 2'] === subCategoryFilter;
+      return (
+        d["Thema 1"] === subCategoryFilter || d["Thema 2"] === subCategoryFilter
+      );
     });
   }
 
   filterYears(data: any[], years: any[]) {
-    return data.filter(d => {
+    return data.filter((d) => {
       let found = false;
-      years.forEach(y => {
+      years.forEach((y) => {
         if (y.checked && y.year === d.Jahr) {
           found = true;
-        } else if (y.checked && y.year === 'letztes Quartal') {
+        } else if (y.checked && y.year === "letztes Quartal") {
           const today = new Date();
-          const dataDate = new Date(d['beginn_datum']);
-          if (dataDate.getFullYear() === today.getFullYear() && dataDate.getMonth() >= today.getMonth() - 3) {
+          const dataDate = new Date(d["beginn_datum"]);
+          if (
+            dataDate.getFullYear() === today.getFullYear() &&
+            dataDate.getMonth() >= today.getMonth() - 3
+          ) {
             found = true;
           }
         }
@@ -166,9 +201,9 @@ export class DataService {
   }
 
   filterInstruments(data: any[], instruments: any[]) {
-    return data.filter(d => {
+    return data.filter((d) => {
       let found = false;
-      instruments.forEach(y => {
+      instruments.forEach((y) => {
         if (y.checked && y.name === d.Instrument) {
           found = true;
         }
@@ -178,9 +213,9 @@ export class DataService {
   }
 
   filterParties(data: any[], parties: any[]) {
-    return data.filter(d => {
+    return data.filter((d) => {
       let found = false;
-      parties.forEach(y => {
+      parties.forEach((y) => {
         if (y.checked && y.name === d.Partei) {
           found = true;
         }
@@ -190,19 +225,19 @@ export class DataService {
   }
 
   filterByStatus(data: any[], statusFilter: String) {
-    return data.filter(d => {
+    return data.filter((d) => {
       return d.Status.toLowerCase() === statusFilter.toLowerCase();
     });
   }
 
   filterByParty(data: any[], partyFilter: string) {
-    return data.filter(d => {
+    return data.filter((d) => {
       return d.Partei.toLowerCase() === partyFilter.toLowerCase();
     });
   }
 
   filterByInstrument(data: any[], instrumentFilter: string) {
-    return data.filter(d => {
+    return data.filter((d) => {
       return d.Instrument.toLowerCase() === instrumentFilter.toLowerCase();
     });
   }
@@ -215,9 +250,9 @@ export class DataService {
 
   uniqueCategories(categories: Category[]) {
     const unique: Category[] = [];
-    categories.forEach(d => {
+    categories.forEach((d) => {
       let found = false;
-      unique.forEach(u => {
+      unique.forEach((u) => {
         if (u.number === d.number) {
           found = true;
         }
@@ -249,7 +284,10 @@ export class DataService {
     this.svgSrc.next(svg);
   }
 
-  sendCurrentSort(sort: { sortBy: string, asc: boolean }): void {
+  sendCurrentSort(sort: { sortBy: string; asc: boolean }): void {
     this.sortScr.next([sort]);
+  }
+  getParties() {
+    return this.parties;
   }
 }
