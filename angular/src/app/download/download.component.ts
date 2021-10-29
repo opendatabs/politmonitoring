@@ -1,25 +1,28 @@
-import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
-import {DataService} from '../shared/data.service';
-import { AngularCsv } from 'angular-csv-ext/dist/Angular-csv';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import moment from "moment"
-import * as XLSX from 'xlsx';
-import * as saveSvgApi from 'save-svg-as-png';
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { DataService } from "../shared/data.service";
+import { AngularCsv } from "angular-csv-ext/dist/Angular-csv";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import moment from "moment";
+import * as XLSX from "xlsx";
+import * as saveSvgApi from "save-svg-as-png";
 import { jsPDF } from "jspdf";
-import autoTable from 'jspdf-autotable';
-import { faFileAlt, faFileExcel, faFilePdf } from '@fortawesome/free-regular-svg-icons';
-import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import autoTable from "jspdf-autotable";
+import {
+  faFileAlt,
+  faFileExcel,
+  faFilePdf,
+} from "@fortawesome/free-regular-svg-icons";
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
 declare var pdf: any;
 
 @Component({
-  selector: 'app-download',
-  templateUrl: './download.component.html',
-  styleUrls: ['./download.component.css'],
+  selector: "app-download",
+  templateUrl: "./download.component.html",
+  styleUrls: ["./download.component.css"],
 })
 export class DownloadComponent implements OnInit {
-
-  @ViewChild('downlaodBtnContent') downloadBtnContent: ElementRef;
+  @ViewChild("downlaodBtnContent") downloadBtnContent: ElementRef;
   data: object[];
   originalData: object[];
   svg: any;
@@ -35,49 +38,59 @@ export class DownloadComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private modalService: NgbModal
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     // Use various services to fetch information from different components
-    this.dataService.data.subscribe(data => this.data = data);
-    this.dataService.originalData.subscribe(originalData => this.originalData = originalData);
-    this.dataService.svg.subscribe(svg => this.svg = svg);
-    this.dataService.sort.subscribe(sort => this.sortBy = sort);
-
+    this.dataService.data.subscribe((data) => (this.data = data));
+    this.dataService.originalData.subscribe(
+      (originalData) => (this.originalData = originalData)
+    );
+    this.dataService.svg.subscribe((svg) => (this.svg = svg));
+    this.dataService.sort.subscribe((sort) => (this.sortBy = sort));
   }
 
   onDownloadCsv(): void {
-    const csv: { downloadData: object[], options: object } = this.prepareCsv(this.data);
+    const csv: { downloadData: object[]; options: object } = this.prepareCsv(
+      this.data
+    );
     new AngularCsv(csv.downloadData, this.nameFile(true), csv.options);
   }
 
   onDownloadFullCsv(): void {
-    const csv: { downloadData: object[], options: object } = this.prepareCsv(this.originalData);
+    const csv: { downloadData: object[]; options: object } = this.prepareCsv(
+      this.originalData
+    );
     new AngularCsv(csv.downloadData, this.nameFile(true), csv.options);
   }
 
   onDownloadXlsx(): void {
     XLSX.writeFile(
       this.createXlsx(this.clearData(this.data)),
-      this.nameFile(true) + '.xlsx');
+      this.nameFile(true) + ".xlsx"
+    );
   }
 
   onDownloadFullXlsx(): void {
     XLSX.writeFile(
       this.createXlsx(this.clearData(this.originalData)),
-      this.nameFile() + '.xlsx');
+      this.nameFile() + ".xlsx"
+    );
   }
 
   onDownloadPdf(): void {
     // Use sorting order of bootstrap-table
-    const d = this.reorder(JSON.parse(JSON.stringify(this.data)), this.sortBy[0].sortBy, this.sortBy[0].asc);
+    const d = this.reorder(
+      JSON.parse(JSON.stringify(this.data)),
+      this.sortBy[0].sortBy,
+      this.sortBy[0].asc
+    );
     // Stop further downloads while file creation in progress
     this.paused = true;
     console.log(d);
     // add canvg option so the the png string conversion works with IE11
     // https://github.com/exupero/saveSvgAsPng
-    saveSvgApi.svgAsPngUri(this.svg.childNodes[0], {}).then(uri => {
+    saveSvgApi.svgAsPngUri(this.svg.childNodes[0], {}).then((uri) => {
       this.drawPdf(d, uri, this.nameFile(true));
       this.paused = false;
     });
@@ -85,9 +98,13 @@ export class DownloadComponent implements OnInit {
 
   onDownloadFullPdf(): void {
     this.paused = true;
-    saveSvgApi.svgAsPngUri(this.svg.childNodes[0], {}).then(uri => {
-      console.log(this.originalData)
-      this.drawPdf(JSON.parse(JSON.stringify(this.originalData)), uri, this.nameFile());
+    saveSvgApi.svgAsPngUri(this.svg.childNodes[0], {}).then((uri) => {
+      console.log(this.originalData);
+      this.drawPdf(
+        JSON.parse(JSON.stringify(this.originalData)),
+        uri,
+        this.nameFile()
+      );
       this.paused = false;
     });
   }
@@ -101,67 +118,67 @@ export class DownloadComponent implements OnInit {
    * @memberof DownloadComponent
    */
   drawPdf(data: string[], graphUri: string, fileName: string): void {
-    const columns: Array<{ title: string; dataKey: string; }> = [
-      {title: 'Geschäfts-Nr.', dataKey: 'Geschäfts-nr'},
-      {title: 'Instrument', dataKey: 'Instrument'},
-      {title: 'UrheberIn', dataKey: 'UrheberIn'},
-      {title: 'Titel', dataKey: 'Titel'},
-      {title: 'Status', dataKey: 'Status'},
-      {title: 'Beginn-Datum', dataKey: 'Beginn-Datum'},
-      {title: 'Jahr', dataKey: 'Jahr'},
-      {title: 'Partei', dataKey: 'Partei'},
-      {title: 'Themen-\nbereich 1', dataKey: 'Themenbereich 1'},
-      {title: 'Thema 1', dataKey: 'Thema 1'},
-      {title: 'Thema 2', dataKey: 'Thema 2'},
+    const columns: Array<{ title: string; dataKey: string }> = [
+      { title: "Geschäfts-Nr.", dataKey: "Geschäfts-nr" },
+      { title: "Instrument", dataKey: "Instrument" },
+      { title: "UrheberIn", dataKey: "UrheberIn" },
+      { title: "Titel", dataKey: "Titel" },
+      { title: "Status", dataKey: "Status" },
+      { title: "Beginn-Datum", dataKey: "Beginn-Datum" },
+      { title: "Jahr", dataKey: "Jahr" },
+      { title: "Partei", dataKey: "Partei" },
+      { title: "Themen-\nbereich 1", dataKey: "Themenbereich 1" },
+      { title: "Thema 1", dataKey: "Thema 1" },
+      { title: "Thema 2", dataKey: "Thema 2" },
     ];
 
     let fontSize = 8;
     let titleColumnWidth = 60;
     // All columnwiths have to be defined corresponding to their content width
-    const columnStyles : any  = {
-      'Geschäfts-Nr.': {cellWidth: 14},
-      'Instrument': {cellWidth: 19},
-      'UrheberIn': {cellWidth: 25},
-      'Titel': {cellWidth: titleColumnWidth},
-      'Status': {cellWidth: 25},
-      'Beginn-Datum': {cellWidth: 23},
-      'Jahr': {cellWidth: 10},
-      'Partei': {cellWidth: 15},
-      'Themenbereich 1': {cellWidth: 28},
-      'Thema 1': {cellWidth: 28},
-      'Thema 2': {cellWidth: 28},
+    const columnStyles: any = {
+      "Geschäfts-Nr.": { cellWidth: 14 },
+      Instrument: { cellWidth: 19 },
+      UrheberIn: { cellWidth: 25 },
+      Titel: { cellWidth: titleColumnWidth },
+      Status: { cellWidth: 25 },
+      "Beginn-Datum": { cellWidth: 23 },
+      Jahr: { cellWidth: 10 },
+      Partei: { cellWidth: 15 },
+      "Themenbereich 1": { cellWidth: 28 },
+      "Thema 1": { cellWidth: 28 },
+      "Thema 2": { cellWidth: 28 },
     };
 
-    const doc = new jsPDF({orientation: 'landscape'});
+    const doc = new jsPDF({ orientation: "landscape" });
     // add header
-    doc.text( 'Politmonitor Basel-Stadt', 7, 15);
+    doc.text("Politmonitor Basel-Stadt", 7, 15);
     // add the graph produced from a base64 png string. Add position and size
     const size = this.calcSize();
-    doc.addImage(graphUri, 'PNG', 5, 15, size.width, size.height);
-    console.log(this.clearData(data), columns)
+    doc.addImage(graphUri, "PNG", 5, 15, size.width, size.height);
+    console.log(this.clearData(data), columns);
     // generate a table from cleared data
-    autoTable(doc,  {
+    autoTable(doc, {
       body: this.clearData(data),
       columns: columns,
       horizontalPageBreak: true,
       startY: 800,
-      margin: {horizontal: 7},
-      bodyStyles: {valign: 'top'},
+      margin: { horizontal: 7 },
+      bodyStyles: { valign: "top" },
       styles: {
-        overflow: 'linebreak',
+        overflow: "linebreak",
         fontSize: fontSize,
       },
       columnStyles: columnStyles,
     });
     // download the file
-    doc.save(fileName + '.pdf');
+    doc.save(fileName + ".pdf");
   }
 
   /* Triggers the modal to apear. Modaloption can be passed as arguments
    * See: https://ng-bootstrap.github.io/#/components/modal/examples
    */
   openLg(downloadBtnContent) {
-    this.modalService.open(downloadBtnContent, {windowClass: 'customModal'});
+    this.modalService.open(downloadBtnContent, { windowClass: "customModal" });
   }
 
   /**
@@ -171,21 +188,21 @@ export class DownloadComponent implements OnInit {
    * @returns {number} image with in px
    * @memberof DownloadComponent
    */
-  private calcSize(): {width: number, height: number} {
+  private calcSize(): { width: number; height: number } {
     const w = this.svg.childNodes[0].clientWidth;
     const h = this.svg.childNodes[0].clientHeight;
 
     let height = 180;
     // scale width for height
-    let width = (w/h) * 180;
+    let width = (w / h) * 180;
 
     // too big, use width to scale
     if (width > 280) {
       width = 280;
-      height = (h/w) * 280;
+      height = (h / w) * 280;
     }
 
-    return {width: width, height: height};
+    return { width: width, height: height };
   }
 
   /* Names a file as construction of a convention and adds the current date and wether the
@@ -195,8 +212,8 @@ export class DownloadComponent implements OnInit {
    * @return the file title as string containing date and filter status
    */
   private nameFile(filtered: boolean = false): string {
-    const filterStatus: string = (!filtered ? '' : '_(gefiltert)');
-    const timestamp: string = moment().format('DD/MM/YYYY');
+    const filterStatus: string = !filtered ? "" : "_(gefiltert)";
+    const timestamp: string = moment().format("DD/MM/YYYY");
     return `Politmonitor_Basel_Stadt_${timestamp}${filterStatus}`;
   }
 
@@ -209,7 +226,7 @@ export class DownloadComponent implements OnInit {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
     // add the worksheet to the workbook, name the tab
-    XLSX.utils.book_append_sheet(wb, ws, 'Grossratsgeschäfte');
+    XLSX.utils.book_append_sheet(wb, ws, "Grossratsgeschäfte");
     return wb;
   }
 
@@ -220,21 +237,21 @@ export class DownloadComponent implements OnInit {
    */
   private clearData(data: any[]): any[] {
     const tmp: object[] = JSON.parse(JSON.stringify(data));
-    const cleanData = tmp.map(elem => {
+    const cleanData = tmp.map((elem) => {
       return {
-        'Geschäfts-nr': elem['Geschäfts-nr'],
-        'Instrument': elem['Instrument'],
-        'UrheberIn': elem['UrheberIn'],
-        'Titel': elem['Titel'],
-        'Status': elem['Status'],
-        'Beginn-Datum': elem['Beginn-Datum'],
-        'Jahr': elem['Jahr'],
-        'Partei': elem['Partei'],
-        'Themenbereich 1': elem['Themenbereich 1'],
-        'Thema 1': elem['Thema 1'],
-        'Thema 2': elem['Thema 2'] ? elem['Thema 2'] : '',
-        'Link': elem['Link']
-      }
+        "Geschäfts-nr": elem["Geschäfts-nr"],
+        Instrument: elem["Instrument"],
+        UrheberIn: elem["UrheberIn"],
+        Titel: elem["Titel"],
+        Status: elem["Status"],
+        "Beginn-Datum": elem["Beginn-Datum"],
+        Jahr: elem["Jahr"],
+        Partei: elem["Partei"],
+        "Themenbereich 1": elem["Themenbereich 1"],
+        "Thema 1": elem["Thema 1"],
+        "Thema 2": elem["Thema 2"] ? elem["Thema 2"] : "",
+        Link: elem["Link"],
+      };
     });
 
     return cleanData;
@@ -244,23 +261,26 @@ export class DownloadComponent implements OnInit {
    * @param data is the uncleared data, about to be downloaded
    * @return an object containing the cleared data and the CSV-options
    */
-  private prepareCsv(data: object[]): { downloadData: object[], options: object } {
+  private prepareCsv(data: object[]): {
+    downloadData: object[];
+    options: object;
+  } {
     let headers: Array<string> = [];
     const downloadData: object[] = this.clearData(data);
     if (downloadData.length) {
       headers = Object.keys(downloadData[0]);
     }
     const options: object = {
-      fieldSeparator: ',',
+      fieldSeparator: ",",
       quoteStrings: '"',
-      decimalseparator: '.',
+      decimalseparator: ".",
       showLabels: false,
       showTitle: false,
       useBom: false,
       noDownload: false,
-      headers: headers
+      headers: headers,
     };
-    return {downloadData, options};
+    return { downloadData, options };
   }
 
   /* Sort the handed collection by the given column header
@@ -269,7 +289,11 @@ export class DownloadComponent implements OnInit {
    * @param asc arranged ascending or descending sorting
    * @return the ordered collection
    */
-  private reorder(arr: Array<string>, sortBy: string, asc: boolean): Array<string> {
+  private reorder(
+    arr: Array<string>,
+    sortBy: string,
+    asc: boolean
+  ): Array<string> {
     arr.sort((a: any, b: any) => {
       let returnValue: number;
       if (a[sortBy] < b[sortBy]) {
@@ -282,7 +306,7 @@ export class DownloadComponent implements OnInit {
       if (asc) {
         return returnValue;
       } else {
-        return returnValue * (-1);
+        return returnValue * -1;
       }
     });
     return arr;
