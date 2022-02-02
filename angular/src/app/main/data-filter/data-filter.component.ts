@@ -185,7 +185,6 @@ export class DataFilterComponent
       this.data,
       this.instrumentDropdown
     );
-    console.log(this.data);
     this.data = this.dataService.filterParties(this.data, this.partyDropdown);
     console.log(this.data);
     // check if any filter is set.
