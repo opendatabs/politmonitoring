@@ -64,7 +64,7 @@
     "@babel/cli": "^7.17.6",
     "@babel/core": "^7.17.8",
     "@babel/preset-env": "^7.16.11",
-    "@types/jasmine": "~4.0.0",
+    "@types/jasmine": "~4.6.0",
     "@types/jasminewd2": "~2.0.10",
     "@types/node": "^17.0.21",
     "babel-loader": "^8.2.3",
