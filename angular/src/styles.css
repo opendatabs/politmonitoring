@@ -15,6 +15,15 @@ body {
   background-color: #224452!important;
 }
 
+/* keep the brand white; otherwise a:visited from bubbleChart/css/reset.css
+   (more specific than Bootstrap's .navbar-brand) turns it purple */
+.navbar-dark .navbar-brand,
+.navbar-dark .navbar-brand:visited,
+.navbar-dark .navbar-brand:hover,
+.navbar-dark .navbar-brand:focus {
+  color: #fff;
+}
+
 /*.tooltip > div {*/
   /*animation-name: delayedFadeIn;*/
   /*animation-duration: 1s; !* Adjust this duration *!*/
