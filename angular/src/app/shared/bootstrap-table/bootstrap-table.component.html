@@ -29,6 +29,7 @@
           <div class="col-12">
             <div id="tableWrapper" class="d-none d-md-block">
               <table id="table" class="table highlight table-hover">
+                <thead>
                 <tr>
                   <th width="100px" class="titleCol fixed-width" (click)="changeSortBy('Geschäfts-nr')">
                     <p>Geschäfts- <br>nummer
@@ -159,6 +160,8 @@
                     </th>
                   }
                 </tr>
+                </thead>
+                <tbody>
                 @for (entry of data | sortBy: sort.sortBy: sort.asc | slice:pagination.start:pagination.end; track entry) {
                   <tr #table
                     (click)="selectEntry(entry)">
@@ -265,10 +268,12 @@
                     }
                   </tr>
                 }
+                </tbody>
               </table>
             </div>
             <div id="tableWrapperMobile" class="d-sm-block d-md-none">
               <table id="table-mobile" class="table highlight table-hover">
+                <thead>
                 <tr>
                   <th width="100px" class="titleCol fixed-width" (click)="changeSortBy('Geschäfts-nr')">
                     <p>Geschäfts- <br>nummer
@@ -307,6 +312,8 @@
                     </p>
                   </th>
                 </tr>
+                </thead>
+                <tbody>
                 @for (entry of data | sortBy: sort.sortBy: sort.asc | slice:pagination.start:pagination.end; track entry) {
                   <tr #table
                     (click)="selectEntry(entry)">
@@ -339,6 +346,7 @@
                     </td>
                   </tr>
                 }
+                </tbody>
               </table>
             </div>
           </div>
