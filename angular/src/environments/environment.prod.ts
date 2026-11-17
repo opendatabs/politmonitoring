@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: '/'
+  apiUrl: '/',
+  dataUrl: '', // empty: use the Express endpoint <apiUrl>get-data
 };

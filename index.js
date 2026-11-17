@@ -4,6 +4,11 @@ const cors = require('cors');
 const config = require('./config/config');
 const path = require('path');
 const fetch = require('node-fetch');
+const HttpsProxyAgent = require('https-proxy-agent');
+
+// honour HTTPS_PROXY if set (node-fetch does not do this on its own)
+const proxyUrl = process.env.HTTPS_PROXY || process.env.https_proxy;
+const fetchAgent = proxyUrl ? new HttpsProxyAgent(proxyUrl) : undefined;
 
 // open cors in development mode
 if (config.cors) {
@@ -17,16 +22,13 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/dist/index.html');
 });
 
-// get data from data.bs.ch with api key
+// get data from data.bs.ch (public dataset, no API key required)
 app.get('/get-data', async (req, res) => {
 
-    const apiKey = config.apiKey ? config.apiKey : process.env.API_KEY;
-    res.set('Authorization', apiKey)
-    const apiUrl = `https://data.bs.ch/api/records/1.0/search/?apikey=${apiKey}&dataset=100086&q=&rows=2000&sort=-signatur&facet=signatur&facet=geschaftstyp&facet=gr_urheber&facet=urheber_name&facet=partei&facet=status&facet=beginn_datum&facet=ende&facet=endfrist&facet=thema_1&facet=thema_2&facet=schwerpunkt`;
+    const apiUrl = `https://data.bs.ch/api/records/1.0/search/?dataset=100086&q=&rows=2000&sort=-signatur&facet=signatur&facet=geschaftstyp&facet=gr_urheber&facet=urheber_name&facet=partei&facet=status&facet=beginn_datum&facet=ende&facet=endfrist&facet=thema_1&facet=thema_2&facet=schwerpunkt`;
 
 
-    // apikey=${config.apiKey}&
-    fetch(apiUrl)
+    fetch(apiUrl, { agent: fetchAgent })
         .then(response => response.json())
         .then(data => {
             res.send(data);

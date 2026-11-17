@@ -447,8 +447,14 @@ export class DataFilterComponent
     years.sort((a, b) => {
       return b - a;
     });
+    // tick the newest two years present in the data (not relative to today,
+    // otherwise nothing is selected when the dataset lags behind)
+    const numericYears = years.map(Number).filter((y) => !isNaN(y));
+    const newestYear = numericYears.length
+      ? Math.max(...numericYears)
+      : new Date().getFullYear();
     return years.map((d) => {
-      const checked = d >= new Date().getFullYear() - 1;
+      const checked = d >= newestYear - 1;
       return {
         year: d,
         checked: checked,

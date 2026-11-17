@@ -68,7 +68,7 @@ export class DataService {
   }
 
   getDataNew(): Observable<any[]> {
-    const url = environment.apiUrl + "get-data";
+    const url = environment.dataUrl || environment.apiUrl + "get-data";
     return this.http.get<any[]>(url);
   }
 

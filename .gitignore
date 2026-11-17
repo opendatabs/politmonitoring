@@ -43,3 +43,17 @@ testem.log
 Thumbs.db
 
 .env
+
+.devcontainer
+
+# secrets / credentials
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# build artefacts / caches
+/pages-out
+/angular/.angular
