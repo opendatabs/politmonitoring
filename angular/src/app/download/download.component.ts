@@ -118,18 +118,18 @@ export class DownloadComponent implements OnInit {
    * @memberof DownloadComponent
    */
   drawPdf(data: string[], graphUri: string, fileName: string): void {
-    const columns: Array<{ title: string; dataKey: string }> = [
-      { title: "Geschäfts-Nr.", dataKey: "Geschäfts-nr" },
-      { title: "Instrument", dataKey: "Instrument" },
-      { title: "UrheberIn", dataKey: "UrheberIn" },
-      { title: "Titel", dataKey: "Titel" },
-      { title: "Status", dataKey: "Status" },
-      { title: "Beginn-Datum", dataKey: "Beginn-Datum" },
-      { title: "Jahr", dataKey: "Jahr" },
-      { title: "Partei", dataKey: "Partei" },
-      { title: "Themen-\nbereich 1", dataKey: "Themenbereich 1" },
-      { title: "Thema 1", dataKey: "Thema 1" },
-      { title: "Thema 2", dataKey: "Thema 2" },
+    const columns: Array<{ header: string; dataKey: string }> = [
+      { header: "Geschäfts-Nr.", dataKey: "Geschäfts-nr" },
+      { header: "Instrument", dataKey: "Instrument" },
+      { header: "UrheberIn", dataKey: "UrheberIn" },
+      { header: "Titel", dataKey: "Titel" },
+      { header: "Status", dataKey: "Status" },
+      { header: "Beginn-Datum", dataKey: "Beginn-Datum" },
+      { header: "Jahr", dataKey: "Jahr" },
+      { header: "Partei", dataKey: "Partei" },
+      { header: "Themen-\nbereich 1", dataKey: "Themenbereich 1" },
+      { header: "Thema 1", dataKey: "Thema 1" },
+      { header: "Thema 2", dataKey: "Thema 2" },
     ];
 
     let fontSize = 8;

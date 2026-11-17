@@ -14,7 +14,6 @@ const fetchAgent = proxyUrl ? new HttpsProxyAgent(proxyUrl) : undefined;
 if (config.cors) {
     app.use(cors());
 }
-app.use('/node_modules', express.static(__dirname + '/node_modules/'));
 app.use('/data', express.static(__dirname + '/data/'));
 app.use(express.static(path.join(__dirname, 'dist')));
 
@@ -37,7 +36,7 @@ app.get('/get-data', async (req, res) => {
 });
 
 // send all requests back to index for client side routing
-app.get('/*', (req, res) => {
+app.get('/{*splat}', (req, res) => { // Express 5 wildcard syntax
     res.sendFile(__dirname + '/dist/index.html');
 });
 
