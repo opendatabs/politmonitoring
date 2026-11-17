@@ -17,6 +17,7 @@ import { faDownload } from "@fortawesome/free-solid-svg-icons";
 declare var pdf: any;
 
 @Component({
+  standalone: false,
   selector: "app-download",
   templateUrl: "./download.component.html",
   styleUrls: ["./download.component.css"],

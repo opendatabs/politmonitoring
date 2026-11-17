@@ -21,6 +21,7 @@ interface jQuery {
 }
 
 @Component({
+  standalone: false,
   selector: "app-data-filter",
   templateUrl: "./data-filter.component.html",
   styleUrls: ["./data-filter.component.css"],

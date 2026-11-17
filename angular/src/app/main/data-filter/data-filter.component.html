@@ -5,218 +5,290 @@
     <div class="row filter-top">
       <div class="mr-sm-2" id="search-field">
         <div class="input-group" id='seachInput'>
-          <button class="btn reset-filter" *ngIf="searchText.length > 0" (click)="resetSearchText()">
-            <span><i class="fas fa-undo"></i></span>
-          </button>
+          @if (searchText.length > 0) {
+            <button class="btn reset-filter" (click)="resetSearchText()">
+              <span><i class="fas fa-undo"></i></span>
+            </button>
+          }
           <input name='search' class="form-control" type="search" placeholder="Volltextsuche" aria-label="Suchen"
-                 (keydown)="keyDownFunction($event)" [(ngModel)]="searchText">
-          <div class="input-group-append">
-            <div class="input-group-text" (click)="searchByText()">Suchen</div>
-          </div>
-        </div>
-      </div>
-      <div [style.display]="isOpen || windowSize >= MOBILE_SIZE ? 'flex' : 'none'" id="dropdowns">
-        <div ngbDropdown class="small-margin">
-          <button class="btn reset-filter" *ngIf="categoryFilter.description !== 'all'" (click)="resetCategoryFilter()">
-            <span><i class="fas fa-undo"></i></span></button>
-          <button ngbDropdownToggle class="btn btn-secondary" type="button" id="dropdownMenuButton"
-                  aria-haspopup="true" aria-expanded="false">
-            <span *ngIf="categoryFilter.description === 'all'">Themenbereich</span>
-            <span *ngIf="categoryFilter.description !== 'all'">{{categoryFilter.description}}</span>
-          </button>
-          <div ngbDropdownMenu aria-labelledby="dropdownMenuButton">
-            <div class="dropdown-item">
-              <div (click)="filterByCategory(true)">
-                <input type="radio" id="radio_all" name="radio-group" [checked]="categoryFilter.description === 'all'">
-                <label for="radio_all">Alle</label>
-              </div>
-            </div>
-            <div class="dropdown-item" *ngFor="let entry of categoryDropdown; let i = index">
-              <div (click)="filterByCategory(false, entry)">
-                <input type="radio" id="radio_{{i}}" name="radio-group">
-                <label for="radio_{{i}}">{{entry.description}}</label>
-              </div>
+            (keydown)="keyDownFunction($event)" [(ngModel)]="searchText">
+            <div class="input-group-append">
+              <div class="input-group-text" (click)="searchByText()">Suchen</div>
             </div>
           </div>
         </div>
-        <div ngbDropdown class="small-margin" autoClose="outside">
-          <button class="btn reset-filter" *ngIf="partyFilterSet" (click)="resetPartyFilter()">
-            <span><i class="fas fa-undo"></i></span>
-          </button>
-          <button ngbDropdownToggle class="btn btn-secondary" type="button" id="partyDropdownButton"
-                  aria-haspopup="true" aria-expanded="false">
-            <span *ngIf="partyFilter === 'all'">Partei</span>
-            <span *ngIf="partyFilter !== 'all'">{{partyFilter}}</span>
-          </button>
-          <div ngbDropdownMenu aria-labelledby="partyDropdownButton">
-            <div class="dropdown-item">
-              <div class="dropdown-item">
-                <button class="btn ml-2 mb-2" type="button" (click)="checkAllParties()">Alle</button>
-                <button class="btn mb-2" type="button" (click)="uncheckAllParties()">Keine</button>
+        <div [style.display]="isOpen || windowSize >= MOBILE_SIZE ? 'flex' : 'none'" id="dropdowns">
+          <div ngbDropdown class="small-margin">
+            @if (categoryFilter.description !== 'all') {
+              <button class="btn reset-filter" (click)="resetCategoryFilter()">
+                <span><i class="fas fa-undo"></i></span></button>
+              }
+              <button ngbDropdownToggle class="btn btn-secondary" type="button" id="dropdownMenuButton"
+                aria-haspopup="true" aria-expanded="false">
+                @if (categoryFilter.description === 'all') {
+                  <span>Themenbereich</span>
+                }
+                @if (categoryFilter.description !== 'all') {
+                  <span>{{categoryFilter.description}}</span>
+                }
+              </button>
+              <div ngbDropdownMenu aria-labelledby="dropdownMenuButton">
+                <div class="dropdown-item">
+                  <div (click)="filterByCategory(true)">
+                    <input type="radio" id="radio_all" name="radio-group" [checked]="categoryFilter.description === 'all'">
+                    <label for="radio_all">Alle</label>
+                  </div>
+                </div>
+                @for (entry of categoryDropdown; track entry; let i = $index) {
+                  <div class="dropdown-item">
+                    <div (click)="filterByCategory(false, entry)">
+                      <input type="radio" id="radio_{{i}}" name="radio-group">
+                      <label for="radio_{{i}}">{{entry.description}}</label>
+                    </div>
+                  </div>
+                }
               </div>
             </div>
-            <div class="dropdown-item" *ngFor="let entry of partyDropdown; let i = index">
-              <div>
-                <label for="checkbox_party_{{i}}">
-                  <input type="checkbox" id="checkbox_party_{{i}}" [(checked)]="entry.checked"
-                         (change)="filterByParty(entry)">
-                  {{entry.name}}
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div ngbDropdown class="small-margin" autoClose="outside">
-          <button class="btn reset-filter" *ngIf="instrumentFilterSet" (click)="resetInstrumentFilter()">
-            <span><i class="fas fa-undo"></i></span></button>
-          <button ngbDropdownToggle class="btn btn-secondary" type="button" id="instrumentDropdownButton"
-                  aria-haspopup="true" aria-expanded="false">
-            <span *ngIf="instrumentFilter === 'all'">Instrument</span>
-            <span *ngIf="instrumentFilter !== 'all'">{{instrumentFilter}}</span>
-          </button>
-          <div ngbDropdownMenu aria-labelledby="instrumentDropdownButton">
-            <div class="dropdown-item">
-              <button class="btn ml-2 mb-2" type="button" (click)="checkAllInstruments()">Alle</button>
-              <button class="btn mb-2" type="button" (click)="uncheckAllInstruments()">Keine</button>
-            </div>
-            <div class="dropdown-item" *ngFor="let entry of instrumentDropdown; let i = index">
-              <div>
-                <label for="checkbox_instrument_{{i}}">
-                  <input type="checkbox" id="checkbox_instrument_{{i}}" [(checked)]="entry.checked"
-                         (change)="filterByInstrument(entry)">
-                  {{entry.name}}
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div ngbDropdown class="small-margin" (click)="stopEventPropagation($event)" autoClose="outside">
-          <button class="btn reset-filter" *ngIf="yearFilterSet" (click)="resetYearFilter()">
-            <span><i class="fas fa-undo"></i></span></button>
-          <button class="btn btn-secondary" type="button" id="dropdownMenuButton2" ngbDropdownToggle
-                  aria-haspopup="true" aria-expanded="false">
-            Jahr
-          </button>
-          <div ngbDropdownMenu aria-labelledby="dropdownMenuButton2">
-            <button class="btn ml-2 mb-2" type="button" (click)="checkAllYears()">Alle</button>
-            <button class="btn mb-2" type="button" (click)="uncheckAllYears()">Keine</button>
-            <div class="dropdown-item" *ngFor="let entry of yearDropdown; let i = index">
-              <div>
-                <label for="checkbox_{{entry.year}}">
-                  <input type="checkbox" id="checkbox_{{entry.year}}" [(checked)]="entry.checked"
-                         (change)="filterYears(entry)">
-                  {{entry.year}}
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div ngbDropdown class="small-margin">
-          <button class="btn reset-filter" *ngIf="statusFilter !== 'all'" (click)="resetStatusFilter()">
-            <span><i class="fas fa-undo"></i></span>
-          </button>
-          <button class="btn btn-secondary" type="button" id="dropdownMenuButton3" ngbDropdownToggle
-                  aria-haspopup="true" aria-expanded="false">
-            <span *ngIf="statusFilter === 'all'">Status</span>
-            <span *ngIf="statusFilter !== 'all'">{{statusFilter}}</span>
-          </button>
-          <div ngbDropdownMenu aria-labelledby="dropdownMenuButton3">
-            <div class="dropdown-item">
-              <div (click)="filterStatus('all')">
-                <input type="radio" id="radio_status_all" name="radio-group2" [checked]="statusFilter === 'all'">
-                <label for="radio_status_all">Alle</label>
-              </div>
-            </div>
-            <div class="dropdown-item" *ngFor="let entry of statusDropdown; let i = index">
-              <div (click)="filterStatus(entry)">
-                <input type="radio" id="radio_status_{{i}}" name="radio-group2">
-                <label for="radio_status_{{i}}">{{entry}}</label>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="dropdown-toggle" (click)="toggleMobileFilter()">
-        <button class="btn" type="button">
-          <i *ngIf="!isOpen" class="fa fa-chevron-down"></i>
-          <i *ngIf="isOpen" class="fa fa-chevron-up"></i>
-        </button>
-      </div>
-      <div id="dateFilter" *ngIf="filtered">
-        <button class="btn btn-secondary" type="button" (click)="resetFilters()" placement="left"
-                ngbTooltip="Alle&nbsp;Filter&nbsp;zurücksetzen">
-          <i class="fas fa-undo"></i>
-        </button>
-      </div>
-    </div>
-    <div class="row" *ngIf="searchSuggestions.length > 0 && searchSuggestions?.length > 0">
-      <div class="col-sm-10">
-        <div>Suchen Sie nach einem der folgenden Themen beziehungsweise Themenbereichen?</div>
-        <div *ngFor="let sugg of searchSuggestions">
-          <span>Thema: <a class="search-sugg-link" (click)="searchByTextFromSuggestion(sugg.child)">{{sugg.child}}</a>, </span>
-          <span>Themenbereich: <a class="search-sugg-link" (click)="filterByCategoryFromSearch(sugg.parent)">&nbsp;{{sugg.parent}}</a></span>
-        </div>
-      </div>
-      <div class="col-sm-2 text-right">
-        <a (click)="removeSuggestions()"><i class="fas fa-times"></i></a>
-      </div>
-    </div>
-    <div id="filter-legend" class="row" [style.display]="isOpen && windowSize < MOBILE_SIZE ? 'block' : 'none'">
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-12">
-            <h6>Filtereinstellungen:</h6>
-          </div>
-        </div>
-        <div class="row filter-row">
-          <div class="col-lg-1 col-md-2 col-sm-12">
-            <b>Partei:</b>
-          </div>
-          <div class="col-lg-11 col-md-10 col-sm-12">
-            <div *ngIf="!allPartiesSelected()">
-              <div *ngFor="let entry of partyDropdown">
-                <div *ngIf="entry.checked" class="chip">
-                  <span>{{entry.name}}</span>
-                  <!--<span class="close-btn" (click)="deletePartySelection(entry)"><i class="fas fa-times"></i></span>-->
+            <div ngbDropdown class="small-margin" autoClose="outside">
+              @if (partyFilterSet) {
+                <button class="btn reset-filter" (click)="resetPartyFilter()">
+                  <span><i class="fas fa-undo"></i></span>
+                </button>
+              }
+              <button ngbDropdownToggle class="btn btn-secondary" type="button" id="partyDropdownButton"
+                aria-haspopup="true" aria-expanded="false">
+                @if (partyFilter === 'all') {
+                  <span>Partei</span>
+                }
+                @if (partyFilter !== 'all') {
+                  <span>{{partyFilter}}</span>
+                }
+              </button>
+              <div ngbDropdownMenu aria-labelledby="partyDropdownButton">
+                <div class="dropdown-item">
+                  <div class="dropdown-item">
+                    <button class="btn ml-2 mb-2" type="button" (click)="checkAllParties()">Alle</button>
+                    <button class="btn mb-2" type="button" (click)="uncheckAllParties()">Keine</button>
+                  </div>
+                </div>
+                @for (entry of partyDropdown; track entry; let i = $index) {
+                  <div class="dropdown-item">
+                    <div>
+                      <label for="checkbox_party_{{i}}">
+                        <input type="checkbox" id="checkbox_party_{{i}}" [(checked)]="entry.checked"
+                          (change)="filterByParty(entry)">
+                          {{entry.name}}
+                        </label>
+                      </div>
+                    </div>
+                  }
                 </div>
               </div>
-            </div>
-            <div class="chip-all" *ngIf="allPartiesSelected()">Alle</div>
-          </div>
-        </div>
-        <div class="row filter-row">
-          <div class="col-lg-1 col-md-2 col-sm-12">
-            <b>Instrument:</b>
-          </div>
-          <div class="col-lg-11 col-md-10 col-sm-12">
-            <div *ngIf="!allInstrumentsSelected()">
-              <div *ngFor="let entry of instrumentDropdown">
-                <div *ngIf="entry.checked" class="chip">
-                  <span>{{entry.name}}</span>
-                  <!--<span class="close-btn" (click)="deleteInstrumentSelection(entry)"><i class="fas fa-times"></i></span>-->
+              <div ngbDropdown class="small-margin" autoClose="outside">
+                @if (instrumentFilterSet) {
+                  <button class="btn reset-filter" (click)="resetInstrumentFilter()">
+                    <span><i class="fas fa-undo"></i></span></button>
+                  }
+                  <button ngbDropdownToggle class="btn btn-secondary" type="button" id="instrumentDropdownButton"
+                    aria-haspopup="true" aria-expanded="false">
+                    @if (instrumentFilter === 'all') {
+                      <span>Instrument</span>
+                    }
+                    @if (instrumentFilter !== 'all') {
+                      <span>{{instrumentFilter}}</span>
+                    }
+                  </button>
+                  <div ngbDropdownMenu aria-labelledby="instrumentDropdownButton">
+                    <div class="dropdown-item">
+                      <button class="btn ml-2 mb-2" type="button" (click)="checkAllInstruments()">Alle</button>
+                      <button class="btn mb-2" type="button" (click)="uncheckAllInstruments()">Keine</button>
+                    </div>
+                    @for (entry of instrumentDropdown; track entry; let i = $index) {
+                      <div class="dropdown-item">
+                        <div>
+                          <label for="checkbox_instrument_{{i}}">
+                            <input type="checkbox" id="checkbox_instrument_{{i}}" [(checked)]="entry.checked"
+                              (change)="filterByInstrument(entry)">
+                              {{entry.name}}
+                            </label>
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                  <div ngbDropdown class="small-margin" (click)="stopEventPropagation($event)" autoClose="outside">
+                    @if (yearFilterSet) {
+                      <button class="btn reset-filter" (click)="resetYearFilter()">
+                        <span><i class="fas fa-undo"></i></span></button>
+                      }
+                      <button class="btn btn-secondary" type="button" id="dropdownMenuButton2" ngbDropdownToggle
+                        aria-haspopup="true" aria-expanded="false">
+                        Jahr
+                      </button>
+                      <div ngbDropdownMenu aria-labelledby="dropdownMenuButton2">
+                        <button class="btn ml-2 mb-2" type="button" (click)="checkAllYears()">Alle</button>
+                        <button class="btn mb-2" type="button" (click)="uncheckAllYears()">Keine</button>
+                        @for (entry of yearDropdown; track entry; let i = $index) {
+                          <div class="dropdown-item">
+                            <div>
+                              <label for="checkbox_{{entry.year}}">
+                                <input type="checkbox" id="checkbox_{{entry.year}}" [(checked)]="entry.checked"
+                                  (change)="filterYears(entry)">
+                                  {{entry.year}}
+                                </label>
+                              </div>
+                            </div>
+                          }
+                        </div>
+                      </div>
+                      <div ngbDropdown class="small-margin">
+                        @if (statusFilter !== 'all') {
+                          <button class="btn reset-filter" (click)="resetStatusFilter()">
+                            <span><i class="fas fa-undo"></i></span>
+                          </button>
+                        }
+                        <button class="btn btn-secondary" type="button" id="dropdownMenuButton3" ngbDropdownToggle
+                          aria-haspopup="true" aria-expanded="false">
+                          @if (statusFilter === 'all') {
+                            <span>Status</span>
+                          }
+                          @if (statusFilter !== 'all') {
+                            <span>{{statusFilter}}</span>
+                          }
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownMenuButton3">
+                          <div class="dropdown-item">
+                            <div (click)="filterStatus('all')">
+                              <input type="radio" id="radio_status_all" name="radio-group2" [checked]="statusFilter === 'all'">
+                              <label for="radio_status_all">Alle</label>
+                            </div>
+                          </div>
+                          @for (entry of statusDropdown; track entry; let i = $index) {
+                            <div class="dropdown-item">
+                              <div (click)="filterStatus(entry)">
+                                <input type="radio" id="radio_status_{{i}}" name="radio-group2">
+                                <label for="radio_status_{{i}}">{{entry}}</label>
+                              </div>
+                            </div>
+                          }
+                        </div>
+                      </div>
+                    </div>
+                    <div id="dropdown-toggle" (click)="toggleMobileFilter()">
+                      <button class="btn" type="button">
+                        @if (!isOpen) {
+                          <i class="fa fa-chevron-down"></i>
+                        }
+                        @if (isOpen) {
+                          <i class="fa fa-chevron-up"></i>
+                        }
+                      </button>
+                    </div>
+                    @if (filtered) {
+                      <div id="dateFilter">
+                        <button class="btn btn-secondary" type="button" (click)="resetFilters()" placement="left"
+                          ngbTooltip="Alle&nbsp;Filter&nbsp;zurücksetzen">
+                          <i class="fas fa-undo"></i>
+                        </button>
+                      </div>
+                    }
+                  </div>
+                  @if (searchSuggestions.length > 0 && searchSuggestions?.length > 0) {
+                    <div class="row">
+                      <div class="col-sm-10">
+                        <div>Suchen Sie nach einem der folgenden Themen beziehungsweise Themenbereichen?</div>
+                        @for (sugg of searchSuggestions; track sugg) {
+                          <div>
+                            <span>Thema: <a class="search-sugg-link" (click)="searchByTextFromSuggestion(sugg.child)">{{sugg.child}}</a>, </span>
+                            <span>Themenbereich: <a class="search-sugg-link" (click)="filterByCategoryFromSearch(sugg.parent)">&nbsp;{{sugg.parent}}</a></span>
+                          </div>
+                        }
+                      </div>
+                      <div class="col-sm-2 text-right">
+                        <a (click)="removeSuggestions()"><i class="fas fa-times"></i></a>
+                      </div>
+                    </div>
+                  }
+                  <div id="filter-legend" class="row" [style.display]="isOpen && windowSize < MOBILE_SIZE ? 'block' : 'none'">
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <h6>Filtereinstellungen:</h6>
+                        </div>
+                      </div>
+                      <div class="row filter-row">
+                        <div class="col-lg-1 col-md-2 col-sm-12">
+                          <b>Partei:</b>
+                        </div>
+                        <div class="col-lg-11 col-md-10 col-sm-12">
+                          @if (!allPartiesSelected()) {
+                            <div>
+                              @for (entry of partyDropdown; track entry) {
+                                <div>
+                                  @if (entry.checked) {
+                                    <div class="chip">
+                                      <span>{{entry.name}}</span>
+                                      <!--<span class="close-btn" (click)="deletePartySelection(entry)"><i class="fas fa-times"></i></span>-->
+                                    </div>
+                                  }
+                                </div>
+                              }
+                            </div>
+                          }
+                          @if (allPartiesSelected()) {
+                            <div class="chip-all">Alle</div>
+                          }
+                        </div>
+                      </div>
+                      <div class="row filter-row">
+                        <div class="col-lg-1 col-md-2 col-sm-12">
+                          <b>Instrument:</b>
+                        </div>
+                        <div class="col-lg-11 col-md-10 col-sm-12">
+                          @if (!allInstrumentsSelected()) {
+                            <div>
+                              @for (entry of instrumentDropdown; track entry) {
+                                <div>
+                                  @if (entry.checked) {
+                                    <div class="chip">
+                                      <span>{{entry.name}}</span>
+                                      <!--<span class="close-btn" (click)="deleteInstrumentSelection(entry)"><i class="fas fa-times"></i></span>-->
+                                    </div>
+                                  }
+                                </div>
+                              }
+                            </div>
+                          }
+                          @if (allInstrumentsSelected()) {
+                            <div class="chip-all">Alle</div>
+                          }
+                        </div>
+                      </div>
+                      <div class="row filter-row">
+                        <div class="col-lg-1 col-md-2 col-sm-12">
+                          <b>Jahr:</b>
+                        </div>
+                        <div class="col-lg-11 col-md-10 col-sm-12">
+                          @if (!allYearsSelected()) {
+                            <div>
+                              @for (entry of yearDropdown; track entry) {
+                                <div>
+                                  @if (entry.checked) {
+                                    <div class="chip">
+                                      <span>{{entry.year}}</span>
+                                      <!--<span class="close-btn" (click)="deleteYearSelection(entry)"><i class="fas fa-times"></i></span>-->
+                                    </div>
+                                  }
+                                </div>
+                              }
+                            </div>
+                          }
+                          @if (allYearsSelected()) {
+                            <div class="chip-all">Alle</div>
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="chip-all" *ngIf="allInstrumentsSelected()">Alle</div>
-          </div>
-        </div>
-        <div class="row filter-row">
-          <div class="col-lg-1 col-md-2 col-sm-12">
-            <b>Jahr:</b>
-          </div>
-          <div class="col-lg-11 col-md-10 col-sm-12">
-            <div *ngIf="!allYearsSelected()">
-              <div *ngFor="let entry of yearDropdown">
-                <div *ngIf="entry.checked" class="chip">
-                  <span>{{entry.year}}</span>
-                  <!--<span class="close-btn" (click)="deleteYearSelection(entry)"><i class="fas fa-times"></i></span>-->
-                </div>
-              </div>
-            </div>
-            <div class="chip-all" *ngIf="allYearsSelected()">Alle</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>

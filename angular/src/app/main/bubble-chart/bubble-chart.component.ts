@@ -5,6 +5,7 @@ import { DataService } from '../../shared/data.service';
 import themenbereiche from '../../../assets/themenbereiche.json';
 
 @Component({
+  standalone: false,
   selector: 'app-bubble-chart',
   templateUrl: './bubble-chart.component.html',
   styleUrls: ['./bubble-chart.component.css']

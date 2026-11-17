@@ -10,6 +10,7 @@ import { DataService } from "../shared/data.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
+  standalone: false,
   selector: "app-main",
   templateUrl: "./main.component.html",
   encapsulation: ViewEncapsulation.None,

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angu
 import { DataService } from '../data.service';
 
 @Component({
+    standalone: false,
     selector: 'app-bootstrap-table',
     templateUrl: './bootstrap-table.component.html',
     styleUrls: ['./bootstrap-table.component.css']

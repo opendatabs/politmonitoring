@@ -26,14 +26,12 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
           cache-dependency-path: angular/package-lock.json
 
-      # `npm ci` is not used because package-lock.json is not fully in sync
-      # with package.json yet.
       - name: Install dependencies
-        run: npm install --no-audit --no-fund
+        run: npm ci --no-audit --no-fund
 
       - name: Configure Pages
         id: pages

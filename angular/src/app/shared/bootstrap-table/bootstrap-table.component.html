@@ -12,7 +12,7 @@
             <div id="selectNumberOfEntries">
               <label for="numberOfEntries">Anzahl Einträge: </label>
               <select name="numberOfEntries" id="numberOfEntries"
-                      (change)="selectNumberOfEntries($event.target.value)">
+                (change)="selectNumberOfEntries($event.target.value)">
                 <option [value]="25" selected>25</option>
                 <option [value]="50">50</option>
                 <option [value]="100">100</option>
@@ -32,133 +32,239 @@
                 <tr>
                   <th width="100px" class="titleCol fixed-width" (click)="changeSortBy('Geschäfts-nr')">
                     <p>Geschäfts- <br>nummer
-                      <i *ngIf="'Geschäfts-nr' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'Geschäfts-nr' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      @if ('Geschäfts-nr' === sort.sortBy && sort.asc) {
+                        <i class="fas fa-chevron-up"></i>
+                      }
+                      @if ('Geschäfts-nr' === sort.sortBy && !sort.asc) {
+                        <i class="fas fa-chevron-down"></i>
+                      }
                     </p>
                   </th>
                   <th width="105px" class="titleCol fixed-width" (click)="changeSortBy('Instrument')">
                     <p>Instrument
-                      <i *ngIf="'Instrument' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'Instrument' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      @if ('Instrument' === sort.sortBy && sort.asc) {
+                        <i class="fas fa-chevron-up"></i>
+                      }
+                      @if ('Instrument' === sort.sortBy && !sort.asc) {
+                        <i class="fas fa-chevron-down"></i>
+                      }
                     </p>
                   </th>
                   <th class="titleCol" (click)="changeSortBy('UrheberIn')">
                     <p>Urheber/in
-                      <i *ngIf="'UrheberIn' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'UrheberIn' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      @if ('UrheberIn' === sort.sortBy && sort.asc) {
+                        <i class="fas fa-chevron-up"></i>
+                      }
+                      @if ('UrheberIn' === sort.sortBy && !sort.asc) {
+                        <i class="fas fa-chevron-down"></i>
+                      }
                     </p>
                   </th>
                   <th class="titleCol" (click)="changeSortBy('Partei')">
                     <p>Partei
-                      <i *ngIf="'Partei' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'Partei' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      @if ('Partei' === sort.sortBy && sort.asc) {
+                        <i class="fas fa-chevron-up"></i>
+                      }
+                      @if ('Partei' === sort.sortBy && !sort.asc) {
+                        <i class="fas fa-chevron-down"></i>
+                      }
                     </p>
                   </th>
                   <th width="170px" class="titleCol fixed-width" (click)="changeSortBy('Titel')">
                     <p>Titel
-                      <i *ngIf="'Titel' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'Titel' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      @if ('Titel' === sort.sortBy && sort.asc) {
+                        <i class="fas fa-chevron-up"></i>
+                      }
+                      @if ('Titel' === sort.sortBy && !sort.asc) {
+                        <i class="fas fa-chevron-down"></i>
+                      }
                     </p>
                   </th>
                   <th class="titleCol" (click)="changeSortBy('Status')">
                     <p>Status
-                      <i *ngIf="'Status' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'Status' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      @if ('Status' === sort.sortBy && sort.asc) {
+                        <i class="fas fa-chevron-up"></i>
+                      }
+                      @if ('Status' === sort.sortBy && !sort.asc) {
+                        <i class="fas fa-chevron-down"></i>
+                      }
                     </p>
                   </th>
                   <th class="titleCol" (click)="changeSortBy('Beginn-Datum')">
                     <p>Beginn-Datum
-                      <i *ngIf="'Beginn-Datum' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'Beginn-Datum' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      @if ('Beginn-Datum' === sort.sortBy && sort.asc) {
+                        <i class="fas fa-chevron-up"></i>
+                      }
+                      @if ('Beginn-Datum' === sort.sortBy && !sort.asc) {
+                        <i class="fas fa-chevron-down"></i>
+                      }
                     </p>
                   </th>
                   <th width="60px" class="titleCol fixed-width" (click)="changeSortBy('Jahr')">
                     <p>Jahr
-                      <i *ngIf="'Jahr' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'Jahr' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      @if ('Jahr' === sort.sortBy && sort.asc) {
+                        <i class="fas fa-chevron-up"></i>
+                      }
+                      @if ('Jahr' === sort.sortBy && !sort.asc) {
+                        <i class="fas fa-chevron-down"></i>
+                      }
                     </p>
                   </th>
                   <th class="titleCol" (click)="changeSortBy('Themenbereich 1')">
                     <p>
-                      <span *ngIf="!admin">Themenbereich</span>
-                      <span *ngIf="admin">Themen- <br>bereich</span>
-                      <i *ngIf="'Themenbereich 1' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'Themenbereich 1' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      @if (!admin) {
+                        <span>Themenbereich</span>
+                      }
+                      @if (admin) {
+                        <span>Themen- <br>bereich</span>
+                      }
+                      @if ('Themenbereich 1' === sort.sortBy && sort.asc) {
+                        <i class="fas fa-chevron-up"></i>
+                      }
+                      @if ('Themenbereich 1' === sort.sortBy && !sort.asc) {
+                        <i class="fas fa-chevron-down"></i>
+                      }
                     </p>
                   </th>
                   <th class="titleCol" (click)="changeSortBy('Thema 1')">
                     <p>Thema 1
-                      <i *ngIf="'Thema 1' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'Thema 1' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      @if ('Thema 1' === sort.sortBy && sort.asc) {
+                        <i class="fas fa-chevron-up"></i>
+                      }
+                      @if ('Thema 1' === sort.sortBy && !sort.asc) {
+                        <i class="fas fa-chevron-down"></i>
+                      }
                     </p>
                   </th>
                   <th class="titleCol" (click)="changeSortBy('Thema 2')">
                     <p>Thema 2
-                      <i *ngIf="'Thema 2' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'Thema 2' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      @if ('Thema 2' === sort.sortBy && sort.asc) {
+                        <i class="fas fa-chevron-up"></i>
+                      }
+                      @if ('Thema 2' === sort.sortBy && !sort.asc) {
+                        <i class="fas fa-chevron-down"></i>
+                      }
                     </p>
                   </th>
-                  <th *ngIf="admin" class="titleCol" (click)="changeSortBy('Schwerpunktthema (bei Bedarf)')">
-                    <p>Schwerpunkt
-                      <i *ngIf="'Schwerpunktthema (bei Bedarf)' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'Schwerpunktthema (bei Bedarf)' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
-                    </p>
-                  </th>
+                  @if (admin) {
+                    <th class="titleCol" (click)="changeSortBy('Schwerpunktthema (bei Bedarf)')">
+                      <p>Schwerpunkt
+                        @if ('Schwerpunktthema (bei Bedarf)' === sort.sortBy && sort.asc) {
+                          <i class="fas fa-chevron-up"></i>
+                        }
+                        @if ('Schwerpunktthema (bei Bedarf)' === sort.sortBy && !sort.asc) {
+                          <i class="fas fa-chevron-down"></i>
+                        }
+                      </p>
+                    </th>
+                  }
                 </tr>
-                <tr #table *ngFor="let entry of data | sortBy: sort.sortBy: sort.asc | slice:pagination.start:pagination.end"
+                @for (entry of data | sortBy: sort.sortBy: sort.asc | slice:pagination.start:pagination.end; track entry) {
+                  <tr #table
                     (click)="selectEntry(entry)">
-                  <td>
-                    <a href="{{entry['Link'].toString()}}" target="_blank">
-                      <!-- <span *ngIf="entry['Geschäfts-nr']" [innerHTML]="entry['Geschäfts-nr'].toFixed(4) | highlight:searchString"></span> -->
-                      <span *ngIf="entry['Geschäfts-nr']" [innerHTML]="entry['Geschäfts-nr'] | highlight:searchString"></span>
-                      <span *ngIf="!entry['Geschäfts-nr']"></span>
-                    </a>
-                  </td>
-                  <td>
-                    <span *ngIf="entry['Instrument']" [innerHTML]="entry['Instrument'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['Instrument']"></span>
-                  </td>
-                  <td>
-                    <span *ngIf="entry['UrheberIn']" [innerHTML]="entry['UrheberIn'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['UrheberIn']"></span>
-                  </td>
-                  <td>
-                    <span *ngIf="entry['Partei']" [innerHTML]="entry['Partei'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['Partei']"></span>
-                  </td>
-                  <td>
-                    <span *ngIf="entry['Titel']" [innerHTML]="entry['Titel'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['Titel']"></span>
-                  </td>
-                  <td>
-                    <span *ngIf="entry['Status']" [innerHTML]="entry['Status'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['Status']"></span>
-                  </td>
-                  <td>
-                    <span *ngIf="entry['Beginn-Datum']" [innerHTML]="entry['Beginn-Datum'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['Beginn-Datum']"></span>
-                  </td>
-                  <td>
-                    <span *ngIf="entry['Jahr']" [innerHTML]="entry['Jahr'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['Jahr']"></span>
-                  </td>
-                  <td>
-                    <span *ngIf="entry['Themenbereich 1']" [innerHTML]="entry['Themenbereich 1'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['Themenbereich 1']"></span>
-                  </td>
-                  <td>
-                    <span *ngIf="entry['Thema 1']" [innerHTML]="entry['Thema 1'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['Thema 1']"></span>
-                  </td>
-                  <td>
-                    <span *ngIf="entry['Thema 2']" [innerHTML]="entry['Thema 2'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['Thema 2']"></span>
-                  </td>
-                  <td *ngIf="admin">
-                    <span *ngIf="entry['Schwerpunktthema (bei Bedarf)']" [innerHTML]="entry['Schwerpunktthema (bei Bedarf)'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['Schwerpunktthema (bei Bedarf)']"></span>
-                  </td>
-                </tr>
+                    <td>
+                      <a href="{{entry['Link'].toString()}}" target="_blank">
+                        <!-- <span *ngIf="entry['Geschäfts-nr']" [innerHTML]="entry['Geschäfts-nr'].toFixed(4) | highlight:searchString"></span> -->
+                        @if (entry['Geschäfts-nr']) {
+                          <span [innerHTML]="entry['Geschäfts-nr'] | highlight:searchString"></span>
+                        }
+                        @if (!entry['Geschäfts-nr']) {
+                          <span></span>
+                        }
+                      </a>
+                    </td>
+                    <td>
+                      @if (entry['Instrument']) {
+                        <span [innerHTML]="entry['Instrument'].toString() | highlight:searchString"></span>
+                      }
+                      @if (!entry['Instrument']) {
+                        <span></span>
+                      }
+                    </td>
+                    <td>
+                      @if (entry['UrheberIn']) {
+                        <span [innerHTML]="entry['UrheberIn'].toString() | highlight:searchString"></span>
+                      }
+                      @if (!entry['UrheberIn']) {
+                        <span></span>
+                      }
+                    </td>
+                    <td>
+                      @if (entry['Partei']) {
+                        <span [innerHTML]="entry['Partei'].toString() | highlight:searchString"></span>
+                      }
+                      @if (!entry['Partei']) {
+                        <span></span>
+                      }
+                    </td>
+                    <td>
+                      @if (entry['Titel']) {
+                        <span [innerHTML]="entry['Titel'].toString() | highlight:searchString"></span>
+                      }
+                      @if (!entry['Titel']) {
+                        <span></span>
+                      }
+                    </td>
+                    <td>
+                      @if (entry['Status']) {
+                        <span [innerHTML]="entry['Status'].toString() | highlight:searchString"></span>
+                      }
+                      @if (!entry['Status']) {
+                        <span></span>
+                      }
+                    </td>
+                    <td>
+                      @if (entry['Beginn-Datum']) {
+                        <span [innerHTML]="entry['Beginn-Datum'].toString() | highlight:searchString"></span>
+                      }
+                      @if (!entry['Beginn-Datum']) {
+                        <span></span>
+                      }
+                    </td>
+                    <td>
+                      @if (entry['Jahr']) {
+                        <span [innerHTML]="entry['Jahr'].toString() | highlight:searchString"></span>
+                      }
+                      @if (!entry['Jahr']) {
+                        <span></span>
+                      }
+                    </td>
+                    <td>
+                      @if (entry['Themenbereich 1']) {
+                        <span [innerHTML]="entry['Themenbereich 1'].toString() | highlight:searchString"></span>
+                      }
+                      @if (!entry['Themenbereich 1']) {
+                        <span></span>
+                      }
+                    </td>
+                    <td>
+                      @if (entry['Thema 1']) {
+                        <span [innerHTML]="entry['Thema 1'].toString() | highlight:searchString"></span>
+                      }
+                      @if (!entry['Thema 1']) {
+                        <span></span>
+                      }
+                    </td>
+                    <td>
+                      @if (entry['Thema 2']) {
+                        <span [innerHTML]="entry['Thema 2'].toString() | highlight:searchString"></span>
+                      }
+                      @if (!entry['Thema 2']) {
+                        <span></span>
+                      }
+                    </td>
+                    @if (admin) {
+                      <td>
+                        @if (entry['Schwerpunktthema (bei Bedarf)']) {
+                          <span [innerHTML]="entry['Schwerpunktthema (bei Bedarf)'].toString() | highlight:searchString"></span>
+                        }
+                        @if (!entry['Schwerpunktthema (bei Bedarf)']) {
+                          <span></span>
+                        }
+                      </td>
+                    }
+                  </tr>
+                }
               </table>
             </div>
             <div id="tableWrapperMobile" class="d-sm-block d-md-none">
@@ -166,43 +272,73 @@
                 <tr>
                   <th width="100px" class="titleCol fixed-width" (click)="changeSortBy('Geschäfts-nr')">
                     <p>Geschäfts- <br>nummer
-                      <i *ngIf="'Geschäfts-nr' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'Geschäfts-nr' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      @if ('Geschäfts-nr' === sort.sortBy && sort.asc) {
+                        <i class="fas fa-chevron-up"></i>
+                      }
+                      @if ('Geschäfts-nr' === sort.sortBy && !sort.asc) {
+                        <i class="fas fa-chevron-down"></i>
+                      }
                     </p>
                   </th>
                   <th width="170px" class="titleCol fixed-width" (click)="changeSortBy('Titel')">
                     <p>Titel
-                      <i *ngIf="'Titel' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'Titel' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      @if ('Titel' === sort.sortBy && sort.asc) {
+                        <i class="fas fa-chevron-up"></i>
+                      }
+                      @if ('Titel' === sort.sortBy && !sort.asc) {
+                        <i class="fas fa-chevron-down"></i>
+                      }
                     </p>
                   </th>
                   <th class="titleCol" (click)="changeSortBy('Themenbereich 1')">
                     <p>
-                      <span *ngIf="!admin">Themenbereich</span>
-                      <span *ngIf="admin">Themen- <br>bereich</span>
-                      <i *ngIf="'Themenbereich 1' === sort.sortBy && sort.asc" class="fas fa-chevron-up"></i>
-                      <i *ngIf="'Themenbereich 1' === sort.sortBy && !sort.asc" class="fas fa-chevron-down"></i>
+                      @if (!admin) {
+                        <span>Themenbereich</span>
+                      }
+                      @if (admin) {
+                        <span>Themen- <br>bereich</span>
+                      }
+                      @if ('Themenbereich 1' === sort.sortBy && sort.asc) {
+                        <i class="fas fa-chevron-up"></i>
+                      }
+                      @if ('Themenbereich 1' === sort.sortBy && !sort.asc) {
+                        <i class="fas fa-chevron-down"></i>
+                      }
                     </p>
                   </th>
                 </tr>
-                <tr #table *ngFor="let entry of data | sortBy: sort.sortBy: sort.asc | slice:pagination.start:pagination.end"
+                @for (entry of data | sortBy: sort.sortBy: sort.asc | slice:pagination.start:pagination.end; track entry) {
+                  <tr #table
                     (click)="selectEntry(entry)">
-                  <td>
-                    <a href="{{entry['Link'].toString()}}" target="_blank">
-                      <!-- <span *ngIf="entry['Geschäfts-nr']" [innerHTML]="entry['Geschäfts-nr'].toFixed(4) | highlight:searchString"></span> -->
-                      <span *ngIf="entry['Geschäfts-nr']" [innerHTML]="entry['Geschäfts-nr'] | highlight:searchString"></span>
-                      <span *ngIf="!entry['Geschäfts-nr']"></span>
-                    </a>
-                  </td>
-                  <td>
-                    <span *ngIf="entry['Titel']" [innerHTML]="entry['Titel'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['Titel']"></span>
-                  </td>
-                  <td>
-                    <span *ngIf="entry['Themenbereich 1']" [innerHTML]="entry['Themenbereich 1'].toString() | highlight:searchString"></span>
-                    <span *ngIf="!entry['Themenbereich 1']"></span>
-                  </td>
-                </tr>
+                    <td>
+                      <a href="{{entry['Link'].toString()}}" target="_blank">
+                        <!-- <span *ngIf="entry['Geschäfts-nr']" [innerHTML]="entry['Geschäfts-nr'].toFixed(4) | highlight:searchString"></span> -->
+                        @if (entry['Geschäfts-nr']) {
+                          <span [innerHTML]="entry['Geschäfts-nr'] | highlight:searchString"></span>
+                        }
+                        @if (!entry['Geschäfts-nr']) {
+                          <span></span>
+                        }
+                      </a>
+                    </td>
+                    <td>
+                      @if (entry['Titel']) {
+                        <span [innerHTML]="entry['Titel'].toString() | highlight:searchString"></span>
+                      }
+                      @if (!entry['Titel']) {
+                        <span></span>
+                      }
+                    </td>
+                    <td>
+                      @if (entry['Themenbereich 1']) {
+                        <span [innerHTML]="entry['Themenbereich 1'].toString() | highlight:searchString"></span>
+                      }
+                      @if (!entry['Themenbereich 1']) {
+                        <span></span>
+                      }
+                    </td>
+                  </tr>
+                }
               </table>
             </div>
           </div>

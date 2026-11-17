@@ -14,27 +14,31 @@
     </div>
   </div>
 </div>
-<div class="alert alert-warning my-2 alert-dismissible fade show" role="alert" *ngIf="detectIE()">
-  <b>Hinweis:</b> Sie verwenden einen veralteten Browser, der von vielen modernen Webseiten nicht mehr länger
-  unterstützt wird.
-  Für mehr Sicherheit im Internet und ein besseres Nutzungserlebnis empfehlen wir Ihnen auf einen modernen Browser
-  umzusteigen:
-  <a href="https://www.mozilla.org/de/" target="_blank">Firefox</a>, <a href="https://www.google.com/chrome/"
-                                                                        target="_blank">Chrome</a> oder
+@if (detectIE()) {
+  <div class="alert alert-warning my-2 alert-dismissible fade show" role="alert">
+    <b>Hinweis:</b> Sie verwenden einen veralteten Browser, der von vielen modernen Webseiten nicht mehr länger
+    unterstützt wird.
+    Für mehr Sicherheit im Internet und ein besseres Nutzungserlebnis empfehlen wir Ihnen auf einen modernen Browser
+    umzusteigen:
+    <a href="https://www.mozilla.org/de/" target="_blank">Firefox</a>, <a href="https://www.google.com/chrome/"
+  target="_blank">Chrome</a> oder
   <a href="https://support.apple.com/downloads/safari-for-windows" target="_blank">Safari (für macOS)</a>
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
+}
 
 <app-bubble-chart class="d-none d-lg-block d-xl-block" [data]="data"
-                  [categoryFilter]="categoryFilter"></app-bubble-chart>
+[categoryFilter]="categoryFilter"></app-bubble-chart>
 
-<app-bootstrap-table *ngIf="data"
-                     [data]="data"
-                     [title]="'Grossratsgeschäfte'"
-                     [initialSortBy]="'Geschäfts-nr'">
-</app-bootstrap-table>
+@if (data) {
+  <app-bootstrap-table
+    [data]="data"
+    [title]="'Grossratsgeschäfte'"
+    [initialSortBy]="'Geschäfts-nr'">
+  </app-bootstrap-table>
+}
 <ng-template #infoBtnContent let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title">Informationen zum politischen Themenmonitor Basel-Stadt</h4>
